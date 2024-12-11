@@ -1,0 +1,814 @@
+---
+title: "Banded Dotterel Stable Isotopes"
+subtitle: | 
+  Exploration of dataset
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+format: 
+  html:
+    toc: true
+    code-fold: true
+    code-tools: true
+    self-contained: true
+    highlight-style: github
+    theme: Cosmo
+execute:
+  warning: false
+  cache: true
+editor_options: 
+  chunk_output_type: console
+---
+```{r}
+knitr::opts_chunk$set(cache = FALSE)
+```
+
+```{r, message=FALSE, results='hide', warning=FALSE, results='hide', cache=FALSE, include=FALSE}
+## Prerequisites
+
+### R packages
+
+# -   The following packages are needed for analysis and can be easily installed from [CRAN](http://cran.r-project.org/) or GitHub by running the following code chunk:
+
+# a vector of all the packages needed in the project
+packages_required_in_project <- c("V8", "concaveman",
+                                  "tidyverse",
+                                  "readxl",
+                                  "RMark",
+                                  "RColorBrewer",
+                                  "patchwork",
+                                  "mapview",
+                                  "lubridate",
+                                  "extrafont",
+                                  "here",
+                                  "DT",
+                                  "leaflet",
+                                  "sf",
+                                  "leafpop",
+                                  "tsibble",
+                                  "corrplot",
+                                  "gghalves",
+                                  "gam",
+                                  "pscl",
+                                  "gamlss",
+                                  "gt",
+                                  "lme4",
+                                  "ggpattern",
+                                  "gtsummary",
+                                  "effects",
+                                  "lattice",
+                                  "rptR",
+                                  "partR2",
+                                  "broom.mixed",
+                                  "forcats",
+                                  "glmmTMB",
+                                  "ggmap",
+                                  "MuMIn")
+
+# of the required packages, check if some need to be installed
+new.packages <- 
+  packages_required_in_project[!(packages_required_in_project %in% 
+                                   installed.packages()[,"Package"])]
+
+# install all packages that are not locally available
+if(length(new.packages)) install.packages(new.packages)
+
+# load all the packages into the current R session
+lapply(packages_required_in_project, require, character.only = TRUE)
+
+# set the home directory to where the project is locally based (i.e., to find 
+# the relevant datasets to import, etc.
+here::set_here()
+```
+
+```{r, message=FALSE, results='hide', warning=FALSE, include=FALSE}
+### Plotting themes
+
+# -   The following plotting themes, colors, and typefaces are used throughout the project:
+
+# Find fonts from computer that you want. Use regular expressions to do this
+# For example, load all fonts that are 'verdana' or 'Verdana'
+extrafont::font_import(pattern = "[V/v]erdana", prompt = FALSE) 
+
+# check which fonts were loaded
+extrafont::fonts()
+extrafont::fonttable()
+extrafont::loadfonts() # load these into R
+
+# define the plotting theme to be used in subsequent ggplots
+luke_theme <- 
+  theme_bw() +
+  theme(
+    text = element_text(family = "Verdana"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8),
+    axis.title.x = element_text(size = 10),
+    axis.text.x  = element_text(size = 8), 
+    axis.title.y = element_text(size = 10),
+    axis.text.y = element_text(size = 8),
+    strip.text = element_text(size = 10),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.ticks = element_line(linewidth = 0.5, colour = "grey40"),
+    axis.ticks.length = unit(0.2, "cm"),
+    panel.border = element_rect(linetype = "solid", colour = "grey"),
+    legend.position.inside = c(0.1, 0.9)
+  )
+```
+
+## Import data
+```{r}
+# import and consolidate key columns
+dat <-
+  read_excel(here("data/Master_SI_Feathers_LEH_Sept24_v1_SB_v2.xls"), 
+                     sheet = "Sample results_C&N", 
+                     col_types = "text", skip = 10, col_names = TRUE) %>% 
+  select(`Index #`, `Identifier 1`, `Amount`, `Ampl  Flash TCD...9`, `All Correct Amt % N Flash TCD`, `Ampl  28`, `normalised d15N`, `avg  Amt% N`, `stdev  Amt% N`, `avg  d15N`, `stdev d15N`, `Ampl  Flash TCD...18`, `All Correct Amt%C Flash TCD`, `Ampl  44`, `normalised d13C`, `Sample Dilution`, `avg  Amt% C`, `stdev  Amt% C`, `avg  d13C`, `stdev d13C`, `C:N Mass ratio`) %>% 
+    rename_with(~ .x %>%
+                tolower() %>%
+                str_replace_all(" ", "_") %>%
+                str_replace_all("__", "_") %>%
+                str_replace_all("___", "_") %>%
+                str_replace_all("%", "_perc_") %>%
+                str_replace_all(":", "") %>%
+                str_replace_all("#", "")) %>%
+  mutate(
+    NewColumn = str_extract(identifier_1, "^[^ ]+"),  # Extract text to the left of the first white space
+    identifier_1 = str_trim(str_replace(identifier_1, "^[^ ]+ ", ""))  # Remove text to the left of the first white space and trim remaining white space
+  ) %>% mutate(identifier_1 = str_replace(identifier_1, "_.*", "")) %>% 
+  rename(Specimen_ID = NewColumn,
+         Feather_type = identifier_1) %>% 
+  left_join(., read_excel(here("../../stable_isotopes/data/for_Sarah/master_museum_sample_banded_dotterels.xlsx"), col_types = "text") %>% mutate(Specimen_ID = str_extract(Specimen_ID, "^[^ ]+")), join_by(Specimen_ID, Feather_type)) %>% 
+  select(index_, Feather_type, Specimen_ID, General_collection_location, 
+         Specific_collection_location, Collection_date, normalised_d15n, 
+         normalised_d13c, cn_mass_ratio) %>%
+  mutate_at(vars(normalised_d15n, normalised_d13c, cn_mass_ratio), as.numeric) %>%
+  mutate(Month = str_extract(Collection_date, "(January|February|March|April|May|June|July|August|September|October|November|December)")) %>% 
+  mutate(location = paste(Specific_collection_location, General_collection_location, sep = ", ")) %>%
+  mutate(location = str_replace_all(location, "NA, ", ""))
+  
+# Create a data frame 
+df <- data.frame(location = dat$location)
+
+# Remove duplicates to avoid redundant API calls
+unique_locations <- unique(df$location)
+
+# Get latitude and longitude for unique locations
+geocode_data <- geocode(unique_locations)
+
+# Combine the geocode data with the unique locations
+location_data <- data.frame(location = unique_locations, geocode_data)
+
+# Merge the geocode data back into the original dataframe
+dat <- left_join(dat, location_data, by = "location")
+
+# transform lon
+dat <-
+  dat %>% 
+  mutate(lon = ifelse(lon < 0, lon + 180*2, lon))
+```
+
+### data overview
+```{r}
+hist(dat$cn_mass_ratio)
+hist(dat$normalised_d13c)
+hist(dat$normalised_d15n)
+hist(dat$lat)
+hist(dat$lon)
+
+library(sp)
+# Compute convex hulls for each Specimen_ID using chull() from sp
+hulls <- dat %>%
+  group_by(Specimen_ID) %>%
+  do({
+    # Extract the data for the current group
+    group_data <- .[ , c("normalised_d13c", "normalised_d15n")]
+    
+    # Create a spatial object but extract coordinates as a regular matrix
+    coords <- SpatialPoints(group_data)
+    coords_matrix <- coords@coords
+    
+    # Compute the convex hull using chull
+    chull_indices <- chull(coords_matrix)
+    hull_coords <- group_data[chull_indices, ]
+    
+    # Return the convex hull coordinates
+    data.frame(hull = I(list(hull_coords)))
+  }) %>%
+  unnest(cols = c(hull))
+
+ggplot(dat, aes(x = normalised_d13c, y = normalised_d15n)) + 
+  geom_point(aes(fill = Specimen_ID), shape = 21) + 
+  geom_polygon(data = hulls, aes(group = Specimen_ID), fill = NA, color = "black") +
+  labs(x = "d13C", y = "d15N") + 
+  theme_minimal()
+```
+
+```{r}
+dat %>% 
+  select(Specimen_ID, Feather_type, Month, location) %>% distinct() %>% arrange(location)
+```
+
+### Spatial d13C
+```{r}
+model_spat_C <- lmer(normalised_d13c ~ lat + lon + (1 | Specimen_ID), data = dat)
+```
+
+
+```{r}
+spatial_effects <- allEffects(model_spat_C)
+plot(spatial_effects)
+```
+
+
+```{r}
+# Derive confidence intervals of effect sizes from parametric bootstrapping
+tidy_spat_C <-
+  tidy(model_spat_C, conf.int = TRUE, conf.method = "boot", nsim = 1000)
+
+# Calculate marginal and conditional R-squared
+r_squared <- r.squaredGLMM(model_spat_C)
+
+# Display the results
+print(r_squared)
+
+# run rptR to obtain repeatabilities of random effects
+rpt_spat_C <-
+  rpt(normalised_d13c ~ lat + lon + (1 | Specimen_ID),
+      grname = c("Specimen_ID", "Fixed"),
+      data = dat,
+      datatype = "Gaussian",
+      nboot = 1000, npermut = 1000, ratio = TRUE,
+      adjusted = TRUE, ncores = 4, parallel = TRUE)
+
+# run partR2 on each model to obtain marginal R2, parameter estimates, and beta
+# weights
+R2m_spat_C <-
+  partR2(model_spat_C,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "marginal",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+R2c_spat_C <-
+  partR2(model_spat_C,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "conditional",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+stats_spat_C <-
+  list(mod = model_spat_C,
+       tidy = tidy_spat_C,
+       rptR = rpt_spat_C,
+       partR2m = R2m_spat_C,
+       partR2c = R2c_spat_C,
+       data = dat)
+
+# summary(glht(smi_wing_lmer_seq))
+
+#### Table of effect sizes ----
+# Retrieve sample sizes
+sample_sizes <-
+  stats_spat_C$data %>%
+  ungroup() %>%
+  summarise(Individual = n_distinct(Specimen_ID),
+            Observations = nrow(.))
+
+sample_sizes <-
+  as.data.frame(t(as.data.frame(sample_sizes))) %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1) %>%
+  mutate(stat = "n")
+
+# clean model component names
+mod_comp_names <-
+  data.frame(comp_name = c("baseline \U03B4 13 C (intercept)",
+                           "latitude",
+                           "longitude",
+                           "Total Marginal \U1D479\U00B2",
+                           "latitude",
+                           "longitude",
+                           "Total Conditional \U1D479\U00B2",
+                           "Individual",
+                           "Residual",
+                           "Individual",
+                           "Residual",
+                           "Individuals",
+                           "Observations"))
+
+# Fixed effect sizes (non-standardized)
+fixefTable <-
+  stats_spat_C$tidy %>%
+  dplyr::filter(effect == "fixed") %>%
+  dplyr::select(term, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed")
+
+# Fixed effect sizes (standardized)
+fixef_bw_Table <-
+  stats_spat_C$partR2m$BW %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed_bw") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Semi-partial R2 estimates
+R2Table <-
+  bind_rows(stats_spat_C$partR2m$R2,
+            stats_spat_C$partR2c$R2[1,]) %>%
+  dplyr::select(term, estimate, CI_lower, CI_upper) %>%
+  as.data.frame() %>%
+  mutate(stat = "partR2") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Random effects variances
+ranefTable <-
+  stats_spat_C$tidy %>%
+  dplyr::filter(effect == "ran_pars") %>%
+  dplyr::select(group, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "rand") %>%
+  rename(term = group) %>%
+  mutate(estimate = estimate^2,
+         conf.high = conf.high^2,
+         conf.low = conf.low^2)
+
+# Adjusted repeatabilities
+coefRptTable <-
+  stats_spat_C$rptR$R_boot %>%
+  dplyr::select(-Fixed) %>%
+  mutate(residual = 1 - rowSums(.)) %>%
+  apply(., 2,
+        function(x) c(mean (x), quantile (x, prob = c(0.025, 0.975)))) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1,
+         conf.low = `2.5%`,
+         conf.high = `97.5%`) %>%
+  mutate(stat = "RptR")
+
+# Store all parameters into a single table and clean it up
+allCoefs_mod <-
+  bind_rows(fixefTable[1,], 
+            fixef_bw_Table,
+            R2Table,
+            ranefTable,
+            coefRptTable,
+            sample_sizes) %>%
+  bind_cols(.,
+            mod_comp_names) %>%
+  mutate(coefString = ifelse(!is.na(conf.low),
+                             paste0("[",
+                                    round(conf.low, 2), ", ",
+                                    round(conf.high, 2), "]"),
+                             NA),
+         effect = c(rep("Fixed effects \U1D6FD (standardized)", nrow(fixefTable[1,])),
+                    rep("Fixed effects \U1D6FD (standardized)", nrow(fixef_bw_Table)),
+                    rep("Partitioned \U1D479\U00B2", nrow(R2Table)),
+                    rep("Random effects \U1D70E\U00B2", nrow(ranefTable)),
+                    rep("Adjusted repeatability \U1D45F", nrow(coefRptTable)),
+                    rep("Sample sizes \U1D45B", nrow(sample_sizes)))) %>%
+  dplyr::select(effect, everything())
+
+# draw gt table
+stats_spat_C_table <-
+  allCoefs_mod %>%
+  dplyr::select(effect, comp_name, estimate, coefString) %>%
+  gt(rowname_col = "row",
+     groupname_col = "effect") %>%
+  cols_label(comp_name = html("<i>\U03B4 13 C</i>"),
+             estimate = "Mean estimate",
+             coefString = "95% confidence interval") %>%
+  fmt_number(columns = c(estimate),
+             rows = 1:11,
+             decimals = 2,
+             use_seps = FALSE) %>%
+  fmt_number(columns = c(estimate),
+             rows = 12:13,
+             decimals = 0,
+             use_seps = FALSE) %>%
+  sub_missing(columns = 1:4,
+              missing_text = "") %>%
+  cols_align(align = "left",
+             columns = c(comp_name)) %>%
+  tab_options(row_group.font.weight = "bold",
+              row_group.background.color = brewer.pal(9,"Greys")[3],
+              table.font.size = 12,
+              data_row.padding = 3,
+              row_group.padding = 4,
+              summary_row.padding = 2,
+              column_labels.font.size = 14,
+              row_group.font.size = 12,
+              table.width = pct(90))
+```
+
+
+```{r}
+stats_spat_C_table
+```
+
+
+### Spatial d15N
+```{r}
+model_spat_N <- lmer(normalised_d15n ~ lat + lon + (1 | Specimen_ID), data = dat)
+```
+
+
+```{r}
+spatial_effects <- allEffects(model_spat_N)
+plot(spatial_effects)
+```
+
+
+```{r}
+# Derive confidence intervals of effect sizes from parametric bootstrapping
+tidy_spat_N<-
+  tidy(model_spat_N, conf.int = TRUE, conf.method = "boot", nsim = 1000)
+
+# run rptR to obtain repeatabilities of random effects
+rpt_spat_N <-
+  rpt(normalised_d15n ~ lat + lon + (1 | Specimen_ID),
+      grname = c("Specimen_ID", "Fixed"),
+      data = dat,
+      datatype = "Gaussian",
+      nboot = 1000, npermut = 1000, ratio = TRUE,
+      adjusted = TRUE, ncores = 4, parallel = TRUE)
+
+# run partR2 on each model to obtain marginal R2, parameter estimates, and beta
+# weights
+R2m_spat_N <-
+  partR2(model_spat_N,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "marginal",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+R2c_spat_N <-
+  partR2(model_spat_N,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "conditional",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+stats_spat_N <-
+  list(mod = model_spat_N,
+       tidy = tidy_spat_N,
+       rptR = rpt_spat_N,
+       partR2m = R2m_spat_N,
+       partR2c = R2c_spat_N,
+       data = dat)
+
+# summary(glht(model_spat_N))
+
+#### Table of effect sizes ----
+# Retrieve sample sizes
+sample_sizes <-
+  stats_spat_N$data %>%
+  ungroup() %>%
+  summarise(Individual = n_distinct(Specimen_ID),
+            Observations = nrow(.))
+
+sample_sizes <-
+  as.data.frame(t(as.data.frame(sample_sizes))) %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1) %>%
+  mutate(stat = "n")
+
+# clean model component names
+mod_comp_names <-
+  data.frame(comp_name = c("baseline \U03B4 15 N (intercept)",
+                           "latitude",
+                           "longitude",
+                           "Total Marginal \U1D479\U00B2",
+                           "latitude",
+                           "longitude",
+                           "Total Conditional \U1D479\U00B2",
+                           "Individual",
+                           "Residual",
+                           "Individual",
+                           "Residual",
+                           "Individuals",
+                           "Observations"))
+
+# Fixed effect sizes (non-standardized)
+fixefTable <-
+  stats_spat_N$tidy %>%
+  dplyr::filter(effect == "fixed") %>%
+  dplyr::select(term, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed")
+
+# Fixed effect sizes (standardized)
+fixef_bw_Table <-
+  stats_spat_N$partR2m$BW %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed_bw") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Semi-partial R2 estimates
+R2Table <-
+  bind_rows(stats_spat_N$partR2m$R2,
+            stats_spat_N$partR2c$R2[1,]) %>%
+  dplyr::select(term, estimate, CI_lower, CI_upper) %>%
+  as.data.frame() %>%
+  mutate(stat = "partR2") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Random effects variances
+ranefTable <-
+  stats_spat_N$tidy %>%
+  dplyr::filter(effect == "ran_pars") %>%
+  dplyr::select(group, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "rand") %>%
+  rename(term = group) %>%
+  mutate(estimate = estimate^2,
+         conf.high = conf.high^2,
+         conf.low = conf.low^2)
+
+# Adjusted repeatabilities
+coefRptTable <-
+  stats_spat_N$rptR$R_boot %>%
+  dplyr::select(-Fixed) %>%
+  mutate(residual = 1 - rowSums(.)) %>%
+  apply(., 2,
+        function(x) c(mean (x), quantile (x, prob = c(0.025, 0.975)))) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1,
+         conf.low = `2.5%`,
+         conf.high = `97.5%`) %>%
+  mutate(stat = "RptR")
+
+# Store all parameters into a single table and clean it up
+allCoefs_mod <-
+  bind_rows(fixefTable[1,], 
+            fixef_bw_Table,
+            R2Table,
+            ranefTable,
+            coefRptTable,
+            sample_sizes) %>%
+  bind_cols(.,
+            mod_comp_names) %>%
+  mutate(coefString = ifelse(!is.na(conf.low),
+                             paste0("[",
+                                    round(conf.low, 2), ", ",
+                                    round(conf.high, 2), "]"),
+                             NA),
+         effect = c(rep("Fixed effects \U1D6FD (standardized)", nrow(fixefTable[1,])),
+                    rep("Fixed effects \U1D6FD (standardized)", nrow(fixef_bw_Table)),
+                    rep("Partitioned \U1D479\U00B2", nrow(R2Table)),
+                    rep("Random effects \U1D70E\U00B2", nrow(ranefTable)),
+                    rep("Adjusted repeatability \U1D45F", nrow(coefRptTable)),
+                    rep("Sample sizes \U1D45B", nrow(sample_sizes)))) %>%
+  dplyr::select(effect, everything())
+
+# draw gt table
+stats_spat_N_table <-
+  allCoefs_mod %>%
+  dplyr::select(effect, comp_name, estimate, coefString) %>%
+  gt(rowname_col = "row",
+     groupname_col = "effect") %>%
+  cols_label(comp_name = html("<i>\U03B4 15 N</i>"),
+             estimate = "Mean estimate",
+             coefString = "95% confidence interval") %>%
+  fmt_number(columns = c(estimate),
+             rows = 1:11,
+             decimals = 2,
+             use_seps = FALSE) %>%
+  fmt_number(columns = c(estimate),
+             rows = 12:13,
+             decimals = 0,
+             use_seps = FALSE) %>%
+  sub_missing(columns = 1:4,
+              missing_text = "") %>%
+  cols_align(align = "left",
+             columns = c(comp_name)) %>%
+  tab_options(row_group.font.weight = "bold",
+              row_group.background.color = brewer.pal(9,"Greys")[3],
+              table.font.size = 12,
+              data_row.padding = 3,
+              row_group.padding = 4,
+              summary_row.padding = 2,
+              column_labels.font.size = 14,
+              row_group.font.size = 12,
+              table.width = pct(90))
+```
+
+
+```{r}
+stats_spat_N_table
+```
+
+### Spatial C:N
+```{r}
+model_spat_CN <- lmer(cn_mass_ratio ~ lat + lon + (1 | Specimen_ID), data = dat)
+```
+
+
+```{r}
+spatial_effects <- allEffects(model_spat_CN)
+plot(spatial_effects)
+```
+
+
+```{r}
+# Derive confidence intervals of effect sizes from parametric bootstrapping
+tidy_spat_CN<-
+  tidy(model_spat_CN, conf.int = TRUE, conf.method = "boot", nsim = 1000)
+
+# run rptR to obtain repeatabilities of random effects
+rpt_spat_CN <-
+  rpt(cn_mass_ratio ~ lat + lon + (1 | Specimen_ID),
+      grname = c("Specimen_ID", "Fixed"),
+      data = dat,
+      datatype = "Gaussian",
+      nboot = 1000, npermut = 1000, ratio = TRUE,
+      adjusted = TRUE, ncores = 4, parallel = TRUE)
+
+# run partR2 on each model to obtain marginal R2, parameter estimates, and beta
+# weights
+R2m_spat_CN <-
+  partR2(model_spat_CN,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "marginal",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+R2c_spat_CN <-
+  partR2(model_spat_CN,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "conditional",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+stats_spat_CN <-
+  list(mod = model_spat_CN,
+       tidy = tidy_spat_CN,
+       rptR = rpt_spat_CN,
+       partR2m = R2m_spat_CN,
+       partR2c = R2c_spat_CN,
+       data = dat)
+
+# summary(glht(model_spat_CN))
+
+#### Table of effect sizes ----
+# Retrieve sample sizes
+sample_sizes <-
+  stats_spat_CN$data %>%
+  ungroup() %>%
+  summarise(Individual = n_distinct(Specimen_ID),
+            Observations = nrow(.))
+
+sample_sizes <-
+  as.data.frame(t(as.data.frame(sample_sizes))) %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1) %>%
+  mutate(stat = "n")
+
+# clean model component names
+mod_comp_names <-
+  data.frame(comp_name = c("baseline \U03B4 13 C : \U03B4 15 N (intercept)",
+                           "latitude",
+                           "longitude",
+                           "Total Marginal \U1D479\U00B2",
+                           "latitude",
+                           "longitude",
+                           "Total Conditional \U1D479\U00B2",
+                           "Individual",
+                           "Residual",
+                           "Individual",
+                           "Residual",
+                           "Individuals",
+                           "Observations"))
+
+# Fixed effect sizes (non-standardized)
+fixefTable <-
+  stats_spat_CN$tidy %>%
+  dplyr::filter(effect == "fixed") %>%
+  dplyr::select(term, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed")
+
+# Fixed effect sizes (standardized)
+fixef_bw_Table <-
+  stats_spat_CN$partR2m$BW %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed_bw") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Semi-partial R2 estimates
+R2Table <-
+  bind_rows(stats_spat_CN$partR2m$R2,
+            stats_spat_CN$partR2c$R2[1,]) %>%
+  dplyr::select(term, estimate, CI_lower, CI_upper) %>%
+  as.data.frame() %>%
+  mutate(stat = "partR2") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Random effects variances
+ranefTable <-
+  stats_spat_CN$tidy %>%
+  dplyr::filter(effect == "ran_pars") %>%
+  dplyr::select(group, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "rand") %>%
+  rename(term = group) %>%
+  mutate(estimate = estimate^2,
+         conf.high = conf.high^2,
+         conf.low = conf.low^2)
+
+# Adjusted repeatabilities
+coefRptTable <-
+  stats_spat_CN$rptR$R_boot %>%
+  dplyr::select(-Fixed) %>%
+  mutate(residual = 1 - rowSums(.)) %>%
+  apply(., 2,
+        function(x) c(mean (x), quantile (x, prob = c(0.025, 0.975)))) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1,
+         conf.low = `2.5%`,
+         conf.high = `97.5%`) %>%
+  mutate(stat = "RptR")
+
+# Store all parameters into a single table and clean it up
+allCoefs_mod <-
+  bind_rows(fixefTable[1,], 
+            fixef_bw_Table,
+            R2Table,
+            ranefTable,
+            coefRptTable,
+            sample_sizes) %>%
+  bind_cols(.,
+            mod_comp_names) %>%
+  mutate(coefString = ifelse(!is.na(conf.low),
+                             paste0("[",
+                                    round(conf.low, 2), ", ",
+                                    round(conf.high, 2), "]"),
+                             NA),
+         effect = c(rep("Fixed effects \U1D6FD (standardized)", nrow(fixefTable[1,])),
+                    rep("Fixed effects \U1D6FD (standardized)", nrow(fixef_bw_Table)),
+                    rep("Partitioned \U1D479\U00B2", nrow(R2Table)),
+                    rep("Random effects \U1D70E\U00B2", nrow(ranefTable)),
+                    rep("Adjusted repeatability \U1D45F", nrow(coefRptTable)),
+                    rep("Sample sizes \U1D45B", nrow(sample_sizes)))) %>%
+  dplyr::select(effect, everything())
+
+# draw gt table
+stats_spat_CN_table <-
+  allCoefs_mod %>%
+  dplyr::select(effect, comp_name, estimate, coefString) %>%
+  gt(rowname_col = "row",
+     groupname_col = "effect") %>%
+  cols_label(comp_name = html("<i>\U03B4 13 C : \U03B4 15 N</i>"),
+             estimate = "Mean estimate",
+             coefString = "95% confidence interval") %>%
+  fmt_number(columns = c(estimate),
+             rows = 1:11,
+             decimals = 2,
+             use_seps = FALSE) %>%
+  fmt_number(columns = c(estimate),
+             rows = 12:13,
+             decimals = 0,
+             use_seps = FALSE) %>%
+  sub_missing(columns = 1:4,
+              missing_text = "") %>%
+  cols_align(align = "left",
+             columns = c(comp_name)) %>%
+  tab_options(row_group.font.weight = "bold",
+              row_group.background.color = brewer.pal(9,"Greys")[3],
+              table.font.size = 12,
+              data_row.padding = 3,
+              row_group.padding = 4,
+              summary_row.padding = 2,
+              column_labels.font.size = 14,
+              row_group.font.size = 12,
+              table.width = pct(90))
+```
+
+
+```{r}
+stats_spat_CN_table
+```
+
+### Spatio-temporal
