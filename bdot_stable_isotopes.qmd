@@ -61,7 +61,11 @@ packages_required_in_project <- c("V8", "concaveman",
                                   "forcats",
                                   "glmmTMB",
                                   "ggmap",
-                                  "MuMIn")
+                                  "MuMIn",
+                                  "googlesheets4", 
+                                  "sf", 
+                                  "rnaturalearth", 
+                                  "rnaturalearthdata")
 
 # of the required packages, check if some need to be installed
 new.packages <- 
@@ -118,7 +122,7 @@ luke_theme <-
 ```{r}
 # import and consolidate key columns
 dat <-
-  read_excel(here("data/Master_SI_Feathers_LEH_Sept24_v1_SB_v2.xls"), 
+  read_excel(here("data/Master_SI_Feathers_LEH_Sept24_v1_SB_v3_sample wts added.xls"), 
                      sheet = "Sample results_C&N", 
                      col_types = "text", skip = 10, col_names = TRUE) %>% 
   select(`Index #`, `Identifier 1`, `Amount`, `Ampl  Flash TCD...9`, `All Correct Amt % N Flash TCD`, `Ampl  28`, `normalised d15N`, `avg  Amt% N`, `stdev  Amt% N`, `avg  d15N`, `stdev d15N`, `Ampl  Flash TCD...18`, `All Correct Amt%C Flash TCD`, `Ampl  44`, `normalised d13C`, `Sample Dilution`, `avg  Amt% C`, `stdev  Amt% C`, `avg  d13C`, `stdev d13C`, `C:N Mass ratio`) %>% 
@@ -193,13 +197,19 @@ hulls <- dat %>%
     # Return the convex hull coordinates
     data.frame(hull = I(list(hull_coords)))
   }) %>%
-  unnest(cols = c(hull))
+  unnest(cols = c(hull)) %>% 
+  left_join(., dat %>% select(Specimen_ID, Month, location) %>% distinct(), by = "Specimen_ID")
 
 ggplot(dat, aes(x = normalised_d13c, y = normalised_d15n)) + 
-  geom_point(aes(fill = Specimen_ID), shape = 21) + 
-  geom_polygon(data = hulls, aes(group = Specimen_ID), fill = NA, color = "black") +
+  geom_polygon(data = hulls, aes(group = Specimen_ID, fill = location), color = NA, alpha = 0.5) +
+  geom_point(aes(fill = location), shape = 21, size = 6) + 
   labs(x = "d13C", y = "d15N") + 
-  theme_minimal()
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set1") +
+  theme(legend.position = "bottom", legend.title = element_blank(),
+        axis.title = element_text(size = 15)) + 
+  guides(color = guide_legend(nrow = 3), fill = guide_legend(nrow = 3))
+
 ```
 
 ```{r}
@@ -811,4 +821,132 @@ stats_spat_CN_table <-
 stats_spat_CN_table
 ```
 
-### Spatio-temporal
+## Sample management
+```{r}
+museum_samples <- 
+  read_sheet("https://docs.google.com/spreadsheets/d/1-iF-rvswS5QvlKgz4fgF14FnfkK17DYf6je5nwYw48o/edit?gid=0#gid=0", col_types = "c") %>% 
+  filter(Sent_to_Sarah == "yes" | Sent_to_Sarah == "Yes") %>%
+  mutate(Month = str_extract(Collection_date, "(January|February|March|April|May|June|July|August|September|October|November|December)")) %>% 
+  mutate(location = paste(gsub("\\s*\\([^\\)]+\\)", "", Specific_collection_location), General_collection_location, sep = ", ")) %>%
+  mutate(location = str_replace_all(location, "NA, ", ""))
+
+# Function to extract month from date strings
+extract_month <- function(date_str) {
+  if (is.na(date_str)) {
+    return(NA)
+  }
+  
+  # Handle dates like "16/07/1887"
+  if (grepl("^\\d{2}/\\d{2}/\\d{4}$", date_str)) {
+    return(month(dmy(date_str)))
+  }
+  
+  # Handle dates like "1974-07-26"
+  if (grepl("^\\d{4}-\\d{2}-\\d{2}$", date_str)) {
+    return(month(ymd(date_str)))
+  }
+  
+  # Handle dates like "32118" (Excel date format)
+  if (grepl("^\\d{5}$", date_str)) {
+    return(month(as.Date(as.numeric(date_str), origin = "1899-12-30")))
+  }
+  
+  # Handle 4-character year strings
+  if (nchar(date_str) == 4) {
+    return(NA)
+  }
+  
+  return(NA)
+}
+
+# Applying the transformation
+museum_samples <- museum_samples %>%
+  mutate(
+    month_extracted = sapply(Collection_date, extract_month),
+    month = ifelse(!is.na(Collection_month), as.numeric(Collection_month), month_extracted)
+  ) %>%
+  select(-month_extracted)
+
+# Create a data frame 
+museum_sample_loc <- 
+  data.frame(location = museum_samples$location) %>% 
+  pull(location) %>% unique()
+
+geocode_data <- geocode(museum_sample_loc)
+
+# Combine the geocode data with the unique locations
+museum_sample_loc_ <- data.frame(location = museum_sample_loc, geocode_data)
+
+# Merge the geocode data back into the original dataframe
+museum_samples <- left_join(museum_samples, museum_sample_loc_, by = "location")
+
+# Remove rows where month is NA
+museum_samples <- museum_samples %>% filter(!is.na(month))
+
+# Convert numeric month to month names
+museum_samples$month <- factor(month.name[museum_samples$month], levels = month.name)
+
+# Convert museum_samples to an sf object
+museum_samples_sf <- st_as_sf(museum_samples, coords = c("lon", "lat"), crs = 4326)
+
+# Reproject museum_samples to the desired projection
+museum_samples_sf <- st_transform(museum_samples_sf, crs = "+proj=ortho +lon_0=160 +lat_0=-41")
+
+museum_samples_sf <- 
+  museum_samples_sf %>%
+  mutate(Specimen_ID_ = gsub("WAM |AJB ", "", Specimen_ID)) %>%
+  mutate(Feather_type = ifelse(is.na(Feather_type), sub("^(\\S+\\s+\\S+)\\s+(.*)$", "\\2", Specimen_ID), Feather_type)) %>% 
+  mutate(
+    Specimen_ID_ = str_extract(Specimen_ID_, "^[^ ]+")) %>%   # Extract text to the left of the first white space
+  group_by(Specimen_ID_) %>%
+  mutate(Feather_status = case_when(
+    n_distinct(Feather_type) == 2 ~ "Primary and Breast",
+    "Breast" %in% Feather_type ~ "Breast",
+    "Primary" %in% Feather_type ~ "Primary"
+  )) %>%
+  ungroup()
+
+museum_samples_sf %>% dplyr::select(Specimen_ID_, Feather_status) %>% distinct()
+
+# Get world map data
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Extract the coordinates from the sf object
+museum_samples_df <- 
+  st_as_sf(museum_samples_sf %>% 
+             dplyr::select(Specimen_ID_, Sex, location, Feather_status, month) %>% distinct()) %>%
+  st_coordinates() %>%
+  as.data.frame() %>%
+  bind_cols(st_drop_geometry(museum_samples_sf %>% 
+             dplyr::select(Specimen_ID_, Sex, location, Feather_status, month) %>% distinct()))
+
+# Create the plot with projection centered on 180° longitude and custom bounds
+ggplot() +
+  geom_sf(data = world, fill = "lightgrey") +  # Add world map
+  geom_point(data = museum_samples_df, 
+             aes(x = X, y = Y, fill = Feather_status), 
+             shape = 21, 
+             size = 2, 
+             alpha = 0.5, 
+             position = position_jitter(width = 100000, height = 100000)) +  # Add jitter to points
+  facet_wrap(~ month, ncol = 3) +  # Create facets for each month
+  coord_sf(xlim = c(-4312396, 1837687), ylim = c(-1266762, 1085204.2), 
+           crs = "+proj=ortho +lon_0=160 +lat_0=-41") +  # Custom bounds for x and y axes
+  theme_minimal() +  # Use a minimal theme
+  labs(title = "Banded Dotterel Museum Specimens", subtitle = "Collection Locations by Month", x = "Longitude", y = "Latitude") +
+  theme(panel.grid.minor = element_line(linewidth = 0.5, colour = "grey40")) +
+  scale_fill_brewer(palette = "Set1", name = "Feathers sampled")
+
+museum_samples_df %>% 
+  filter(str_detect(location, "Australia") | 
+           (str_detect(location, "New Zealand") & 
+              month %in% c("May", "June", "July"))) %>% 
+  group_by(location, X, Y, month) %>%
+  mutate(n_ind_at_location = n_distinct(Specimen_ID_)) %>% 
+  ungroup() %>% 
+  dplyr::select(-X, -Y) %>% 
+  # filter(n_ind_at_location > 2) %>% View()
+  arrange(desc(n_ind_at_location)) %>% 
+  write.csv("data/museum_samples_to_analyze_161224.csv", row.names = FALSE)
+```
+
