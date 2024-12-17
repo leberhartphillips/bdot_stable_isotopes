@@ -914,11 +914,11 @@ world <- ne_countries(scale = "medium", returnclass = "sf")
 # Extract the coordinates from the sf object
 museum_samples_df <- 
   st_as_sf(museum_samples_sf %>% 
-             dplyr::select(Specimen_ID_, Sex, location, Feather_status, month) %>% distinct()) %>%
+             dplyr::select(Museum, Specimen_ID_, Sex, location, Feather_status, month) %>% distinct()) %>%
   st_coordinates() %>%
   as.data.frame() %>%
   bind_cols(st_drop_geometry(museum_samples_sf %>% 
-             dplyr::select(Specimen_ID_, Sex, location, Feather_status, month) %>% distinct()))
+             dplyr::select(Museum, Specimen_ID_, Sex, location, Feather_status, month) %>% distinct()))
 
 # Create the plot with projection centered on 180° longitude and custom bounds
 ggplot() +
@@ -948,5 +948,17 @@ museum_samples_df %>%
   # filter(n_ind_at_location > 2) %>% View()
   arrange(desc(n_ind_at_location)) %>% 
   write.csv("data/museum_samples_to_analyze_161224.csv", row.names = FALSE)
+
+museum_samples_df %>% 
+  filter(str_detect(location, "Australia") | 
+           (str_detect(location, "New Zealand") & 
+              month %in% c("May", "June", "July"))) %>% 
+  group_by(location, X, Y, month) %>%
+  mutate(n_ind_at_location = n_distinct(Specimen_ID_)) %>% 
+  ungroup() %>% 
+  dplyr::select(-X, -Y) %>%
+  nrow()
+  # filter(n_ind_at_location > 2) %>% View()
+  arrange(Museum, Specimen_ID_) %>% View()
 ```
 
