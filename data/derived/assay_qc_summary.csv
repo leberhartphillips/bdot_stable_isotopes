@@ -1,0 +1,7 @@
+"dataset","isotope","n_rows","n_included_rows","n_explicit_qc_rows","n_excluded_rows","n_replace_with_average_rows","n_keep_override_rows","n_changed_nonexcluded_rows","n_manual_review_pending_rows"
+"live_cn_measurements_raw_qc_long","normalised_d13c",158,154,19,4,12,3,12,2
+"live_cn_measurements_raw_qc_long","normalised_d15n",158,154,19,4,12,3,12,2
+"museum_measurements_raw_qc","normalised_d13c",68,68,0,0,0,0,0,0
+"museum_measurements_raw_qc","normalised_d15n",68,68,0,0,0,0,0,0
+"museum_measurements_raw_qc","normalised_d18o",44,43,1,1,0,0,0,0
+"museum_measurements_raw_qc","normalised_d2h",43,42,1,1,0,0,0,0

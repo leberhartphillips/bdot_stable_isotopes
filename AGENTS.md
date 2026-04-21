@@ -52,3 +52,8 @@ For any substantial task, return:
 - Keep prose direct and non-hyped.
 - Do not overclaim model performance.
 - Separate evidence from interpretation.
+
+## Project-specific modelling rules
+- For rung 1, paired breast-primary contrast models must be explicitly compared against breast-only and primary-only baselines.
+- For rung 2 and rung 3, breast-feather winter signal is the default basis of classification unless paired features show validated incremental value.
+- Continuous isoscapes are not the primary operational model for this repository.

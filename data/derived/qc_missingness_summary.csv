@@ -15,8 +15,8 @@
 "museum_screening_ready_breast_homogenate_winter","value_mean_normalised_d15n",35,11,0.314285714285714
 "museum_screening_ready_breast_homogenate_winter","value_mean_normalised_d18o",35,12,0.342857142857143
 "museum_screening_ready_breast_homogenate_winter","value_mean_normalised_d2h",35,12,0.342857142857143
-"live_cn_measurements_by_sample","normalised_d13c",158,0,0
-"live_cn_measurements_by_sample","normalised_d15n",158,0,0
+"live_cn_measurements_by_sample","adjudicated_normalised_d13c",158,4,0.0253164556962025
+"live_cn_measurements_by_sample","adjudicated_normalised_d15n",158,4,0.0253164556962025
 "live_cn_measurements_by_sample","status",158,0,0
 "live_cn_measurements_by_sample","sex",158,0,0
 "live_cn_paired_by_ring","normalised_d13c_Breast",74,0,0

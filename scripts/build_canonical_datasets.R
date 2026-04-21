@@ -20,6 +20,15 @@ write_csv_base <- function(df, path) {
   utils::write.csv(df, path, row.names = FALSE, na = "")
 }
 
+read_csv_base <- function(path) {
+  utils::read.csv(
+    path,
+    stringsAsFactors = FALSE,
+    na.strings = c("", "NA"),
+    check.names = FALSE
+  )
+}
+
 qc_steps <- tibble()
 qc_issues <- tibble()
 
@@ -91,6 +100,125 @@ make_harmonization_flag <- function(...) {
   }
   paste(unique(flags), collapse = "|")
 }
+
+run_assay_qc_extract <- function() {
+  status <- system2(
+    "python3",
+    args = file.path("scripts", "extract_assay_qc_adjudication.py")
+  )
+
+  if (!identical(status, 0L)) {
+    stop("Failed to generate assay QC adjudication tables.")
+  }
+}
+
+run_assay_qc_extract()
+
+assay_qc_adjudication <- read_csv_base(
+  file.path(derived_dir, "assay_qc_adjudication.csv")
+) %>%
+  mutate(
+    source_sheet_row = as.integer(source_sheet_row),
+    raw_value = parse_numeric(raw_value),
+    adjudicated_value = parse_numeric(adjudicated_value)
+  )
+
+assay_qc_affected_samples <- read_csv_base(
+  file.path(derived_dir, "assay_qc_affected_samples.csv")
+) %>%
+  mutate(adjudicated_value = parse_numeric(adjudicated_value))
+
+assay_qc_manual_adjudication <- read_csv_base(
+  file.path(derived_dir, "assay_qc_manual_adjudication.csv")
+)
+
+assay_qc_sheet_rules <- read_csv_base(
+  file.path(derived_dir, "assay_qc_sheet_rules.csv")
+)
+
+assay_qc_dup_keys <- assay_qc_adjudication %>%
+  count(raw_file, sheet, source_sheet_row, isotope, sort = TRUE) %>%
+  filter(n > 1)
+
+if (nrow(assay_qc_dup_keys) > 0) {
+  stop("Assay QC adjudication rows are not unique on raw_file + sheet + source_sheet_row + isotope.")
+}
+
+log_step(
+  dataset = "assay_qc",
+  step = "load_adjudication_tables",
+  rows_in = nrow(assay_qc_adjudication),
+  rows_out = nrow(assay_qc_adjudication),
+  action = "read",
+  detail = "Loaded workbook-parsed assay QC adjudication, affected-sample, manual-review, and sheet-rule tables."
+)
+
+if (nrow(assay_qc_manual_adjudication) > 0) {
+  log_issue(
+    dataset = "assay_qc",
+    issue_type = "pending_manual_review",
+    severity = "warning",
+    key = collapse_unique(
+      paste(
+        assay_qc_manual_adjudication$sample_identifier,
+        assay_qc_manual_adjudication$isotope
+      )
+    ),
+    n_records = nrow(assay_qc_manual_adjudication),
+    detail = "Some repeated assay sample-isotope pairs remain unresolved and are flagged for manual review."
+  )
+}
+
+apply_assay_qc_long <- function(df) {
+  qc_lookup <- assay_qc_adjudication %>%
+    transmute(
+      source_file = raw_file,
+      source_sheet = sheet,
+      source_sheet_row,
+      isotope,
+      assay_qc_decision_id = decision_id,
+      assay_qc_action = action,
+      assay_qc_reason = reason,
+      assay_qc_evidence_source = evidence_source,
+      assay_qc_decision_class = decision_class,
+      assay_qc_rule_basis = rule_basis,
+      assay_qc_notes = notes,
+      qc_adjudicated_value = adjudicated_value
+    )
+
+  out <- df %>%
+    left_join(
+      qc_lookup,
+      by = c("source_file", "source_sheet", "source_sheet_row", "isotope")
+    )
+
+  out$raw_value <- out$raw_value
+  out$assay_qc_action <- dplyr::coalesce(out$assay_qc_action, "keep")
+  out$value <- ifelse(
+    out$assay_qc_action == "exclude",
+    NA_real_,
+    ifelse(!is.na(out$qc_adjudicated_value), out$qc_adjudicated_value, out$raw_value)
+  )
+  out$included_in_canonical <- !is.na(out$value)
+  out$assay_qc_explicit <- !is.na(out$assay_qc_decision_id)
+  out$assay_qc_value_changed <- !is.na(out$raw_value) &
+    !is.na(out$value) &
+    abs(out$raw_value - out$value) > 1e-12
+  out$assay_qc_value_excluded <- !is.na(out$raw_value) &
+    is.na(out$value) &
+    out$assay_qc_action == "exclude"
+  out
+}
+
+manual_review_lookup <- assay_qc_manual_adjudication %>%
+  transmute(
+    sample_base_identifier = sample_identifier,
+    tissue_feather_type = tissue_feather_type,
+    isotope = isotope,
+    assay_qc_manual_review_pending = TRUE,
+    assay_qc_manual_review_reason = reason,
+    assay_qc_manual_review_notes = notes
+  )
 
 museum_coord_checkpoint <- readRDS(file.path("data", "CNOH_museum_samples_201125.rds")) %>%
   ungroup() %>%
@@ -430,7 +558,7 @@ triplicate_cn_long <- read_triplicate_cn %>%
   pivot_longer(
     cols = c(normalised_d15n, normalised_d13c),
     names_to = "isotope",
-    values_to = "value"
+    values_to = "raw_value"
   )
 
 log_step(
@@ -443,7 +571,7 @@ log_step(
 )
 
 triplicate_cn_long <- triplicate_cn_long %>%
-  filter(!is.na(value)) %>%
+  filter(!is.na(raw_value)) %>%
   mutate(
     measurement_id = sprintf("museum_measurement_%04d", row_number())
   )
@@ -485,7 +613,7 @@ triplicate_h_parsed <- read_triplicate_h %>%
     region = "homogenate",
     amount_mg = parse_numeric(`Amount (mg)`),
     isotope = "normalised_d2h",
-    value = parse_numeric(`Normalised d2H`)
+    raw_value = parse_numeric(`Normalised d2H`)
   )
 
 triplicate_h_mismatch <- triplicate_h_parsed %>%
@@ -502,27 +630,23 @@ if (nrow(triplicate_h_mismatch) > 0) {
     severity = "warning",
     key = collapse_unique(triplicate_h_mismatch$source_record_label),
     n_records = nrow(triplicate_h_mismatch),
-    detail = "Dropped triplicate H rows where Identifier 1 and SIA ID resolved to different specimen IDs."
+    detail = "Triplicate H contains rows where Identifier 1 and SIA ID resolve to different specimen IDs. These rows remain visible in the raw QC table and must be excluded before metadata joins unless assay QC already excludes them."
   )
 }
 
 triplicate_h_long <- triplicate_h_parsed %>%
-  filter(
-    is.na(specimen_id_from_sia) | specimen_id == specimen_id_from_sia
-  ) %>%
-  select(-specimen_id_from_sia) %>%
-  filter(!is.na(value)) %>%
+  filter(!is.na(raw_value)) %>%
   mutate(
     measurement_id = sprintf("museum_measurement_%04d", nrow(triplicate_cn_long) + row_number())
   )
 
 log_step(
   dataset = "museum_triplicate_h",
-  step = "drop_identifier_sia_mismatch",
+  step = "retain_raw_rows_pre_qc",
   rows_in = nrow(triplicate_h_parsed),
   rows_out = nrow(triplicate_h_long),
   action = "filter",
-  detail = "Excluded rows where Identifier 1 and SIA ID disagreed on specimen identity."
+  detail = "Retained all non-missing H values before assay QC and metadata-join eligibility checks."
 )
 
 read_triplicate_o <- read_excel(
@@ -569,22 +693,7 @@ log_step(
   detail = "Dropped triplicate O rows with missing d18O values."
 )
 
-triplicate_o_manual_exclusion <- triplicate_o_filtered %>%
-  filter(`Identifier 1` == "AV21986_A feather")
-
-if (nrow(triplicate_o_manual_exclusion) > 0) {
-  log_issue(
-    dataset = "museum_triplicate_o",
-    issue_type = "manual_exclusion_carried_forward",
-    severity = "warning",
-    key = collapse_unique(triplicate_o_manual_exclusion$`Identifier 1`),
-    n_records = nrow(triplicate_o_manual_exclusion),
-    detail = "Carried forward the explicit AV21986_A feather exclusion from the canonical QMD. Scientific rationale remains to be confirmed."
-  )
-}
-
 triplicate_o_long <- triplicate_o_filtered %>%
-  filter(`Identifier 1` != "AV21986_A feather") %>%
   transmute(
     source_branch = "museum_triplicate_o",
     source_file = "data/Master_TCEA_O_SI_Breast Feathers_Replication_Batch 4_LEH_Sept25_SB.xls",
@@ -600,9 +709,9 @@ triplicate_o_long <- triplicate_o_filtered %>%
     region = "homogenate",
     amount_mg = parse_numeric(Amount),
     isotope = "normalised_d18o",
-    value = parse_numeric(`normalised d18O`)
+    raw_value = parse_numeric(`normalised d18O`)
   ) %>%
-  filter(!is.na(value)) %>%
+  filter(!is.na(raw_value)) %>%
   mutate(
     measurement_id = sprintf(
       "museum_measurement_%04d",
@@ -612,11 +721,11 @@ triplicate_o_long <- triplicate_o_filtered %>%
 
 log_step(
   dataset = "museum_triplicate_o",
-  step = "carry_forward_manual_exclusion",
+  step = "retain_raw_rows_pre_qc",
   rows_in = nrow(triplicate_o_filtered),
   rows_out = nrow(triplicate_o_long),
   action = "filter",
-  detail = "Dropped AV21986_A feather to mirror the current QMD triplicate O logic."
+  detail = "Retained all non-missing O values before assay QC adjudication."
 )
 
 read_batch_cn <- read_excel(
@@ -687,9 +796,9 @@ batch_cn_long <- batch_cn_filtered %>%
   pivot_longer(
     cols = c(normalised_d15n, normalised_d13c),
     names_to = "isotope",
-    values_to = "value"
+    values_to = "raw_value"
   ) %>%
-  filter(!is.na(value)) %>%
+  filter(!is.na(raw_value)) %>%
   mutate(
     measurement_id = sprintf(
       "museum_measurement_%04d",
@@ -737,9 +846,9 @@ batch_o_long <- batch_o_block %>%
     region = "homogenate",
     amount_mg = parse_numeric(Amount),
     isotope = "normalised_d18o",
-    value = parse_numeric(`normalised d18O`)
+    raw_value = parse_numeric(`normalised d18O`)
   ) %>%
-  filter(!is.na(value)) %>%
+  filter(!is.na(raw_value)) %>%
   mutate(
     measurement_id = sprintf(
       "museum_measurement_%04d",
@@ -793,9 +902,9 @@ batch_h_long <- read_batch_h %>%
     region = "homogenate",
     amount_mg = NA_real_,
     isotope = "normalised_d2h",
-    value = parse_numeric(`Normalised d2H`)
+    raw_value = parse_numeric(`Normalised d2H`)
   ) %>%
-  filter(!is.na(value)) %>%
+  filter(!is.na(raw_value)) %>%
   mutate(
     measurement_id = sprintf(
       "museum_measurement_%04d",
@@ -813,7 +922,7 @@ log_step(
   detail = "Dropped batch H rows with missing d2H values."
 )
 
-museum_measurements_long <- bind_rows(
+museum_measurements_raw_qc <- bind_rows(
   triplicate_cn_long,
   triplicate_h_long,
   triplicate_o_long,
@@ -827,9 +936,48 @@ museum_measurements_long <- bind_rows(
       region == "homogenate" & source_branch == "museum_batch_cn" & is.na(region_raw) ~ "region_missing_harmonized_to_homogenate",
       TRUE ~ NA_character_
     )
+  ) %>%
+  apply_assay_qc_long()
+
+log_step(
+  dataset = "museum_measurements",
+  step = "apply_assay_qc",
+  rows_in = nrow(museum_measurements_raw_qc),
+  rows_out = sum(museum_measurements_raw_qc$included_in_canonical, na.rm = TRUE),
+  action = "adjudicate",
+  detail = "Applied assay-level QC decisions to museum isotope measurements while preserving raw values."
+)
+
+write_csv_base(
+  museum_measurements_raw_qc,
+  file.path(derived_dir, "museum_measurements_raw_qc.csv")
+)
+
+museum_h_mismatch_usable <- museum_measurements_raw_qc %>%
+  filter(
+    !is.na(specimen_id_from_sia),
+    specimen_id != specimen_id_from_sia,
+    included_in_canonical
   )
 
-museum_measurements_enriched <- museum_measurements_long %>%
+if (nrow(museum_h_mismatch_usable) > 0) {
+  log_issue(
+    dataset = "museum_measurements",
+    issue_type = "usable_identifier_vs_sia_id_mismatch",
+    severity = "error",
+    key = collapse_unique(museum_h_mismatch_usable$source_record_label),
+    n_records = nrow(museum_h_mismatch_usable),
+    detail = "At least one usable museum measurement still has conflicting specimen IDs between Identifier 1 and SIA ID."
+  )
+  stop("Usable museum measurements still contain Identifier 1 / SIA ID mismatches.")
+}
+
+museum_measurements_joinable <- museum_measurements_raw_qc %>%
+  filter(included_in_canonical) %>%
+  filter(is.na(specimen_id_from_sia) | specimen_id == specimen_id_from_sia) %>%
+  select(-specimen_id_from_sia)
+
+museum_measurements_enriched <- museum_measurements_joinable %>%
   left_join(
     museum_metadata_canonical,
     by = c("specimen_id", "feather_type")
@@ -853,7 +1001,7 @@ if (nrow(metadata_unmatched) > 0) {
 log_step(
   dataset = "museum_measurements",
   step = "join_metadata_exact",
-  rows_in = nrow(museum_measurements_long),
+  rows_in = nrow(museum_measurements_joinable),
   rows_out = nrow(museum_measurements_enriched),
   action = "join",
   detail = "Joined museum measurements to metadata exactly on standardized specimen_id + feather_type."
@@ -1176,9 +1324,9 @@ log_issue(
   )
 )
 
-live_cn_measurements <- live_cn_nonblank %>%
+live_cn_measurements_long_raw <- live_cn_nonblank %>%
   transmute(
-    measurement_id = sprintf("live_measurement_%04d", row_number()),
+    assay_row_id = sprintf("live_assay_%04d", row_number()),
     source_branch = "live_batch5_cn",
     source_file = "data/Master_EA_C_N_SI_Batch 5 Breast and Primary Feathers_LEH_Repeats added_April25_v1_SB_v2.xls",
     source_sheet = "Sample results_C&N",
@@ -1188,16 +1336,47 @@ live_cn_measurements <- live_cn_nonblank %>%
     ring = standardize_live_ring(`Corrected Identifer 1`),
     feather_type_raw = str_extract(`Corrected Identifer 1`, regex("primary|breast|pimary", ignore_case = TRUE)),
     feather_type = standardize_feather_type(feather_type_raw),
-    is_repeat_assay = str_detect(sample_id_raw, "_rpt$") |
+    is_repeat_assay = str_detect(normalize_space(`Corrected Identifer 1`), "_rpt$") |
       (!is.na(`Rpt?`) & normalize_space(`Rpt?`) != ""),
     amount_mg = parse_numeric(`Amount (mg)`),
+    cn_mass_ratio = parse_numeric(`C:N Mass Ratio`),
     normalised_d15n = parse_numeric(`normalised d15N`),
-    normalised_d13c = parse_numeric(`normalised d13C`),
-    cn_mass_ratio = parse_numeric(`C:N Mass Ratio`)
+    normalised_d13c = parse_numeric(`normalised d13C`)
   ) %>%
-  left_join(live_phenotypes_canonical, by = "ring")
+  pivot_longer(
+    cols = c(normalised_d15n, normalised_d13c),
+    names_to = "isotope",
+    values_to = "raw_value"
+  ) %>%
+  filter(!is.na(raw_value)) %>%
+  mutate(
+    measurement_id = sprintf("live_measurement_%04d", row_number())
+  ) %>%
+  left_join(live_phenotypes_canonical, by = "ring") %>%
+  apply_assay_qc_long() %>%
+  left_join(
+    manual_review_lookup,
+    by = c(
+      "sample_id_base" = "sample_base_identifier",
+      "feather_type" = "tissue_feather_type",
+      "isotope" = "isotope"
+    )
+  ) %>%
+  mutate(
+    assay_qc_manual_review_pending = coalesce(assay_qc_manual_review_pending, FALSE),
+    assay_qc_manual_review_reason = ifelse(
+      assay_qc_manual_review_pending,
+      assay_qc_manual_review_reason,
+      NA_character_
+    ),
+    assay_qc_manual_review_notes = ifelse(
+      assay_qc_manual_review_pending,
+      assay_qc_manual_review_notes,
+      NA_character_
+    )
+  )
 
-live_cn_unmatched <- live_cn_measurements %>%
+live_cn_unmatched <- live_cn_measurements_long_raw %>%
   filter(is.na(source_phenotype_row_ids))
 
 if (nrow(live_cn_unmatched) > 0) {
@@ -1215,18 +1394,351 @@ if (nrow(live_cn_unmatched) > 0) {
 log_step(
   dataset = "live_cn_measurements",
   step = "join_ring_level_phenotypes",
-  rows_in = nrow(live_cn_measurements),
-  rows_out = nrow(live_cn_measurements),
+  rows_in = nrow(live_cn_measurements_long_raw),
+  rows_out = nrow(live_cn_measurements_long_raw),
   action = "join",
   detail = "Joined live bird assays to ring-level phenotypes exactly on ring."
 )
+
+log_step(
+  dataset = "live_cn_measurements",
+  step = "apply_assay_qc",
+  rows_in = nrow(live_cn_measurements_long_raw),
+  rows_out = sum(live_cn_measurements_long_raw$included_in_canonical, na.rm = TRUE),
+  action = "adjudicate",
+  detail = "Applied assay-level QC adjudications to live bird C/N measurements."
+)
+
+write_csv_base(
+  live_cn_measurements_long_raw,
+  file.path(derived_dir, "live_cn_measurements_raw_qc_long.csv")
+)
+
+live_cn_measurements <- live_cn_measurements_long_raw %>%
+  select(
+    assay_row_id,
+    source_branch,
+    source_file,
+    source_sheet,
+    source_sheet_row,
+    sample_id_raw,
+    sample_id_base,
+    ring,
+    feather_type_raw,
+    feather_type,
+    is_repeat_assay,
+    amount_mg,
+    cn_mass_ratio,
+    sex,
+    tag_id_adjusted,
+    tag_id_raw_examples,
+    status,
+    status_bin,
+    migratory_status_comment,
+    longitude_capture,
+    latitude_capture,
+    status_known,
+    source_phenotype_row_ids,
+    source_phenotype_row_count,
+    sample_identifier_examples,
+    isotope,
+    measurement_id,
+    raw_value,
+    value,
+    assay_qc_action,
+    assay_qc_reason,
+    assay_qc_evidence_source,
+    assay_qc_decision_id,
+    assay_qc_explicit,
+    assay_qc_value_changed,
+    assay_qc_value_excluded,
+    assay_qc_manual_review_pending,
+    assay_qc_manual_review_reason,
+    assay_qc_manual_review_notes
+  ) %>%
+  pivot_wider(
+    id_cols = c(
+      assay_row_id,
+      source_branch,
+      source_file,
+      source_sheet,
+      source_sheet_row,
+      sample_id_raw,
+      sample_id_base,
+      ring,
+      feather_type_raw,
+      feather_type,
+      is_repeat_assay,
+      amount_mg,
+      cn_mass_ratio,
+      sex,
+      tag_id_adjusted,
+      tag_id_raw_examples,
+      status,
+      status_bin,
+      migratory_status_comment,
+      longitude_capture,
+      latitude_capture,
+      status_known,
+      source_phenotype_row_ids,
+      source_phenotype_row_count,
+      sample_identifier_examples
+    ),
+    names_from = isotope,
+    values_from = c(
+      measurement_id,
+      raw_value,
+      value,
+      assay_qc_action,
+      assay_qc_reason,
+      assay_qc_evidence_source,
+      assay_qc_decision_id,
+      assay_qc_explicit,
+      assay_qc_value_changed,
+      assay_qc_value_excluded,
+      assay_qc_manual_review_pending,
+      assay_qc_manual_review_reason,
+      assay_qc_manual_review_notes
+    ),
+    names_glue = "{.value}_{isotope}"
+  ) %>%
+  rename(
+    raw_normalised_d15n = raw_value_normalised_d15n,
+    raw_normalised_d13c = raw_value_normalised_d13c,
+    adjudicated_normalised_d15n = value_normalised_d15n,
+    adjudicated_normalised_d13c = value_normalised_d13c
+  )
 
 write_csv_base(
   live_cn_measurements,
   file.path(derived_dir, "live_cn_measurements_by_sample.csv")
 )
 
-live_cn_tissue_summary <- live_cn_measurements %>%
+live_cn_replace_rows <- live_cn_measurements_long_raw %>%
+  filter(included_in_canonical, assay_qc_action == "replace_with_average")
+
+live_cn_nonreplace_long <- live_cn_measurements_long_raw %>%
+  filter(included_in_canonical, assay_qc_action != "replace_with_average") %>%
+  transmute(
+    adjudicated_sample_id = assay_row_id,
+    adjudicated_measurement_id = paste(assay_row_id, isotope, sep = "::"),
+    source_branch,
+    source_file,
+    source_sheet,
+    source_sheet_rows = as.character(source_sheet_row),
+    sample_id_raw,
+    sample_id_base,
+    ring,
+    feather_type_raw,
+    feather_type,
+    is_repeat_assay,
+    isotope,
+    raw_value,
+    value,
+    amount_mg,
+    cn_mass_ratio,
+    sex,
+    tag_id_adjusted,
+    tag_id_raw_examples,
+    status,
+    status_bin,
+    migratory_status_comment,
+    longitude_capture,
+    latitude_capture,
+    status_known,
+    source_phenotype_row_ids,
+    source_phenotype_row_count,
+    sample_identifier_examples,
+    source_measurement_ids = measurement_id,
+    n_raw_measurements_collapsed = 1L,
+    adjudication_method = case_when(
+      assay_qc_explicit & assay_qc_action == "keep" ~ "selected_repeat_raw",
+      TRUE ~ "raw_assay"
+    ),
+    assay_qc_action,
+    assay_qc_reason,
+    assay_qc_evidence_source,
+    assay_qc_decision_ids = assay_qc_decision_id,
+    assay_qc_manual_review_pending,
+    assay_qc_manual_review_reason,
+    assay_qc_manual_review_notes
+  )
+
+live_cn_replace_collapsed <- live_cn_replace_rows %>%
+  group_by(
+    source_branch,
+    source_file,
+    source_sheet,
+    sample_id_base,
+    ring,
+    feather_type_raw,
+    feather_type,
+    isotope,
+    sex,
+    tag_id_adjusted,
+    tag_id_raw_examples,
+    status,
+    status_bin,
+    migratory_status_comment,
+    longitude_capture,
+    latitude_capture,
+    status_known,
+    source_phenotype_row_ids,
+    source_phenotype_row_count,
+    sample_identifier_examples
+  ) %>%
+  summarise(
+    source_sheet_rows = collapse_unique(source_sheet_row),
+    sample_id_raw = collapse_unique(sample_id_raw),
+    is_repeat_assay = any(is_repeat_assay),
+    raw_value = safe_mean(raw_value),
+    value = safe_mean(value),
+    amount_mg = safe_mean(amount_mg),
+    cn_mass_ratio = safe_mean(cn_mass_ratio),
+    source_measurement_ids = collapse_unique(measurement_id),
+    n_raw_measurements_collapsed = n(),
+    adjudication_method = "lab_green_average",
+    assay_qc_action = "replace_with_average",
+    assay_qc_reason = summarise_character_or_na(assay_qc_reason),
+    assay_qc_evidence_source = summarise_character_or_na(assay_qc_evidence_source),
+    assay_qc_decision_ids = collapse_unique(assay_qc_decision_id),
+    assay_qc_manual_review_pending = any(assay_qc_manual_review_pending),
+    assay_qc_manual_review_reason = summarise_character_or_na(assay_qc_manual_review_reason),
+    assay_qc_manual_review_notes = summarise_character_or_na(assay_qc_manual_review_notes),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    adjudicated_sample_id = paste0("live_avg_", make.names(sample_id_base)),
+    adjudicated_measurement_id = paste(adjudicated_sample_id, isotope, sep = "::")
+  ) %>%
+  select(
+    adjudicated_sample_id,
+    adjudicated_measurement_id,
+    source_branch,
+    source_file,
+    source_sheet,
+    source_sheet_rows,
+    sample_id_raw,
+    sample_id_base,
+    ring,
+    feather_type_raw,
+    feather_type,
+    is_repeat_assay,
+    isotope,
+    raw_value,
+    value,
+    amount_mg,
+    cn_mass_ratio,
+    sex,
+    tag_id_adjusted,
+    tag_id_raw_examples,
+    status,
+    status_bin,
+    migratory_status_comment,
+    longitude_capture,
+    latitude_capture,
+    status_known,
+    source_phenotype_row_ids,
+    source_phenotype_row_count,
+    sample_identifier_examples,
+    source_measurement_ids,
+    n_raw_measurements_collapsed,
+    adjudication_method,
+    assay_qc_action,
+    assay_qc_reason,
+    assay_qc_evidence_source,
+    assay_qc_decision_ids,
+    assay_qc_manual_review_pending,
+    assay_qc_manual_review_reason,
+    assay_qc_manual_review_notes
+  )
+
+log_step(
+  dataset = "live_cn_measurements",
+  step = "collapse_lab_green_averages",
+  rows_in = nrow(live_cn_replace_rows),
+  rows_out = nrow(live_cn_replace_collapsed),
+  action = "collapse",
+  detail = "Collapsed repeated batch 5 rows with lab-approved green averages to one adjudicated sample-isotope row."
+)
+
+live_cn_measurements_adjudicated_long <- bind_rows(
+  live_cn_nonreplace_long,
+  live_cn_replace_collapsed
+)
+
+write_csv_base(
+  live_cn_measurements_adjudicated_long,
+  file.path(derived_dir, "live_cn_measurements_adjudicated_long.csv")
+)
+
+live_cn_measurements_adjudicated_by_sample <- live_cn_measurements_adjudicated_long %>%
+  pivot_wider(
+    id_cols = c(
+      adjudicated_sample_id,
+      source_branch,
+      source_file,
+      source_sheet,
+      source_sheet_rows,
+      sample_id_raw,
+      sample_id_base,
+      ring,
+      feather_type_raw,
+      feather_type,
+      is_repeat_assay,
+      amount_mg,
+      cn_mass_ratio,
+      sex,
+      tag_id_adjusted,
+      tag_id_raw_examples,
+      status,
+      status_bin,
+      migratory_status_comment,
+      longitude_capture,
+      latitude_capture,
+      status_known,
+      source_phenotype_row_ids,
+      source_phenotype_row_count,
+      sample_identifier_examples,
+      n_raw_measurements_collapsed,
+      adjudication_method,
+      assay_qc_manual_review_pending,
+      assay_qc_manual_review_reason,
+      assay_qc_manual_review_notes
+    ),
+    names_from = isotope,
+    values_from = c(
+      raw_value,
+      value,
+      source_measurement_ids,
+      assay_qc_action,
+      assay_qc_reason,
+      assay_qc_evidence_source,
+      assay_qc_decision_ids
+    ),
+    names_glue = "{.value}_{isotope}"
+  ) %>%
+  rename(
+    raw_normalised_d15n = raw_value_normalised_d15n,
+    raw_normalised_d13c = raw_value_normalised_d13c,
+    adjudicated_normalised_d15n = value_normalised_d15n,
+    adjudicated_normalised_d13c = value_normalised_d13c
+  ) %>%
+  mutate(
+    source_measurement_ids = mapply(
+      function(d15n_ids, d13c_ids) collapse_unique(c(d15n_ids, d13c_ids)),
+      source_measurement_ids_normalised_d15n,
+      source_measurement_ids_normalised_d13c,
+      USE.NAMES = FALSE
+    )
+  )
+
+write_csv_base(
+  live_cn_measurements_adjudicated_by_sample,
+  file.path(derived_dir, "live_cn_measurements_adjudicated_by_sample.csv")
+)
+
+live_cn_tissue_summary <- live_cn_measurements_adjudicated_by_sample %>%
   group_by(
     ring,
     feather_type,
@@ -1242,15 +1754,19 @@ live_cn_tissue_summary <- live_cn_measurements %>%
   summarise(
     n_assays = n(),
     n_unique_samples = dplyr::n_distinct(sample_id_base),
+    n_raw_measurements_collapsed = sum(n_raw_measurements_collapsed, na.rm = TRUE),
     sample_ids_raw = collapse_unique(sample_id_raw),
     sample_ids_base = collapse_unique(sample_id_base),
-    normalised_d13c = safe_mean(normalised_d13c),
-    normalised_d15n = safe_mean(normalised_d15n),
+    normalised_d13c = safe_mean(adjudicated_normalised_d13c),
+    normalised_d15n = safe_mean(adjudicated_normalised_d15n),
     cn_mass_ratio = safe_mean(cn_mass_ratio),
     amount_mg_mean = safe_mean(amount_mg),
     amount_mg_sd = safe_sd(amount_mg),
-    source_measurement_ids = collapse_unique(measurement_id),
+    source_measurement_ids = collapse_unique(source_measurement_ids),
     source_phenotype_row_ids = summarise_character_or_na(source_phenotype_row_ids),
+    adjudication_methods = collapse_unique(adjudication_method),
+    has_pending_manual_qc = any(assay_qc_manual_review_pending %in% TRUE),
+    pending_manual_qc_reasons = collapse_unique(assay_qc_manual_review_reason),
     .groups = "drop"
   )
 
@@ -1275,6 +1791,8 @@ live_cn_pair_base <- live_cn_tissue_summary %>%
   summarise(
     n_tissues_present = dplyr::n_distinct(feather_type),
     tissues_present = collapse_unique(feather_type),
+    has_any_pending_manual_qc = any(has_pending_manual_qc %in% TRUE),
+    pending_manual_qc_reasons_any = collapse_unique(pending_manual_qc_reasons),
     .groups = "drop"
   )
 
@@ -1288,7 +1806,9 @@ live_cn_pair_values <- live_cn_tissue_summary %>%
     amount_mg_mean,
     n_assays,
     n_unique_samples,
-    source_measurement_ids
+    source_measurement_ids,
+    has_pending_manual_qc,
+    pending_manual_qc_reasons
   ) %>%
   pivot_wider(
     id_cols = ring,
@@ -1300,7 +1820,9 @@ live_cn_pair_values <- live_cn_tissue_summary %>%
       amount_mg_mean,
       n_assays,
       n_unique_samples,
-      source_measurement_ids
+      source_measurement_ids,
+      has_pending_manual_qc,
+      pending_manual_qc_reasons
     ),
     names_glue = "{.value}_{feather_type}"
   )
@@ -1314,6 +1836,18 @@ live_cn_paired_by_ring <- live_cn_pair_base %>%
       !is.na(normalised_d15n_Breast) &
       !is.na(normalised_d13c_Primary) &
       !is.na(normalised_d15n_Primary),
+    has_pending_manual_qc = has_any_pending_manual_qc |
+      (has_pending_manual_qc_Breast %in% TRUE) |
+      (has_pending_manual_qc_Primary %in% TRUE),
+    pending_manual_qc_reasons = mapply(
+      function(any_reason, breast_reason, primary_reason) {
+        collapse_unique(c(any_reason, breast_reason, primary_reason))
+      },
+      pending_manual_qc_reasons_any,
+      pending_manual_qc_reasons_Breast,
+      pending_manual_qc_reasons_Primary,
+      USE.NAMES = FALSE
+    ),
     delta_d13c_breast_minus_primary = ifelse(
       has_complete_cn_pair,
       normalised_d13c_Breast - normalised_d13c_Primary,
@@ -1360,6 +1894,48 @@ write_csv_base(
   file.path(derived_dir, "live_screening_ready_paired_labelled.csv")
 )
 
+assay_qc_summary <- bind_rows(
+  museum_measurements_raw_qc %>%
+    transmute(
+      dataset = "museum_measurements_raw_qc",
+      isotope,
+      assay_qc_action,
+      assay_qc_explicit,
+      assay_qc_value_changed,
+      assay_qc_value_excluded,
+      included_in_canonical,
+      assay_qc_manual_review_pending = FALSE
+    ),
+  live_cn_measurements_long_raw %>%
+    transmute(
+      dataset = "live_cn_measurements_raw_qc_long",
+      isotope,
+      assay_qc_action,
+      assay_qc_explicit,
+      assay_qc_value_changed,
+      assay_qc_value_excluded,
+      included_in_canonical,
+      assay_qc_manual_review_pending
+    )
+) %>%
+  group_by(dataset, isotope) %>%
+  summarise(
+    n_rows = n(),
+    n_included_rows = sum(included_in_canonical, na.rm = TRUE),
+    n_explicit_qc_rows = sum(assay_qc_explicit, na.rm = TRUE),
+    n_excluded_rows = sum(assay_qc_value_excluded, na.rm = TRUE),
+    n_replace_with_average_rows = sum(assay_qc_action == "replace_with_average", na.rm = TRUE),
+    n_keep_override_rows = sum(assay_qc_explicit & assay_qc_action == "keep", na.rm = TRUE),
+    n_changed_nonexcluded_rows = sum(assay_qc_value_changed, na.rm = TRUE),
+    n_manual_review_pending_rows = sum(assay_qc_manual_review_pending %in% TRUE, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+write_csv_base(
+  assay_qc_summary,
+  file.path(derived_dir, "assay_qc_summary.csv")
+)
+
 missingness_summary <- bind_rows(
   build_missingness_summary(
     "museum_measurements_long",
@@ -1392,7 +1968,7 @@ missingness_summary <- bind_rows(
   build_missingness_summary(
     "live_cn_measurements_by_sample",
     live_cn_measurements,
-    c("normalised_d13c", "normalised_d15n", "status", "sex")
+    c("adjudicated_normalised_d13c", "adjudicated_normalised_d15n", "status", "sex")
   ),
   build_missingness_summary(
     "live_cn_paired_by_ring",

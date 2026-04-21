@@ -6,6 +6,10 @@
 !/AGENTS.md
 !/DATA_MANIFEST.md
 !/bdot_stable_isotopes2.qmd
+!/R/
+!/R/*
+!/scripts/
+!/scripts/*
 
 # Keep only the in-repo datasets that bdot_stable_isotopes2.qmd reads.
 !/data/
@@ -31,7 +35,9 @@
 
 # Keep documentation-only cleanup additions.
 !/data/derived/
-!/data/derived/README.md
+!/data/derived/*
+!/data/derived/qc/
+!/data/derived/qc/*
 
 # External dependencies referenced by the QMD are outside this repo and are
 # not managed by this .gitignore:
