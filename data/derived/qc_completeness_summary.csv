@@ -1,0 +1,9 @@
+"dataset","metric","value","n_rows"
+"museum_screening_ready_breast_homogenate_winter","isotopes_available_n","2",23
+"museum_screening_ready_breast_homogenate_winter","isotopes_available_n","4",12
+"museum_screening_ready_breast_homogenate_winter","has_all_4_isotopes","FALSE",23
+"museum_screening_ready_breast_homogenate_winter","has_all_4_isotopes","TRUE",12
+"live_cn_paired_by_ring","n_tissues_present","1",1
+"live_cn_paired_by_ring","n_tissues_present","2",73
+"live_cn_paired_by_ring","has_complete_cn_pair","FALSE",1
+"live_cn_paired_by_ring","has_complete_cn_pair","TRUE",73

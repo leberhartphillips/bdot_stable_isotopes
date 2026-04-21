@@ -1,0 +1,278 @@
+"ring","source_phenotype_row_ids","source_phenotype_row_count","sample_identifier_examples","sex","tag_id_adjusted","tag_id_raw_examples","status","status_bin","migratory_status_comment","longitude_capture","latitude_capture","status_known"
+"04258275","live_pheno_001|live_pheno_018",2,"04258275_2024-10-14","M",,,"AU migrant","migrant","Originally banded on King Island, Tasmania in 2010 as a first year",167.744617,-45.414383,TRUE
+"CP16116","live_pheno_243|live_pheno_399",2,"CP16116_2024-10-07","F",,,"unknown","unknown",,173.681752,-42.390619,FALSE
+"CP16134","live_pheno_244|live_pheno_400",2,"CP16134_2024-10-08","M",,,"unknown","unknown",,173.681582,-42.393482,FALSE
+"CP16140","live_pheno_035|live_pheno_042",2,"CP16140_2024-10-08","F",,,"NI migrant","migrant","Resighting at Whangaehu river mouth, North Island on May 16",173.667221,-42.413402,TRUE
+"CP16146","live_pheno_245|live_pheno_401",2,"CP16146_2024-10-03","M","07EC","07EC","unknown","unknown","GPS stopped transmitting a couple months after deployment",173.674726,-42.415102,FALSE
+"CP16149","live_pheno_246|live_pheno_402",2,"CP16149_2024-10-08","F",,,"unknown","unknown",,173.681582,-42.393482,FALSE
+"CP16188","live_pheno_247|live_pheno_403",2,"CP16188_2024-10-07","M",,,"unknown","unknown",,173.681777,-42.390193,FALSE
+"CP16306","live_pheno_248|live_pheno_404",2,"CP16306_2024-10-10","F","266463","266463","unknown","unknown","PTT stopped transmitting a few weeks after deployment",170.143566,-43.73398,FALSE
+"CP16409","live_pheno_069|live_pheno_091",2,"CP16409_2024-10-02","F","266440","266440","resident","resident","PTT revealed that the bird remained at the tip of Kaitorete Spit the full year",172.431853,-43.845691,TRUE
+"CP16446","live_pheno_002|live_pheno_019",2,"CP16446_2024-10-21","M","0A96","0A96","AU migrant","migrant","GPS tag and local resighting confirmed overwintering at South Arm (near Hobart), Tasmania",172.397899,-43.851742,TRUE
+"CP16453","live_pheno_249|live_pheno_405",2,"CP16453_2024-10-23","F",,,"unknown","unknown",,172.695844,-43.826363,FALSE
+"CP16461","live_pheno_070|live_pheno_092",2,"CP16461_2024-10-07","M",,,"resident","resident","Ailsa observation April 14",173.681777,-42.390193,TRUE
+"CP16470","live_pheno_071|live_pheno_093",2,"CP16470_2024-10-08","M",,,"resident","resident","Ailsa observation April 22",173.663729,-42.413163,TRUE
+"CP16483","live_pheno_250|live_pheno_406",2,"CP16483_2024-10-07","F",,,"unknown","unknown",,173.681157,-42.422283,FALSE
+"CP16501","live_pheno_072|live_pheno_094",2,"CP16501_2024-10-05","M","266467","266467","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year",173.031797,-41.120263,TRUE
+"CP16504","live_pheno_251|live_pheno_407",2,"CP16504_2024-10-10","M","266426","266426","unknown","unknown","PTT stopped transmitting in early April and reanimated in October, never left Tasman Valley",170.143594,-43.738776,FALSE
+"CP16507","live_pheno_073|live_pheno_095",2,"CP16507_2024-10-22","F","0AA1","0AA1","resident","resident","the lightlogger on the GPS tag revealed that the bird remained at Lake Ellesmere over the winter",172.601856,-43.830575,TRUE
+"CP16508","live_pheno_252|live_pheno_408",2,"CP16508_2024-10-22","M","0AE1","0AE1","unknown","unknown",,172.596254,-43.831706,FALSE
+"CP16510","live_pheno_149|live_pheno_196",2,"CP16510_2024-10-24","M","266419","266419","resident","resident","PTT revealed that the bird remained at Kaingaroa the full year",-176.241469,-43.773296,TRUE
+"CP16511","live_pheno_150|live_pheno_197",2,"CP16511_2024-10-24","F","266415","266415","resident","resident","PTT revealed that the bird remained at Kaingaroa the full year",-176.241469,-43.773296,TRUE
+"CP16512","live_pheno_253|live_pheno_409",2,"CP16512_2024-10-24","F",,,"unknown","unknown",,-176.244482,-43.77221,FALSE
+"CP16513","live_pheno_254|live_pheno_410",2,"CP16513_2024-10-25","M",,,"unknown","unknown",,-176.244493,-43.772332,FALSE
+"CP16514","live_pheno_255|live_pheno_411",2,"CP16514_2024-10-25","M",,,"unknown","unknown",,-176.244493,-43.772332,FALSE
+"CP16515","live_pheno_256|live_pheno_412",2,"CP16515_2024-10-26","F",,,"unknown","unknown",,-176.417092,-43.923231,FALSE
+"CP16516","live_pheno_257|live_pheno_413",2,"CP16516_2024-10-26","M",,,"unknown","unknown",,-176.420411,-43.920657,FALSE
+"CP16517","live_pheno_258|live_pheno_414",2,"CP16517_2024-10-26","F",,,"unknown","unknown",,-176.419048,-43.919418,FALSE
+"CP16518","live_pheno_259|live_pheno_415",2,"CP16518_2024-10-26","M",,,"unknown","unknown",,-176.420785,-43.918876,FALSE
+"CP16520","live_pheno_260|live_pheno_416",2,"CP16520_2024-10-28","F",,,"unknown","unknown",,-176.473122,-43.815639,FALSE
+"CP16521","live_pheno_261|live_pheno_417",2,"CP16521_2024-10-28","M",,,"unknown","unknown",,-176.473122,-43.815639,FALSE
+"CP16522","live_pheno_262|live_pheno_418",2,"CP16522_2024-10-28","F",,,"unknown","unknown",,-176.47259,-43.815102,FALSE
+"CP16523","live_pheno_263|live_pheno_419",2,"CP16523_2024-10-28","M",,,"unknown","unknown",,-176.47259,-43.815102,FALSE
+"CP16524","live_pheno_264|live_pheno_420",2,"CP16524_2024-10-21","M","0ABF","0ABF","unknown","unknown",,172.613603,-43.830902,FALSE
+"CP16525","live_pheno_265|live_pheno_421",2,"CP16525_2024-10-21","M",,,"unknown","unknown",,172.605906,-43.830036,FALSE
+"CP16526","live_pheno_151|live_pheno_198",2,"CP16526_2024-10-16","M","266392","266392","resident","resident","PTT revealed that the bird stayed at the Awarua Bay for the full year except for a 1 month stay at the mouth of the Mokotua stream ca. 5km away",168.420948,-46.601901,TRUE
+"CP16527","live_pheno_266|live_pheno_422",2,"CP16527_2024-10-12","M",,,"unknown","unknown",,170.485071,-43.87906,FALSE
+"CP16528","live_pheno_267|live_pheno_423",2,"CP16528_2024-10-12","M",,,"unknown","unknown",,170.485071,-43.87906,FALSE
+"CP16529","live_pheno_003|live_pheno_020",2,"CP16529_2024-10-12","F",,,"AU migrant","migrant","Resighting at Shoalhaven Heads, New South Wales on February 27",170.48481,-43.880201,TRUE
+"CP16530","live_pheno_268|live_pheno_424",2,"CP16530_2024-10-12","M",,,"unknown","unknown",,170.482569,-43.879223,FALSE
+"CP16531","live_pheno_269|live_pheno_425",2,"CP16531_2024-10-12","M",,,"unknown","unknown",,170.480154,-43.878557,FALSE
+"CP16532","live_pheno_270|live_pheno_426",2,"CP16532_2024-10-12","F",,,"unknown","unknown",,170.480154,-43.878557,FALSE
+"CP16533","live_pheno_004|live_pheno_021",2,"CP16533_2024-10-11","F","266448","266448","AU migrant","migrant","PTT revealed this bird attempting trans-Tasman migration twice (departures: March 12 and March 24), with the 2nd attempt failing",170.143316,-43.733096,TRUE
+"CP16534","live_pheno_005|live_pheno_022",2,"CP16534_2024-10-11","M","266373","266373","AU migrant","migrant","PTT revealed this bird migrating to the mouth of the Snowy River, Victoria (arrival: April 3)",170.145302,-43.731722,TRUE
+"CP16535","live_pheno_271|live_pheno_427",2,"CP16535_2024-10-11","F","266409","266409","unknown","unknown","inconclusive PTT data: gap in transmission coverage over core winter months, suspiciously low fix rate in subsequent summer, no movement from Tasman Valley",170.144324,-43.733753,FALSE
+"CP16536","live_pheno_049|live_pheno_059",2,"CP16536_2024-10-10","M","266428","266428","SI migrant","migrant","PTT revealed this bird wintering at Farewell Spit (arrival: Jan 2, departure: Sep 2)",170.144062,-43.736643,TRUE
+"CP16537","live_pheno_272|live_pheno_428",2,"CP16537_2024-10-10","M","266455","266455","unknown","unknown","inconclusive PTT data: gap in transmission coverage over core winter months, suspiciously low fix rate in subsequent summer, no movement from Tasman Valley",170.144062,-43.736643,FALSE
+"CP16538","live_pheno_273|live_pheno_429",2,"CP16538_2024-10-07","M",,,"unknown","unknown",,173.68212,-42.387858,FALSE
+"CP16539","live_pheno_274|live_pheno_430",2,"CP16539_2024-10-06","M",,,"unknown","unknown",,173.032262,-41.12148,FALSE
+"CP16540","live_pheno_152|live_pheno_199",2,"CP16540_2024-10-06","M","266456","266456","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year",173.0307,-41.11812,TRUE
+"CP16541","live_pheno_153|live_pheno_200",2,"CP16541_2024-10-05","F","266443","266443","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year",173.030661,-41.11765,TRUE
+"CP16542","live_pheno_275|live_pheno_431",2,"CP16542_2024-10-04","F","266458","266458","unknown","unknown","inconclusive PTT data: intriguing movements during 2024 breeding season up the Buller River, but wintered at Motueka Spit, then appears to have moved up the Buller River to breed at Murchison in the 2025 breeding season (arrive: Oct 4)",173.034923,-41.12729,FALSE
+"CP16543","live_pheno_074|live_pheno_096",2,"CP16543_2024-10-04","F","266466","266466","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year (except for a brief 2 day foray to Takaka in mid-December)",173.033468,-41.123473,TRUE
+"CP16607","live_pheno_276|live_pheno_432",2,"CP16607_2024-10-08","M",,,"unknown","unknown",,173.668082,-42.413944,FALSE
+"CP16609","live_pheno_050|live_pheno_060",2,"CP16609_2024-10-08","F",,,"SI migrant","migrant","PTT during ethics trial revealed this bird moving to the Rakaia River in early March",173.667221,-42.413402,TRUE
+"CP16614","live_pheno_277|live_pheno_433",2,"CP16614_2024-10-07","F",,,"unknown","unknown",,173.681772,-42.390211,FALSE
+"CP16616","live_pheno_278|live_pheno_434",2,"CP16616_2024-10-07","M",,,"unknown","unknown",,173.678031,-42.418668,FALSE
+"CP16627","live_pheno_075|live_pheno_097",2,"CP16627_2024-10-01","M","266390","266390","resident","resident","PTT revealed that the bird remained near Birdlings Flat and Kaituna Lagoon the full year",172.684973,-43.82787,TRUE
+"CP16628","live_pheno_076|live_pheno_098",2,"CP16628_2024-10-01","F","266391","266391","resident","resident","PTT revealed that the bird remained near Birdlings Flat and Lake Ellesmere the full year",172.684973,-43.82787,TRUE
+"CP16632","live_pheno_154|live_pheno_201",2,"CP16632_2024-10-01","F","266457","266457","resident","resident","PTT revealed that the bird remained near Birdlings Flat and Kaituna Lagoon the full year",172.68853,-43.827596,TRUE
+"CP16635","live_pheno_155|live_pheno_202",2,"CP16635_2024-10-01","M","266461","266461","resident","resident","PTT revealed that the bird remained near Birdlings Flat and Kaituna Lagoon the full year",172.68853,-43.827596,TRUE
+"CP16636","live_pheno_156|live_pheno_203",2,"CP16636_2024-10-01","F","266407","266407","resident","resident","PTT revealed that the bird remained near Birdlings Flat and Kaituna Lagoon the full year",172.663021,-43.826414,TRUE
+"CP16638","live_pheno_279|live_pheno_435",2,"CP16638_2024-10-04","F",,,"unknown","unknown",,173.042891,-41.162327,FALSE
+"CP16641","live_pheno_051|live_pheno_061",2,"CP16641_2024-10-05","M","266436","266436","SI migrant","migrant","PTT revealed that the bird wintered on the mudflats near the Nelson Haven and Boulder Bank (from mid-April to mid-July)",173.011986,-40.992659,TRUE
+"CP16642","live_pheno_006|live_pheno_023",2,"CP16642_2024-10-01","F","266383","266383","AU migrant","migrant","PTT revealed this bird attempting trans-Tasman migration (departure: May 5), but failing",172.67954,-43.826875,TRUE
+"CP16643","live_pheno_007|live_pheno_024",2,"CP16643_2024-10-01","M","266405","266405","AU migrant","migrant","PTT revealed this bird attempting trans-Tasman migration (departure: May 5), but failing",172.67954,-43.826875,TRUE
+"CP16650","live_pheno_157|live_pheno_204",2,"CP16650_2024-10-02","F","266381","266381","resident","resident","PTT revealed that the bird remained near Birdlings Flat and Kaituna Lagoon the full year",172.60654,-43.831483,TRUE
+"CP16651","live_pheno_280|live_pheno_436",2,"CP16651_2024-10-02","F",,,"unknown","unknown",,172.61287,-43.830165,FALSE
+"CP16652","live_pheno_077|live_pheno_099",2,"CP16652_2024-10-04","F","266404","266404","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year",173.031797,-41.120263,TRUE
+"CP16653","live_pheno_281|live_pheno_437",2,"CP16653_2024-10-08","M",,,"unknown","unknown",,173.681601,-42.393894,FALSE
+"CP16654","live_pheno_282|live_pheno_438",2,"CP16654_2024-10-10","M","266439","266439","unknown","unknown","PTT stopped transmitting a few weeks after deployment",170.143352,-43.73679,FALSE
+"CP16655","live_pheno_008|live_pheno_025",2,"CP16655_2024-10-10","F","266382","266382","AU migrant","migrant","PTT revealed this bird migrating to Cape Barren Island, Tasmania (arrival: March 20)",170.144062,-43.736643,TRUE
+"CP16656","live_pheno_009|live_pheno_026",2,"CP16656_2024-10-11","M","266418","266418","AU migrant","migrant","PTT revealed this bird migrating to Lake Gellie and Lake Corongamite, inland Victoria (arrival: April 27, departure: June 22)",170.146122,-43.727942,TRUE
+"CP16657","live_pheno_283|live_pheno_439",2,"CP16657_2024-10-11","F","266427","266427","unknown","unknown","PTT stopped transmitting a few weeks after deployment",170.143316,-43.733096,FALSE
+"CP16658","live_pheno_284|live_pheno_440",2,"CP16658_2024-10-12","M",,,"unknown","unknown",,170.483192,-43.879553,FALSE
+"CP16662","live_pheno_158|live_pheno_205",2,"CP16662_2024-10-16","M","266378","266378","resident","resident","PTT revealed that the bird stayed at the Awarua Bay for the full year",168.423104,-46.603891,TRUE
+"CP16663","live_pheno_159|live_pheno_206",2,"CP16663_2024-10-17","M","266452","266452","resident","resident","PTT revealed that the bird stayed at the Awarua Bay for the full year",168.432976,-46.605125,TRUE
+"CP16664","live_pheno_285|live_pheno_441",2,"CP16664_2024-10-21","F","0AC6","0AC6","unknown","unknown",,172.397839,-43.852224,FALSE
+"CP16665","live_pheno_286|live_pheno_442",2,"CP16665_2024-10-21","M","0AB5","0AB5","unknown","unknown",,172.397899,-43.851742,FALSE
+"CP16666","live_pheno_287|live_pheno_443",2,"CP16666_2024-10-21","F","0625","0625","unknown","unknown",,172.397899,-43.851742,FALSE
+"CP16667","live_pheno_010|live_pheno_027",2,"CP16667_2024-12-09","M","266470_B","266470","AU migrant","migrant","PTT revealed this bird migrating to Corner Inlet, Victoria (arrival: May 21, departure: Sep 14)",169.161329995841,-44.8660619650036,TRUE
+"CP16668","live_pheno_288|live_pheno_444",2,"CP16668_2024-12-10","M",,,"unknown","unknown",,169.166817963123,-44.8663249891251,FALSE
+"CP16669","live_pheno_289|live_pheno_445",2,"CP16669_2024-12-10","M",,,"unknown","unknown",,169.168186979368,-44.8657110147178,FALSE
+"CP16670","live_pheno_113|live_pheno_131",2,"CP16670_2024-12-11","M",,,"unknown","unknown",,169.215938011184,-45.3418160229921,FALSE
+"CP16671","live_pheno_114|live_pheno_132",2,"CP16671_2024-12-11","F",,,"unknown","unknown",,169.213724015281,-45.3410719614476,FALSE
+"CP16672","live_pheno_290|live_pheno_446",2,"CP16672_2024-12-11","M",,,"unknown","unknown",,169.214778039604,-45.3427250403911,FALSE
+"CP16673","live_pheno_291|live_pheno_447",2,"CP16673_2024-12-11","M",,,"unknown","unknown",,169.212433034554,-45.3445750102401,FALSE
+"CP16674","live_pheno_292|live_pheno_448",2,"CP16674_2024-12-13","M",,,"unknown","unknown",,169.209389984608,-45.3420119918883,FALSE
+"CP16675","live_pheno_293|live_pheno_449",2,"CP16675_2024-12-13","M",,,"unknown","unknown",,169.207807984203,-45.3417199663818,FALSE
+"CP16676","live_pheno_294|live_pheno_450",2,"CP16676_2024-12-13","F",,,"unknown","unknown",,169.207807984203,-45.3417199663818,FALSE
+"CP16677","live_pheno_115|live_pheno_133",2,"CP16677_2024-12-13","M",,,"unknown","unknown",,169.20916903764,-45.3364670276642,FALSE
+"CP16678","live_pheno_116|live_pheno_134",2,"CP16678_2024-12-13","F",,,"unknown","unknown",,169.20916903764,-45.3364670276642,FALSE
+"CP16679","live_pheno_295|live_pheno_451",2,"CP16679_2024-12-13","M",,,"unknown","unknown",,169.20916903764,-45.3364670276642,FALSE
+"CP16681","live_pheno_117|live_pheno_135",2,"CP16681_2024-12-16","M",,,"unknown","unknown",,175.731553025544,-39.2938620038331,FALSE
+"CP16682","live_pheno_296|live_pheno_452",2,"CP16682_2024-12-17","M",,,"unknown","unknown",,175.721417041495,-39.2907049600035,FALSE
+"CP16683","live_pheno_297|live_pheno_453",2,"CP16683_2024-12-17","F",,,"unknown","unknown",,175.719124004245,-39.2892480175942,FALSE
+"CP16684","live_pheno_298|live_pheno_454",2,"CP16684_2024-12-17","M",,,"unknown","unknown",,175.719124004245,-39.2892480175942,FALSE
+"CP16685","live_pheno_118|live_pheno_136",2,"CP16685_2024-12-18","F",,,"unknown","unknown",,175.731553025544,-39.2938620038331,FALSE
+"CP16686","live_pheno_119|live_pheno_137",2,"CP16686_2025-01-07","F",,,"unknown","unknown",,169.211730966344,-45.3636030200869,FALSE
+"CP16693","live_pheno_052|live_pheno_062",2,"CP16693_2024-09-30","F","266394","266394","SI migrant","migrant","PTT revealed that the bird left the breeding grounds at Birdlings Flat in late October and went to the agricultural fields near the Rakaia River where it stayed until July, when it returned to Birdling's Flat",172.608074,-43.830353,TRUE
+"CP16697","live_pheno_299|live_pheno_455",2,"CP16697_2024-09-30","F","266460","266460","unknown","unknown","inconclusive PTT data: gap in transmission coverage over core winter months (but likely resident at Birdlings Flat / Kaituna Lagoon)",172.589424,-43.832331,FALSE
+"CP16698","live_pheno_160|live_pheno_207",2,"CP16698_2024-09-30","M","266389","266389","resident","resident","PTT revealed that the bird remained near Birdlings Flat and Lake Ellesmere the full year",172.589424,-43.832331,TRUE
+"CP16699","live_pheno_161|live_pheno_208",2,"CP16699_2024-10-01","F","266416","266416","resident","resident","PTT revealed that the bird remained near Birdlings Flat and Kaituna Lagoon the full year",172.577835,-43.83361,TRUE
+"CP16736","live_pheno_162|live_pheno_209",2,"CP16736_2024-10-22","M","266396","266396","resident","resident","PTT revealed that the bird remained at the tip of Kaitorete Spit the full year",172.433641,-43.846432,TRUE
+"CP16770","live_pheno_163|live_pheno_210",2,"CP16770_2024-10-16","M","266386","266386","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.418929,-46.601052,TRUE
+"CP16784","live_pheno_078|live_pheno_100",2,"CP16784_2024-10-16","F","266454","266454","resident","resident","PTT revealed that the bird moved to Waipapa Point for two weeks (Nov 13 to Dec 1) before returning to Tiwai Point / Awarua Bay for the remainder of the year",168.433454,-46.606459,TRUE
+"CP16815","live_pheno_011|live_pheno_028",2,"CP16815_2024-10-10","M","266412","266412","AU migrant","migrant","PTT revealed this bird migrating to the mouth of the Manning River, New South Wales (arrival: May 29) - after breeding season it staged at the Clutha River Mouth April 23 to May 20.",170.143369,-43.736814,TRUE
+"CP16902","live_pheno_300|live_pheno_456",2,"CP16902_2024-10-07","F",,,"unknown","unknown",,173.68212,-42.387858,FALSE
+"CP16906","live_pheno_079|live_pheno_101",2,"CP16906_2024-10-08","F",,,"resident","resident","Ailsa observation",173.681912,-42.392022,TRUE
+"CP16929","live_pheno_301|live_pheno_457",2,"CP16929_2024-11-01","M",,,"unknown","unknown",,176.878601,-39.46929,FALSE
+"CP16931","live_pheno_302|live_pheno_458",2,"CP16931_2024-11-01","M",,,"unknown","unknown",,176.872604,-39.455425,FALSE
+"CP16932","live_pheno_303|live_pheno_459",2,"CP16932_2024-11-03","F",,,"unknown","unknown",,175.726242,-39.291842,FALSE
+"CP16933","live_pheno_304|live_pheno_460",2,"CP16933_2024-11-03","F",,,"unknown","unknown",,175.723021,-39.285729,FALSE
+"CP16934","live_pheno_305|live_pheno_461",2,"CP16934_2024-11-03","M",,,"unknown","unknown",,175.723021,-39.285729,FALSE
+"CP16935","live_pheno_306|live_pheno_462",2,"CP16935_2024-11-03","F",,,"unknown","unknown",,175.724199,-39.279479,FALSE
+"CP16936","live_pheno_307|live_pheno_463",2,"CP16936_2024-11-03","M",,,"unknown","unknown",,175.724199,-39.279479,FALSE
+"CP16937","live_pheno_308|live_pheno_464",2,"CP16937_2024-11-04","M",,,"unknown","unknown",,175.727142,-39.291327,FALSE
+"CP16938","live_pheno_036|live_pheno_043",2,"CP16938_2024-11-04","M",,,"NI migrant","migrant","Resighting at Omaha Spit, North Island on March 15",175.727142,-39.291327,TRUE
+"CP16939","live_pheno_309|live_pheno_465",2,"CP16939_2024-11-04","M",,,"unknown","unknown",,175.724573,-39.289215,FALSE
+"CP16940","live_pheno_310|live_pheno_466",2,"CP16940_2024-11-04","F",,,"unknown","unknown",,175.721255,-39.284262,FALSE
+"CP16944","live_pheno_311|live_pheno_467",2,"CP16944_2024-11-13","F",,,"unknown","unknown",,175.702629005536,-39.379794029519,FALSE
+"CP16945","live_pheno_037|live_pheno_044",2,"CP16945_2024-11-13","M",,,"NI migrant","migrant","Resighting at Omaha Spit, North Island on Jan 12",175.702629005536,-39.379794029519,TRUE
+"CP16946","live_pheno_312|live_pheno_468",2,"CP16946_2024-11-13","M",,,"unknown","unknown",,175.69198901765,-39.3580760154873,FALSE
+"CP16949","live_pheno_313|live_pheno_469",2,"CP16949_2024-11-14","F",,,"unknown","unknown",,175.697106001899,-39.3604900036007,FALSE
+"CP16951","live_pheno_314|live_pheno_470",2,"CP16951_2024-11-14","F",,,"unknown","unknown",,175.698777018115,-39.3613400124013,FALSE
+"CP16953","live_pheno_038|live_pheno_045",2,"CP16953_2024-11-14","M",,,"NI migrant","migrant","Resighting at Karaka, North Island on July 20",175.700161037967,-39.3611319735646,TRUE
+"CP16954","live_pheno_315|live_pheno_471",2,"CP16954_2024-12-03","F",,,"unknown","unknown",,176.931095,-39.576199,FALSE
+"CP16955","live_pheno_316|live_pheno_472",2,"CP16955_2024-12-03","M",,,"unknown","unknown",,176.930937990546,-39.5745310373604,FALSE
+"CP16956","live_pheno_317|live_pheno_473",2,"CP16956_2024-12-03","F",,,"unknown","unknown",,176.930937990546,-39.5745310373604,FALSE
+"CP16957","live_pheno_318|live_pheno_474",2,"CP16957_2024-12-03","F",,,"unknown","unknown","Resighting at Clive near breeding grounds on Feb 19",176.930418983102,-39.5742830168456,FALSE
+"CP16958","live_pheno_039|live_pheno_046",2,"CP16958_2024-12-03","F",,,"NI migrant","migrant","Resighting at Miranda, North Island on May 17",176.92653497681,-39.5726949814707,TRUE
+"CP16960","live_pheno_319|live_pheno_475",2,"CP16960_2024-12-03","F",,,"unknown","unknown",,176.929900981486,-39.5729509647936,FALSE
+"CP16961","live_pheno_120|live_pheno_138",2,"CP16961_2024-12-04","M",,,"unknown","unknown",,176.893405001611,-39.485479015857,FALSE
+"CP16962","live_pheno_121|live_pheno_139",2,"CP16962_2024-12-04","F",,,"unknown","unknown",,176.893405001611,-39.485479015857,FALSE
+"CP16963","live_pheno_320|live_pheno_476",2,"CP16963_2024-12-04","F",,,"unknown","unknown",,176.919438019395,-39.5339509751648,FALSE
+"CP16964","live_pheno_321|live_pheno_477",2,"CP16964_2024-12-04","M",,,"unknown","unknown",,176.919425027445,-39.5304810348898,FALSE
+"CP16965","live_pheno_322|live_pheno_478",2,"CP16965_2024-12-04","F",,,"unknown","unknown",,176.919065024704,-39.5279490295798,FALSE
+"CP16966","live_pheno_323|live_pheno_479",2,"CP16966_2024-12-04","F",,,"unknown","unknown",,176.918593961746,-39.5283200126141,FALSE
+"CP16967","live_pheno_324|live_pheno_480",2,"CP16967_2024-12-04","F",,,"unknown","unknown",,176.919264011085,-39.5296669844538,FALSE
+"CP16968","live_pheno_325|live_pheno_481",2,"CP16968_2024-12-05","F",,,"unknown","unknown",,176.872428031638,-39.443159038201,FALSE
+"CP16969","live_pheno_326|live_pheno_482",2,"CP16969_2024-12-05","M",,,"unknown","unknown",,176.872428031638,-39.443159038201,FALSE
+"CP16970","live_pheno_327|live_pheno_483",2,"CP16970_2024-12-05","M",,,"unknown","unknown",,176.872229967266,-39.4440659601241,FALSE
+"CP16971","live_pheno_328|live_pheno_484",2,"CP16971_2024-12-05","F",,,"unknown","unknown",,176.872229967266,-39.4440659601241,FALSE
+"CP16972","live_pheno_329|live_pheno_485",2,"CP16972_2024-12-05","F",,,"unknown","unknown",,176.872097030282,-39.444914041087,FALSE
+"CP16973","live_pheno_330|live_pheno_486",2,"CP16973_2024-12-05","M",,,"unknown","unknown",,176.919258981943,-39.5019920356572,FALSE
+"CP16974","live_pheno_331|live_pheno_487",2,"CP16974_2024-12-05","F",,,"unknown","unknown",,176.919258981943,-39.5019920356572,FALSE
+"CP16975","live_pheno_332|live_pheno_488",2,"CP16975_2024-10-26","M",,,"unknown","unknown",,-176.417092,-43.923231,FALSE
+"CP16976","live_pheno_333|live_pheno_489",2,"CP16976_2024-10-26","F",,,"unknown","unknown",,-176.420411,-43.920657,FALSE
+"CP16977","live_pheno_334|live_pheno_490",2,"CP16977_2024-10-26","M",,,"unknown","unknown",,-176.419048,-43.919418,FALSE
+"CP16981","live_pheno_335|live_pheno_491",2,"CP16981_2024-10-28","F",,,"unknown","unknown",,-176.557216,-43.843194,FALSE
+"CP16982","live_pheno_336|live_pheno_492",2,"CP16982_2024-10-29","M",,,"unknown","unknown",,-176.280646,-43.747138,FALSE
+"CP16983","live_pheno_337|live_pheno_493",2,"CP16983_2024-10-29","F",,,"unknown","unknown",,-176.280646,-43.747138,FALSE
+"CP16984","live_pheno_338|live_pheno_494",2,"CP16984_2024-10-30","M",,,"unknown","unknown",,176.872435,-39.444917,FALSE
+"CP16987","live_pheno_339|live_pheno_495",2,"CP16987_2024-10-30","F",,,"unknown","unknown",,176.872435,-39.444917,FALSE
+"CP16989","live_pheno_340|live_pheno_496",2,"CP16989_2024-10-31","F",,,"unknown","unknown",,176.930825,-39.575394,FALSE
+"CP16990","live_pheno_040|live_pheno_047",2,"CP16990_2024-10-31","M",,,"NI migrant","migrant","Resighting at Kaipara Harbour, North Island on Feb 24",176.930825,-39.575394,TRUE
+"CP16993","live_pheno_341|live_pheno_497",2,"CP16993_2024-10-31","M",,,"unknown","unknown",,176.929893,-39.571984,FALSE
+"CP16995","live_pheno_342|live_pheno_498",2,"CP16995_2024-10-31","F",,,"unknown","unknown",,176.918801,-39.525809,FALSE
+"CP16997","live_pheno_343|live_pheno_499",2,"CP16997_2024-11-01","M",,,"unknown","unknown",,176.872409,-39.449839,FALSE
+"CP16998","live_pheno_344|live_pheno_500",2,"CP16998_2024-11-01","M",,,"unknown","unknown",,176.872111,-39.45016,FALSE
+"CP16999","live_pheno_345|live_pheno_501",2,"CP16999_2024-11-01","M",,,"unknown","unknown",,176.872448,-39.450738,FALSE
+"CP17009","live_pheno_346|live_pheno_502",2,"CP17009_2024-10-16","F","266437","266437","unknown","unknown","PTT stopped transmitting a few weeks after deployment",168.422347,-46.603475,FALSE
+"CP17010","live_pheno_080|live_pheno_102",2,"CP17010_2024-10-16","M","266397","266397","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.425144,-46.604315,TRUE
+"CP17011","live_pheno_053|live_pheno_063",2,"CP17011_2024-10-16","F","266413","266413","SI migrant","migrant","PTT revealed that the bird left the breeding grounds at Tiwai Point in early Dec and went to Toetoe Harbour near the Mataura River Mouth where it stayed until June, when it returned to Tiwai Point / Awarua Bay",168.425144,-46.604315,TRUE
+"CP17019","live_pheno_164|live_pheno_211",2,"CP17019_2024-10-16","M","266431","266431","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.420411,-46.602136,TRUE
+"CP19304","live_pheno_347|live_pheno_503",2,"CP19304_2024-10-02","M","266384","266384","unknown","unknown","PTT revealed that the bird stayed mainly at Lake Ellesmere and Kaitorete Spit the full year apart from a few sporadic multi-day trips: Waimakariri River in mid Dec, Rakaia River in late Nov, fields near Rakaia in late March and late May",172.397899,-43.851742,FALSE
+"CP19307","live_pheno_122|live_pheno_140",2,"CP19307_2024-10-12","M",,,"unknown","unknown",,170.477445,-43.873901,FALSE
+"CP19308","live_pheno_123|live_pheno_141",2,"CP19308_2024-10-12","M",,,"unknown","unknown",,170.477445,-43.873901,FALSE
+"CP19309","live_pheno_348|live_pheno_504",2,"CP19309_2024-10-12","F",,,"unknown","unknown",,170.478835,-43.873833,FALSE
+"CP19310","live_pheno_349|live_pheno_505",2,"CP19310_2024-10-12","M",,,"unknown","unknown",,170.478835,-43.873833,FALSE
+"CP19311","live_pheno_054|live_pheno_064",2,"CP19311_2024-10-11","M","266375","266375","SI migrant","migrant","PTT revealed that the bird left the breeding grounds at Tasman Valley and flew to the Hunter River Mouth (Lake Hawea) in mid-Feb and wintered there until early Aug before returning to the Tasman Valley (Glentanner to stage for a couple weeks, then to breeding site)",170.146284,-43.725414,TRUE
+"CP19312","live_pheno_012|live_pheno_029",2,"CP19312_2024-10-11","F","266441","266441","AU migrant","migrant","PTT revealed this bird migrating to west of Lake Martin, inland Victoria (arrival: July 2) BUT left Tasman Valley breeding grounds in early Dec to stay at Awarua Bay until mid May when it flew to AU",170.145122,-43.729755,TRUE
+"CP19313","live_pheno_350|live_pheno_506",2,"CP19313_2024-10-10","M","266414","266414","unknown","unknown","PTT stopped transmitting in February",170.144062,-43.736643,FALSE
+"CP19314","live_pheno_013|live_pheno_030",2,"CP19314_2024-10-10","M","266442","266442","AU migrant","migrant","PTT revealed this bird migrating to the Great Musselroe River, Inland NE Tasmania (arrival: April 24)",170.144119,-43.736765,TRUE
+"CP19315","live_pheno_351|live_pheno_507",2,"CP19315_2024-10-10","F","266372","266372","unknown","unknown","PTT stopped transmitting in March",170.142809,-43.735011,FALSE
+"CP19318","live_pheno_352|live_pheno_508",2,"CP19318_2024-10-07","M",,,"unknown","unknown",,173.680763,-42.420963,FALSE
+"CP19320","live_pheno_165|live_pheno_212",2,"CP19320_2024-10-06","F","266374","266374","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year",173.043481,-41.16319,TRUE
+"CP19321","live_pheno_166|live_pheno_213",2,"CP19321_2024-10-06","M","266468","266468","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year",173.044051,-41.163375,TRUE
+"CP19323","live_pheno_167|live_pheno_214",2,"CP19323_2024-10-06","M","266435","266435","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year",173.046946,-41.165286,TRUE
+"CP19324","live_pheno_168|live_pheno_215",2,"CP19324_2024-10-05","F","266433","266433","resident","resident","PTT revealed that the bird remained at Porter's Beach the full year, except for brief trips to Motueka Spit in mid January and late February",173.011986,-40.992659,TRUE
+"CP19325","live_pheno_169|live_pheno_216",2,"CP19325_2024-10-04","F",,,"resident","resident","Resighting at Motueka Spit on March 1",173.042891,-41.162327,TRUE
+"CP19327","live_pheno_055|live_pheno_065",2,"CP19327_2024-10-04","M","266421","266421","SI migrant","migrant","PTT revealed that the bird left the breeding grounds at Porter's Beach in late February and wintered at the Waimea Inlet until early August",173.011575,-40.993306,TRUE
+"CP19328","live_pheno_170|live_pheno_217",2,"CP19328_2024-10-04","F","266423","266423","resident","resident","PTT revealed that the bird remained at Porter's Beach the full year, except for several brief trips to Motueka Spit and Motueka River Mouth",173.011575,-40.993306,TRUE
+"CP19329","live_pheno_171|live_pheno_218",2,"CP19329_2024-10-04","M","266465","266465","resident","resident","PTT revealed that the bird remained at Porter's Beach the full year, except for between late January and late March when it stayed at the Motueka River Mouth",173.011784,-40.992962,TRUE
+"CP19330","live_pheno_172|live_pheno_219",2,"CP19330_2024-10-04","F","266380","266380","resident","resident","PTT revealed that the bird remained at Porter's Beach the full year, except for between early January and mid July when it stayed at the Motueka River Mouth and Motueka Spit",173.011784,-40.992962,TRUE
+"CP19331","live_pheno_173|live_pheno_220",2,"CP19331_2024-10-06","F","266411","266411","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year",173.046946,-41.165286,TRUE
+"CP19333","live_pheno_174|live_pheno_221",2,"CP19333_2024-10-06","F","266425","266425","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year",173.044051,-41.163375,TRUE
+"CP19334","live_pheno_353|live_pheno_509",2,"CP19334_2024-10-06","M","266470_A","266470","unknown","unknown","PTT stopped transmitting a couple weeks after deployment (predation)",173.043481,-41.16319,FALSE
+"CP19335","live_pheno_354|live_pheno_510",2,"CP19335_2024-10-07","M",,,"unknown","unknown",,173.681157,-42.422283,FALSE
+"CP19336","live_pheno_355|live_pheno_511",2,"CP19336_2024-10-07","F",,,"unknown","unknown",,173.680763,-42.420963,FALSE
+"CP19337","live_pheno_356|live_pheno_512",2,"CP19337_2024-10-07","M",,,"unknown","unknown",,173.678031,-42.418668,FALSE
+"CP19338","live_pheno_357|live_pheno_513",2,"CP19338_2024-10-10","F","266402","266402","unknown","unknown","PTT stopped transmitting in late November",170.143566,-43.73398,FALSE
+"CP19339","live_pheno_358|live_pheno_514",2,"CP19339_2024-10-10","F","266385","266385","unknown","unknown","PTT stopped transmitting a few weeks after deployment",170.142744,-43.735973,FALSE
+"CP19340","live_pheno_014|live_pheno_031",2,"CP19340_2024-10-10","M","266393","266393","AU migrant","migrant","PTT revealed this bird migrating to coastal Victoria near Lake Wellington (arrival: late March), but PTT stopped transmitting right before arrival",170.14463,-43.734073,TRUE
+"CP19341","live_pheno_175|live_pheno_222",2,"CP19341_2024-10-01","F","266447","266447","resident","resident","PTT revealed that the bird remained at Lake Ellesmere / Kaitorete Spit the full year",172.570884,-43.832827,TRUE
+"CP19342","live_pheno_176|live_pheno_223",2,"CP19342_2024-10-01","M","266398","266398","resident","resident","PTT revealed that the bird remained at Lake Ellesmere / Kaitorete Spit the full year",172.589424,-43.832331,TRUE
+"CP19345","live_pheno_177|live_pheno_224",2,"CP19345_2024-10-01","M","266401","266401","resident","resident","PTT revealed that the bird remained at Lake Ellesmere / Kaitorete Spit the full year, but spent three months (Dec 1 to Feb 3) at the Waimakariri River",172.577835,-43.83361,TRUE
+"CP19346","live_pheno_081|live_pheno_103",2,"CP19346_2024-10-02","M","266459","266459","resident","resident","PTT revealed that the bird remained at Lake Ellesmere / Kaitorete Spit the full year",172.431853,-43.845691,TRUE
+"CP19348","live_pheno_359|live_pheno_515",2,"CP19348_2024-10-02","M",,,"unknown","unknown",,172.397539,-43.852387,FALSE
+"CP19349","live_pheno_360|live_pheno_516",2,"CP19349_2024-10-02","F",,,"unknown","unknown",,172.397539,-43.852387,FALSE
+"CP19350","live_pheno_056|live_pheno_066",2,"CP19350_2024-09-30","F","266387","266387","SI migrant","migrant","PTT revealed that the bird left the breeding grounds at Birdlings Flat in early May and went to the agricultural fields near the Rakaia River where it stayed until late July, when it returned to Birdling's Flat",172.591216,-43.832075,TRUE
+"CP19353","live_pheno_178|live_pheno_225",2,"CP19353_2024-10-01","F","266400","266400","resident","resident","PTT revealed that the bird remained near Birdlings Flat and Kaituna Lagoon the full year",172.61287,-43.830165,TRUE
+"CP19356","live_pheno_179|live_pheno_226",2,"CP19356_2024-10-02","M","266420","266420","resident","resident","PTT revealed that the bird remained near Birdlings Flat and Kaituna Lagoon the full year",172.60654,-43.831483,TRUE
+"CP19358","live_pheno_361|live_pheno_517",2,"CP19358_2024-10-02","M",,,"unknown","unknown",,172.6125,-43.829767,FALSE
+"CP19359","live_pheno_180|live_pheno_227",2,"CP19359_2024-10-04","M","266471","266471","resident","resident","PTT revealed that the bird remained near Birdlings Flat and Kaituna Lagoon the full year",173.031021,-41.11812,TRUE
+"CP19360","live_pheno_057|live_pheno_067",2,"CP19360_2024-10-04","F","266403","266403","SI migrant","migrant","PTT revealed that the bird left the breeding grounds at Porter's Beach shortly after deployment, when it jumped between to the Wainui Inlet and Motueka Spit and the Motueka River Mouth",173.030661,-41.11765,TRUE
+"CP19361","live_pheno_082|live_pheno_104",2,"CP19361_2024-10-04","M","266469","266469","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year",173.033468,-41.123473,TRUE
+"CP19362","live_pheno_181|live_pheno_228",2,"CP19362_2024-10-04","M","266410","266410","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year",173.034923,-41.12729,TRUE
+"CP19363","live_pheno_182|live_pheno_229",2,"CP19363_2024-10-05","M","266430","266430","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year (tag likely fell off / bird died in late September, 2025 (see summary plots)",173.032503,-41.121845,TRUE
+"CP19364","live_pheno_183|live_pheno_230",2,"CP19364_2024-10-06","M","266445","266445","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year",173.0307,-41.11812,TRUE
+"CP19365","live_pheno_015|live_pheno_032",2,"CP19365_2024-10-10","F","266434","266434","AU migrant","migrant","PTT revealed this bird leaving Tasman Valley to stage at Loganburn Reservoir (Central Otago) from mid-Jan to mid-April before migrating to inland South Australia (near Lake Hawdon)",170.143352,-43.73679,TRUE
+"CP19366","live_pheno_016|live_pheno_033",2,"CP19366_2024-10-10","F","266429","266429","AU migrant","migrant","PTT revealed this bird leaving Tasman Valley to stage at the Waitaki River gorge (Central Otago) for several weeks in early March before migrating to the Aire River Mouth (Victoria) for a week then moving to the mud flats near Robbins Island (Tasmania) where it stayed from early April to early October",170.144062,-43.736643,TRUE
+"CP19367","live_pheno_362|live_pheno_518",2,"CP19367_2024-10-11","F","266376","266376","unknown","unknown","PTT revealed that this bird tried to fly to Australia in early April but aborted to returned to spend the winter at the Tasman Valley",170.147199,-43.729016,FALSE
+"CP19368","live_pheno_017|live_pheno_034",2,"CP19368_2024-10-11","M","266379","266379","AU migrant","migrant","PTT revealed this bird leaving Tasman Valley in mid-March, but bailing and returning to the South Island and staging at the intersection of the Maraura and Waikaia Rivers for 2 weeks. Then it tried again to migrate but bailed and returned to the same staging spot for 2 weeks. 3rd attempt succefully landed at the beaches near Piccaninny Creek Mouth (Tasmania)",173.0307,-41.11812,TRUE
+"CP19369","live_pheno_184|live_pheno_231",2,"CP19369_2024-10-16","M","266444","266444","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.420948,-46.601901,TRUE
+"CP19370","live_pheno_185|live_pheno_232",2,"CP19370_2024-10-16","F","266424","266424","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.429436,-46.605738,TRUE
+"CP19371","live_pheno_083|live_pheno_105",2,"CP19371_2024-10-05","F","266432","266432","resident","resident","PTT revealed that the bird remained at Motueka Spit the full year",173.031797,-41.120263,TRUE
+"CP19372","live_pheno_363|live_pheno_519",2,"CP19372_2024-10-12","F",,,"unknown","unknown",,170.482695,-43.878764,FALSE
+"CP19373","live_pheno_364|live_pheno_520",2,"CP19373_2024-10-12","M",,,"unknown","unknown",,170.482695,-43.878764,FALSE
+"CP19374","live_pheno_365|live_pheno_521",2,"CP19374_2024-10-12","M",,,"unknown","unknown",,170.482695,-43.878764,FALSE
+"CP19375","live_pheno_366|live_pheno_522",2,"CP19375_2024-10-12","M",,,"unknown","unknown",,170.482099,-43.878795,FALSE
+"CP19376","live_pheno_367|live_pheno_523",2,"CP19376_2024-10-21","M",,,"unknown","unknown",,172.605906,-43.830036,FALSE
+"CP19377","live_pheno_368|live_pheno_524",2,"CP19377_2024-10-21","F",,,"unknown","unknown",,172.608029,-43.830806,FALSE
+"CP19378","live_pheno_369|live_pheno_525",2,"CP19378_2024-10-21","F","0AA0","0AA0","unknown","unknown",,172.613603,-43.830902,FALSE
+"CP19379","live_pheno_186|live_pheno_233",2,"CP19379_2024-10-21","M","266464","266464","resident","resident","PTT revealed that the bird remained near Birdlings Flat and Kaituna Lagoon the full year",172.609216,-43.831211,TRUE
+"CP19380","live_pheno_370|live_pheno_526",2,"CP19380_2024-10-22","M",,,"unknown","unknown",,172.601856,-43.830575,FALSE
+"CP19381","live_pheno_371|live_pheno_527",2,"CP19381_2024-10-22","F","0AC8","0AC8","unknown","unknown",,172.596254,-43.831706,FALSE
+"CP19382","live_pheno_372|live_pheno_528",2,"CP19382_2024-10-22","F","OAC7","OAC7","unknown","unknown",,172.587378,-43.832519,FALSE
+"CP19384","live_pheno_373|live_pheno_529",2,"CP19384_2024-10-23","M",,,"unknown","unknown",,172.706307,-43.82727,FALSE
+"CP19387","live_pheno_374|live_pheno_530",2,"CP19387_2024-10-23","F",,,"unknown","unknown",,172.695844,-43.826363,FALSE
+"CP19388","live_pheno_375|live_pheno_531",2,"CP19388_2024-10-23","M",,,"unknown","unknown",,172.695844,-43.826363,FALSE
+"CP19389","live_pheno_376|live_pheno_532",2,"CP19389_2024-10-23","M",,,"unknown","unknown",,172.695844,-43.826363,FALSE
+"CP19390","live_pheno_377|live_pheno_533",2,"CP19390_2024-10-23","F",,,"unknown","unknown",,172.705377,-43.827139,FALSE
+"CP19394","live_pheno_378|live_pheno_534",2,"CP19394_2024-10-23","M",,,"unknown","unknown",,172.694094,-43.827227,FALSE
+"CP19395","live_pheno_379|live_pheno_535",2,"CP19395_2024-10-23","F",,,"unknown","unknown",,172.651681,-43.815977,FALSE
+"CP19398","live_pheno_380|live_pheno_536",2,"CP19398_2024-10-23","F",,,"unknown","unknown",,172.601829,-43.822504,FALSE
+"CP19399","live_pheno_381|live_pheno_537",2,"CP19399_2024-10-24","M",,,"unknown","unknown",,172.595649,-43.832408,FALSE
+"CP19901","live_pheno_382|live_pheno_538",2,"CP19901_2024-10-11","F",,,"unknown","unknown",,170.146122,-43.727942,FALSE
+"CP19902","live_pheno_124|live_pheno_142",2,"CP19902_2024-10-12","F",,,"unknown","unknown",,170.478219,-43.873307,FALSE
+"CP19903","live_pheno_125|live_pheno_143",2,"CP19903_2024-10-12","M",,,"unknown","unknown",,170.478219,-43.873307,FALSE
+"CP19904","live_pheno_383|live_pheno_539",2,"CP19904_2024-10-12","F",,,"unknown","unknown",,170.480941,-43.872742,FALSE
+"CP19905","live_pheno_384|live_pheno_540",2,"CP19905_2024-10-12","M",,,"unknown","unknown",,170.480941,-43.872742,FALSE
+"CP19907","live_pheno_084|live_pheno_106",2,"CP19907_2024-10-14","F",,,"resident","resident","Resighting at Upukeroa River on Feb 18 (potential resident)",167.746751,-45.414278,TRUE
+"CP19908","live_pheno_085|live_pheno_107",2,"CP19908_2024-10-14","F",,,"resident","resident","Resighting at Upukeroa River on Jul 25 (potential resident)",167.745905,-45.414044,TRUE
+"CP19912","live_pheno_187|live_pheno_234",2,"CP19912_2024-10-16","M","266462","266462","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.425144,-46.604315,TRUE
+"CP19914","live_pheno_188|live_pheno_235",2,"CP19914_2024-10-16","M","266450","266450","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.430146,-46.605879,TRUE
+"CP19915","live_pheno_058|live_pheno_068",2,"CP19915_2024-10-16","M","266406","266406","SI migrant","migrant","PTT revealed that the bird left the breeding grounds at Tiwai Point but went to a from Ruapuke Island off shore for much of the winter",168.430146,-46.605879,TRUE
+"CP19916","live_pheno_189|live_pheno_236",2,"CP19916_2024-10-16","M","266422","266422","resident","resident","PTT revealed that the bird remained at the Waituna Lagoon / Tiwai Point the full year",168.430146,-46.605879,TRUE
+"CP19917","live_pheno_190|live_pheno_237",2,"CP19917_2024-10-16","F","266395","266395","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.430146,-46.605879,TRUE
+"CP19918","live_pheno_191|live_pheno_238",2,"CP19918_2024-10-16","M","266446","266446","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.430895,-46.605718,TRUE
+"CP19919","live_pheno_192|live_pheno_239",2,"CP19919_2024-10-16","M","266377","266377","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.431121,-46.605474,TRUE
+"CP19920","live_pheno_193|live_pheno_240",2,"CP19920_2024-10-16","F","266408","266408","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.431121,-46.605474,TRUE
+"CP19921","live_pheno_086|live_pheno_108",2,"CP19921_2024-10-16","F","266449","266449","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.431945,-46.606263,TRUE
+"CP19922","live_pheno_087|live_pheno_109",2,"CP19922_2024-10-17","M","266453","266453","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.431945,-46.606263,TRUE
+"CP19923","live_pheno_088|live_pheno_110",2,"CP19923_2024-10-17","M","266417","266417","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.433515,-46.606197,TRUE
+"CP19924","live_pheno_194|live_pheno_241",2,"CP19924_2024-10-17","F","266399","266399","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.434149,-46.606048,TRUE
+"CP19925","live_pheno_385|live_pheno_541",2,"CP19925_2024-10-21","M","0AB3","0AB3","unknown","unknown",,172.397839,-43.852224,FALSE
+"CP19926","live_pheno_386|live_pheno_542",2,"CP19926_2024-10-21","F","0AB6","0AB6","unknown","unknown",,172.397974,-43.852069,FALSE
+"CP19927","live_pheno_387|live_pheno_543",2,"CP19927_2024-10-22","F","0AA7","0AA7","unknown","unknown",,172.433641,-43.846432,FALSE
+"CP19928","live_pheno_388|live_pheno_544",2,"CP19928_2024-10-22","M",,,"unknown","unknown",,172.438655,-43.846959,FALSE
+"CP19929","live_pheno_389|live_pheno_545",2,"CP19929_2024-12-05","M",,,"unknown","unknown",,176.91931899637,-39.5063010044396,FALSE
+"CP19930","live_pheno_390|live_pheno_546",2,"CP19930_2024-12-05","F",,,"unknown","unknown",,176.91931899637,-39.5063010044396,FALSE
+"CP19931","live_pheno_041|live_pheno_048",2,"CP19931_2024-12-05","M",,,"NI migrant","migrant","Resighting at Manukapua Island, North Island on March 29",176.919071981683,-39.5101300254464,TRUE
+"CP19932","live_pheno_391|live_pheno_547",2,"CP19932_2024-12-05","F",,,"unknown","unknown",,176.919071981683,-39.5101300254464,FALSE
+"CP19936","live_pheno_392|live_pheno_548",2,"CP19936_2025-01-09","M",,,"unknown","unknown",,169.189357990399,-44.8731799609959,FALSE
+"CP19938","live_pheno_126|live_pheno_144",2,"CP19938_2025-01-09","M",,,"unknown","unknown",,169.187014997005,-44.8751709982753,FALSE
+"CP19939","live_pheno_127|live_pheno_145",2,"CP19939_2025-01-09","F",,,"unknown","unknown",,169.187014997005,-44.8751709982753,FALSE
+"CP19940","live_pheno_128|live_pheno_146",2,"CP19940_2025-01-09","F",,,"unknown","unknown",,169.180542994291,-44.8818409815431,FALSE
+"CP19941","live_pheno_129|live_pheno_147",2,"CP19941_2025-01-09","M",,,"unknown","unknown",,169.180542994291,-44.8818409815431,FALSE
+"CP19943","live_pheno_393|live_pheno_549",2,"CP19943_2025-01-10","F",,,"unknown","unknown",,169.159396961331,-44.8665799666196,FALSE
+"CP19983","live_pheno_089|live_pheno_111",2,"CP19983_2024-10-14","F",,,"resident","resident","Resighting at Upukeroa River on Feb 26 (potential resident)",167.744617,-45.414383,TRUE
+"CP19984","live_pheno_130|live_pheno_148",2,"CP19984_2024-10-14","M",,,"unknown","unknown",,167.745905,-45.414044,FALSE
+"CP19985","live_pheno_394|live_pheno_550",2,"CP19985_2024-10-14","M",,,"unknown","unknown",,167.745905,-45.414044,FALSE
+"CP19986","live_pheno_395|live_pheno_551",2,"CP19986_2024-10-14","M",,,"unknown","unknown",,167.746751,-45.414278,FALSE
+"CP19987","live_pheno_195|live_pheno_242",2,"CP19987_2024-10-16","F","266438","266438","resident","resident","PTT revealed that the bird remained at the Awarua Bay / Tiwai Point the full year",168.42172,-46.60313,TRUE
+"CP19989","live_pheno_396|live_pheno_552",2,"CP19989_2024-10-22","F",,,"unknown","unknown",,172.438655,-43.846959,FALSE
+"CP9059","live_pheno_090|live_pheno_112",2,"CP9059_2024-10-08","M",,,"resident","resident","Ailsa observation April 26",173.662786,-42.413422,TRUE
+"CP9075","live_pheno_397|live_pheno_553",2,"CP9075_2024-10-07","F",,,"unknown","unknown",,173.680309,-42.419643,FALSE
+"CP9088","live_pheno_398|live_pheno_554",2,"CP9088_2024-10-08","F",,,"unknown","unknown",,173.662786,-42.413422,FALSE
