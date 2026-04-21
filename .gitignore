@@ -3,6 +3,7 @@
 
 # Keep this ignore file and the target Quarto document.
 !/.gitignore
+!/AGENTS.md
 !/bdot_stable_isotopes2.qmd
 
 # Keep only the in-repo datasets that bdot_stable_isotopes2.qmd reads.
