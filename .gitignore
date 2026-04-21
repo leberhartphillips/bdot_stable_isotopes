@@ -4,6 +4,7 @@
 # Keep this ignore file and the target Quarto document.
 !/.gitignore
 !/AGENTS.md
+!/DATA_MANIFEST.md
 !/bdot_stable_isotopes2.qmd
 
 # Keep only the in-repo datasets that bdot_stable_isotopes2.qmd reads.
@@ -27,6 +28,10 @@
 !/output/
 /output/*
 !/output/roc_all.rds
+
+# Keep documentation-only cleanup additions.
+!/data/derived/
+!/data/derived/README.md
 
 # External dependencies referenced by the QMD are outside this repo and are
 # not managed by this .gitignore:
