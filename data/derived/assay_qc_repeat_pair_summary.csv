@@ -1,0 +1,7 @@
+metric,value,n_repeat_pairs
+detected_by_green_formatting,true,9
+detected_by_rpt_suffix,true,10
+detected_by_comments,true,4
+repeat_detection_pattern,all_rows_green,6
+repeat_detection_pattern,no_green_rpt_named,1
+repeat_detection_pattern,rpt_only_green,3

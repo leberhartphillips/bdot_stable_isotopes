@@ -7,3 +7,11 @@
 "live_cn_paired_by_ring","n_tissues_present","2",73
 "live_cn_paired_by_ring","has_complete_cn_pair","FALSE",1
 "live_cn_paired_by_ring","has_complete_cn_pair","TRUE",73
+"live_cn_paired_by_ring_strict","n_tissues_present","1",1
+"live_cn_paired_by_ring_strict","n_tissues_present","2",73
+"live_cn_paired_by_ring_strict","has_complete_cn_pair","FALSE",1
+"live_cn_paired_by_ring_strict","has_complete_cn_pair","TRUE",73
+"live_cn_paired_by_ring_sensitivity","n_tissues_present","1",1
+"live_cn_paired_by_ring_sensitivity","n_tissues_present","2",73
+"live_cn_paired_by_ring_sensitivity","has_complete_cn_pair","FALSE",1
+"live_cn_paired_by_ring_sensitivity","has_complete_cn_pair","TRUE",73

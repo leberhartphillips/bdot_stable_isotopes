@@ -1,7 +1,7 @@
-"dataset","isotope","n_rows","n_included_rows","n_explicit_qc_rows","n_excluded_rows","n_replace_with_average_rows","n_keep_override_rows","n_changed_nonexcluded_rows","n_manual_review_pending_rows"
-"live_cn_measurements_raw_qc_long","normalised_d13c",158,154,19,4,12,3,12,2
-"live_cn_measurements_raw_qc_long","normalised_d15n",158,154,19,4,12,3,12,2
-"museum_measurements_raw_qc","normalised_d13c",68,68,0,0,0,0,0,0
-"museum_measurements_raw_qc","normalised_d15n",68,68,0,0,0,0,0,0
-"museum_measurements_raw_qc","normalised_d18o",44,43,1,1,0,0,0,0
-"museum_measurements_raw_qc","normalised_d2h",43,42,1,1,0,0,0,0
+"dataset","isotope","n_rows","n_included_rows","n_included_strict_rows","n_included_sensitivity_rows","n_audit_retained_rows","n_explicit_lab_exclusion_rows","n_model_contributing_rows","n_explicit_qc_rows","n_excluded_rows","n_lab_green_average_rows","n_explicit_selected_rows","n_mean_of_valid_repeat_rows","n_changed_nonexcluded_rows","n_repeat_pair_rows","n_repeat_rows_retained","n_conflicting_repeat_rows","n_strict_excluded_rows","n_sensitivity_excluded_rows","n_sensitivity_default_rows","n_manual_review_pending_rows"
+"live_cn_measurements_raw_qc_long","normalised_d13c",158,157,157,157,157,1,154,21,1,13,3,2,17,21,20,0,1,1,0,0
+"live_cn_measurements_raw_qc_long","normalised_d15n",158,157,157,157,157,1,154,21,1,13,3,2,17,21,20,0,1,1,0,0
+"museum_measurements_raw_qc","normalised_d13c",68,68,68,68,68,0,68,0,0,0,0,0,0,0,0,0,0,0,0,0
+"museum_measurements_raw_qc","normalised_d15n",68,68,68,68,68,0,68,0,0,0,0,0,0,0,0,0,0,0,0,0
+"museum_measurements_raw_qc","normalised_d18o",44,43,43,43,43,1,43,1,1,0,0,0,0,0,0,0,1,1,0,0
+"museum_measurements_raw_qc","normalised_d2h",43,42,42,42,42,1,42,1,1,0,0,0,0,0,0,0,1,1,0,0
