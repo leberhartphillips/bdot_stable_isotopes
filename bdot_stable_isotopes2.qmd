@@ -1,0 +1,5065 @@
+---
+title: "Banded Dotterel Stable Isotopes"
+subtitle: | 
+  Exploration of dataset
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+format: 
+  html:
+    toc: true
+    code-fold: true
+    code-tools: true
+    self-contained: true
+    highlight-style: github
+    theme: Cosmo
+execute:
+  warning: false
+  cache: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+```{r, message=FALSE, results='hide', warning=FALSE, results='hide', include=FALSE, cache=FALSE}
+## Prerequisites
+
+### R packages
+# Set a CRAN mirror before installing packages
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+# -   The following packages are needed for analysis and can be easily installed from [CRAN](http://cran.r-project.org/) or GitHub by running the following code chunk:
+
+# a vector of all the packages needed in the project
+packages_required_in_project <- c("V8", "concaveman",
+                                  "tidyverse",
+                                  "readxl",
+                                  "RMark",
+                                  "RColorBrewer",
+                                  "patchwork",
+                                  "mapview",
+                                  "lubridate",
+                                  # "extrafont",
+                                  "here",
+                                  "DT",
+                                  "leaflet",
+                                  "sf",
+                                  "leafpop",
+                                  "tsibble",
+                                  "corrplot",
+                                  "gghalves",
+                                  "gam",
+                                  "pscl",
+                                  "gamlss",
+                                  "gt",
+                                  "lme4",
+                                  "ggpattern",
+                                  "gtsummary",
+                                  "effects",
+                                  "lattice",
+                                  "rptR",
+                                  "partR2",
+                                  "broom.mixed",
+                                  "forcats",
+                                  "glmmTMB",
+                                  "ggmap",
+                                  "MuMIn",
+                                  "googlesheets4", 
+                                  "sf",
+                                  "sp", 
+                                  "rnaturalearth", 
+                                  "rnaturalearthdata", 
+                                  "fuzzyjoin", "gstat", "conflicted")
+
+# of the required packages, check if some need to be installed
+new.packages <- 
+  packages_required_in_project[!(packages_required_in_project %in% 
+                                   installed.packages()[,"Package"])]
+
+# install all packages that are not locally available
+if(length(new.packages)) install.packages(new.packages)
+
+# load all the packages into the current R session
+lapply(packages_required_in_project, require, character.only = TRUE)
+
+# set the home directory to where the project is locally based (i.e., to find 
+# the relevant datasets to import, etc.
+here::set_here()
+
+# Use gs4_auth() to log in and authenticate with your Google account. 
+# You can specify your email address to ensure the correct account is used. 
+# Once authenticated, you won't need to select the account interactively when using read_sheet()
+gs4_auth(email = "luke.eberhart@gmail.com")
+
+conflicted::conflict_prefer("select", "dplyr")
+conflicted::conflict_prefer("filter", "dplyr")
+conflicted::conflict_prefer("lmer", "lme4")
+conflicted::conflict_prefer("accumulate", "purrr")
+conflicted::conflict_prefer("ar", "brms")
+conflicted::conflict_prefer("Beta", "brms")
+# conflicted::conflict_prefer("calibration", "rstan")
+conflicted::conflict_prefer("area", "MASS")
+```
+
+```{r, message=FALSE, results='hide', warning=FALSE, include=FALSE, eval=FALSE, cache=FALSE}
+### Plotting themes
+
+# -   The following plotting themes, colors, and typefaces are used throughout the project:
+
+# define the plotting theme to be used in subsequent ggplots
+luke_theme <-
+  theme_bw() +
+  theme(
+    text = element_text(family = "Verdana"),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8),
+    axis.title.x = element_text(size = 10),
+    axis.text.x  = element_text(size = 8),
+    axis.title.y = element_text(size = 10),
+    axis.text.y = element_text(size = 8),
+    strip.text = element_text(size = 10),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.ticks = element_line(linewidth = 0.5, colour = "grey40"),
+    axis.ticks.length = unit(0.2, "cm"),
+    panel.border = element_rect(linetype = "solid", colour = "grey"),
+    legend.position.inside = c(0.1, 0.9)
+  )
+```
+
+### custom functions
+
+```{r}
+# Function to extract month from date strings
+extract_month <- function(date_str) {
+  if (is.na(date_str)) {
+    return(NA)
+  }
+  
+  # Handle dates like "16/07/1887"
+  if (grepl("^\\d{2}/\\d{2}/\\d{4}$", date_str)) {
+    return(month(dmy(date_str)))
+  }
+  
+  # Handle dates like "1974-07-26"
+  if (grepl("^\\d{4}-\\d{1,2}-\\d{1,2}$", date_str)) {
+    return(month(ymd(date_str)))
+  }
+  
+  # Handle dates like "32118" (Excel date format)
+  if (grepl("^\\d{4,5}$", date_str)) {
+    return(month(as.Date(as.numeric(date_str), origin = "1899-12-30")))
+  }
+  
+  # Handle 4-character year strings
+  if (nchar(date_str) == 4) {
+    return(NA)
+  }
+  
+  return(NA)
+}
+
+# Function to extract year from date strings (handles Excel serials like "8753" correctly)
+extract_year <- function(date_str) {
+  if (is.na(date_str)) return(NA_real_)
+  date_str <- trimws(as.character(date_str))
+  
+  # If string is only digits (no letters, punctuation)
+  if (grepl("^\\d+$", date_str)) {
+    num <- as.numeric(date_str)
+    # If it's a plausible 4-digit calendar year, return it directly
+    if (num >= 1800 && num <= 2100) {
+      return(as.numeric(num))
+    }
+    # Otherwise treat as Excel serial date number and convert
+    if (num >= 0 && num < 100000) {
+      dt <- suppressWarnings(as.Date(num, origin = "1899-12-30"))
+      if (!is.na(dt)) return(year(dt))
+    }
+    # fallback
+    return(NA_real_)
+  }
+  
+  # Full ISO-like date "1881-06-28" or "1894-8-30"
+  if (grepl("^\\d{4}-\\d{1,2}-\\d{1,2}$", date_str)) {
+    parsed <- suppressWarnings(ymd(date_str))
+    if (!is.na(parsed)) return(year(parsed))
+  }
+  
+  # DMY numeric slashes "16/07/1887"
+  if (grepl("^\\d{1,2}/\\d{1,2}/\\d{4}$", date_str)) {
+    parsed <- suppressWarnings(dmy(date_str))
+    if (!is.na(parsed)) return(year(parsed))
+  }
+  
+  # Try parsing day-month-year text variants, e.g. "9 May 1899", "26 January, 1892", "19, August, 1897"
+  parsed <- suppressWarnings(dmy(gsub(",", "", date_str)))
+  if (!is.na(parsed)) return(year(parsed))
+  
+  # Month-year formats like "Jul 1884", "July, 1874", "Aug 1881"
+  if (grepl("[A-Za-z]+[^0-9A-Za-z]*\\d{4}", date_str)) {
+    parsed2 <- suppressWarnings(dmy(paste0("01 ", gsub(",", "", date_str))))
+    if (!is.na(parsed2)) return(year(parsed2))
+  }
+  
+  # "pre-1944" -> extract 1944 (case-insensitive)
+  if (grepl("^pre-\\d{4}$", date_str, ignore.case = TRUE)) {
+    return(as.numeric(sub("(?i)pre-", "", date_str, perl = TRUE)))
+  }
+  
+  # If there's a standalone 4-digit year anywhere (e.g. "1929 (likely)" or "(1929)")
+  if (grepl("\\b\\d{4}\\b", date_str)) {
+    yr <- regmatches(date_str, regexpr("\\b\\d{4}\\b", date_str))
+    yr_num <- as.numeric(yr)
+    # sanity-check year range
+    if (!is.na(yr_num) && yr_num >= 1000 && yr_num <= 2100) return(yr_num)
+  }
+  
+  # If nothing matched, return NA
+  return(NA_real_)
+}
+```
+
+# Triplicate analyses
+
+This was conducted to assess the within-individual variation in feathers - we ideally want to be able to homogenize all breast feathers collected to increase the sample material but this assumes that there is limited within-individual variation among breast feathers.
+
+For specimens that had enough material, we took 3 breast feathers and analyzed C, N, and O for each feather. The following analysis assesses the within- vs. among-individual variation in these three isotopes to provide insights on our ability to homogenize the feathers and use these isotopes for spatial inference.
+
+### import and wrangle isotope data
+
+```{r}
+# import and consolidate key columns
+triplicate_CN_dat <-
+  read_excel(here("data/old file versions/Master_SI_Feathers_LEH_Sept24_v1_SB_v3_sample wts added.xls"), 
+                     sheet = "Sample results_C&N", 
+                     col_types = "text", skip = 10, col_names = TRUE) %>% 
+  select(`Index #`, `Identifier 1`, `Amount`, `Ampl  Flash TCD...9`, `All Correct Amt % N Flash TCD`, `Ampl  28`, `normalised d15N`, `avg  Amt% N`, `stdev  Amt% N`, `avg  d15N`, `stdev d15N`, `Ampl  Flash TCD...18`, `All Correct Amt%C Flash TCD`, `Ampl  44`, `normalised d13C`, `Sample Dilution`, `avg  Amt% C`, `stdev  Amt% C`, `avg  d13C`, `stdev d13C`, `C:N Mass ratio`) %>% 
+    rename_with(~ .x %>%
+                tolower() %>%
+                str_replace_all(" ", "_") %>%
+                str_replace_all("__", "_") %>%
+                str_replace_all("___", "_") %>%
+                str_replace_all("%", "_perc_") %>%
+                str_replace_all(":", "") %>%
+                str_replace_all("#", "")) %>%
+  mutate(
+    feather = str_sub(identifier_1, -1),
+    NewColumn = str_extract(identifier_1, "^[^ ]+"),  # Extract text to the left of the first white space
+    identifier_1 = str_trim(str_replace(identifier_1, "^[^ ]+ ", ""))  # Remove text to the left of the first white space and trim remaining white space
+  ) %>% mutate(identifier_1 = str_replace(identifier_1, "_.*", "")) %>% 
+  rename(Specimen_ID = NewColumn,
+         Feather_type = identifier_1) %>% 
+  select(Specimen_ID, Feather_type, feather, amount, normalised_d15n, normalised_d13c) %>% 
+  mutate(amount = as.numeric(amount), 
+         normalised_d15n = as.numeric(normalised_d15n), 
+         normalised_d13c = as.numeric(normalised_d13c)) %>%
+  pivot_longer(
+    cols = c(normalised_d15n, normalised_d13c),
+    names_to = "isotope",
+    values_to = "value"
+  )
+
+# import and consolidate key columns
+triplicate_H_dat <-
+  read_excel(here("data/Master_TCEA_H_SI_Batch 1_triplicate breast feathers_LEH_Nov25_SB.xls"), 
+                     sheet = "Sample results_H", 
+                     col_types = "text", skip = 9, col_names = TRUE) %>%
+  slice(-11) %>% 
+    rename_with(~ .x %>%
+                tolower() %>%
+                str_replace_all(" ", "_") %>%
+                str_replace_all("__", "_") %>%
+                str_replace_all("___", "_") %>%
+                str_replace_all("%", "_perc_") %>%
+                str_replace_all(":", "") %>%
+                str_replace_all("#", "")) %>%
+  dplyr::select(identifier_1, normalised_d2h) %>% 
+  mutate(
+    feather = str_extract(identifier_1, "(?<=_)."), 
+    Feather_type = "Breast",
+    Specimen_ID  = str_extract(identifier_1, "^[^_]+")
+  ) %>% 
+  dplyr::select(Specimen_ID, Feather_type, feather, normalised_d2h) %>% 
+  mutate(normalised_d2h = as.numeric(normalised_d2h)) %>%
+  pivot_longer(
+    cols = c(normalised_d2h),
+    names_to = "isotope",
+    values_to = "value"
+  )
+
+# import and consolidate key columns
+triplicate_O_dat <-
+  read_excel(here("data/Master_TCEA_O_SI_Breast Feathers_Replication_Batch 4_LEH_Sept25_SB.xls"), 
+                     sheet = "Sample results_O", 
+                     col_types = "text", skip = 6, col_names = TRUE) %>%
+  slice(-1) %>%
+  slice(1:15) %>% 
+    rename_with(~ .x %>%
+                tolower() %>%
+                str_replace_all(" ", "_") %>%
+                str_replace_all("__", "_") %>%
+                str_replace_all("___", "_") %>%
+                str_replace_all("%", "_perc_") %>%
+                str_replace_all(":", "") %>%
+                str_replace_all("#", "")) %>%
+  select(identifier_1, `amount`, 
+         ampl_28, normalised_d18o) %>% 
+    filter(!is.na(normalised_d18o)) %>%
+  filter(identifier_1 != "AV21986_A feather") %>% 
+  mutate(
+    feather = str_extract(identifier_1, "(?<=_)."), 
+    Feather_type = "Breast",
+    Specimen_ID  = str_extract(identifier_1, "^[^_]+")
+  ) %>% 
+  select(Specimen_ID, Feather_type, feather, amount, normalised_d18o) %>% 
+  mutate(amount = as.numeric(amount), 
+         normalised_d18o = as.numeric(normalised_d18o)) %>%
+  pivot_longer(
+    cols = c(normalised_d18o),
+    names_to = "isotope",
+    values_to = "value"
+  )
+
+triplicate_CNOH_dat <- 
+  bind_rows(triplicate_O_dat, triplicate_CN_dat, triplicate_H_dat)
+```
+
+### import and wrangle sample meta data
+
+```{r}
+# import meta data for all museum samples and add spatial data.
+meta_data <-
+  read_excel(here("data/MASTER_museum_ALL SAMPLES INVENTORY_banded_dotterels_v4.xlsx"), 
+             col_types = "text") %>% 
+  mutate(Specimen_ID_ = str_remove(Specimen_ID, regex(" (Breast|Primary)$", ignore_case = TRUE))) %>%
+  mutate(Specimen_ID_ = str_remove_all(Specimen_ID_, regex("AJB ", ignore_case = TRUE)))  %>%
+  mutate(Specimen_ID_ = str_remove_all(Specimen_ID_, regex(" -", ignore_case = TRUE)))%>% 
+  select(Feather_type, Specimen_ID, Specimen_ID_, General_collection_location, 
+         Specific_collection_location, Collection_date) %>% 
+  mutate(Month = str_extract(Collection_date, "(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)")) %>% 
+  mutate(Month = match(tolower(Month), tolower(month.abb))) %>%
+  mutate(
+    month_extracted = sapply(Collection_date, extract_month),
+    Month = ifelse(is.na(Month) & !is.na(month_extracted), month_extracted, Month),
+    Year = sapply(Collection_date, extract_year)
+  ) %>% 
+  select(-month_extracted) %>% 
+  mutate(location = paste(Specific_collection_location, General_collection_location, sep = ", ")) %>%
+  mutate(location = str_replace_all(location, "NA, ", "")) %>% 
+  filter(!is.na(Specimen_ID))
+
+# Create a data frame 
+df <- data.frame(location = meta_data$location)
+
+# Remove duplicates to avoid redundant API calls
+unique_locations <- unique(df$location)
+
+# Get latitude and longitude for unique locations
+geocode_data <- geocode(unique_locations)
+
+# Combine the geocode data with the unique locations
+location_data <- data.frame(location = unique_locations, geocode_data) %>% filter(!is.na(location))
+
+meta_data_ <-
+  left_join(meta_data, location_data, by = "location") %>% 
+  select(-c(Feather_type, Specimen_ID)) %>%
+  distinct() %>% 
+  rename(Specimen_ID = Specimen_ID_)
+```
+
+### merge triplicate data with metadata
+
+```{r}
+triplicate_CNOH_dat_meta <-
+  stringdist_left_join(
+    triplicate_CNOH_dat, meta_data_,
+    by = "Specimen_ID",
+    method = "cosine", # Jaro-Winkler distance
+    # max_dist = 1,         # tweak based on how much difference you allow
+    distance_col = "dist"
+  ) %>% group_by(Specimen_ID.x, Feather_type, feather, isotope) %>% arrange(dist) %>% slice(1) %>%
+  select(Specimen_ID.x, Specimen_ID.y, dist, everything()) %>% ungroup() %>% arrange(desc(dist)) %>% 
+  select(-c(Specimen_ID.y, dist)) %>% 
+  rename(Specimen_ID = Specimen_ID.x) %>% 
+  mutate(geo_region = ifelse(str_detect(location, "Australia"), "Australia", 
+                             ifelse(str_detect(location, "New Zealand"), "New Zealand", NA))) %>% 
+  mutate(geo_region_bin = ifelse(geo_region == "Australia", 1, 0)) %>%
+  mutate(
+    month_name = month.name[Month],          # full month names
+    month_abbrev = month.abb[Month],         # abbreviated names
+    month_factor = factor(Month, levels = 1:12, labels = month.name, ordered = TRUE) # ordered factor
+  ) %>% 
+  mutate(lon = ifelse(lon < 0, lon + 180*2, lon)) %>% 
+  mutate(Specific_collection_location = 
+           ifelse(is.na(Specific_collection_location), General_collection_location, Specific_collection_location))
+```
+
+### calculate hulls for triplicates
+C & N hulls
+```{r}
+# Compute convex hulls for each Specimen_ID using chull() from sp
+hulls_triplicates_CN <- triplicate_CNOH_dat_meta %>%
+  filter(!(isotope %in% c("normalised_d18o", "normalised_d2h"))) %>% 
+   pivot_wider(
+     names_from = isotope,
+     values_from = value
+   ) %>%
+  group_by(Specimen_ID) %>%
+  do({
+    # Extract the data for the current group
+    group_data <- .[ , c("normalised_d13c", "normalised_d15n")]
+    
+    # Create a spatial object but extract coordinates as a regular matrix
+    coords <- SpatialPoints(group_data)
+    coords_matrix <- coords@coords
+    
+    # Compute the convex hull using chull
+    chull_indices <- chull(coords_matrix)
+    hull_coords <- group_data[chull_indices, ]
+    
+    # Return the convex hull coordinates
+    data.frame(hull = I(list(hull_coords)))
+  }) %>%
+  unnest(cols = c(hull)) %>% 
+  left_join(., triplicate_CNOH_dat_meta %>% 
+              dplyr::select(Specimen_ID, Month, location, lon, lat, geo_region, geo_region_bin) %>% distinct(), 
+            by = "Specimen_ID")
+```
+
+#### among- vs. within-individual variation
+```{r}
+# install.packages("randomForest")
+
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library(performance)
+library(broom.mixed)
+library(caret)
+library(MASS)
+library(randomForest)
+library(patchwork)
+library(brms)
+
+# Clean and coerce types
+dat <- triplicate_CNOH_dat_meta %>%
+mutate(
+Specimen_ID = as.factor(Specimen_ID),
+Specific_collection_location = as.factor(Specific_collection_location),
+feather = as.factor(feather),
+isotope = as.character(isotope),
+value = as.numeric(value)
+) %>%
+filter(!is.na(value)) %>%
+  group_by(isotope) %>%
+  mutate(value_scaled = as.numeric(scale(value))) %>%
+  ungroup()  %>% 
+  mutate(
+    Month = factor(Month, levels = 1:12, labels = month.abb)
+  )
+
+CNOH_dat_meta_full <- readRDS(file = "data/CNOH_museum_samples_201125.rds")
+CNOH_dat_meta_full %>% 
+  group_by(Specimen_ID, isotope, Feather_type, value) %>% 
+  summarise(mean_value = mean(value)) %>% 
+  group_by(isotope) %>% 
+  summarise(mean_iso_value = mean(mean_value),
+            sd_iso_value = sd(mean_value))
+
+triplicate_ids <- 
+  CNOH_dat_meta_full %>% 
+  filter(!is.na(feather)) %>% 
+  pull(Specimen_ID) %>% 
+  unique()
+
+triplicate_dat <-
+  CNOH_dat_meta_full %>% 
+  filter(Specimen_ID %in% triplicate_ids) %>% 
+  mutate(value_scaled = ifelse(isotope == "normalised_d13c", (value - -18.8) / 3.67,
+                        ifelse(isotope == "normalised_d15n", (value - 10.9) / 2.63,
+                        ifelse(isotope == "normalised_d18o", (value - 14.1) / 1.39,
+                        ifelse(isotope == "normalised_d2h", (value - -21.6) / 22.0, NA))))) %>%
+  mutate(
+      Specimen_ID = as.factor(Specimen_ID),
+      Specific_collection_location = as.factor(Specific_collection_location),
+      feather = as.factor(feather),
+      isotope = as.character(isotope),
+      value_scaled = as.numeric(value_scaled)
+    ) %>%
+  filter(!is.na(value_scaled)) %>%
+  ungroup()  %>% 
+  mutate(
+    Month = factor(Month, levels = 1:12, labels = month.abb)
+  ) #%>% 
+  # pivot_wider(
+  #   names_from = isotope,
+  #   values_from = value_scaled
+  # ) %>% 
+  # dplyr::select(Specimen_ID, Feather_type, region, normalised_d13c, normalised_d15n) %>% 
+  #   filter(region != "homogenate") %>%
+  # group_by(Specimen_ID, Feather_type, region) %>%
+  # summarise(
+  #   normalised_d13c = coalesce(normalised_d13c[!is.na(normalised_d13c)], NA_real_),
+  #   normalised_d15n = coalesce(normalised_d15n[!is.na(normalised_d15n)], NA_real_),
+  #   .groups = "drop"
+  # )
+
+
+ggplot() +
+  geom_bar(
+    data = triplicate_dat %>% dplyr::select(Specimen_ID, Month) %>% ungroup() %>% distinct(),
+    aes(x = Month)
+  ) +
+  scale_x_discrete(drop = FALSE) +
+  # facet_grid(geo_region ~ isotope) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  luke_theme
+
+# --- Helper functions -------------------------------------------------------
+get_varcomp_lmer <- function(mod) {
+vc <- as.data.frame(VarCorr(mod)) %>% dplyr::select(grp, vcov)
+names(vc) <- c("group", "variance")
+total <- sum(vc$variance)
+vc <- vc %>% mutate(prop = variance / total)
+vc <- vc %>% arrange(desc(prop))
+list(table = vc, total = total)
+}
+
+
+calc_repeatability <- function(mod, group = "Specimen_ID") {
+vc <- as.data.frame(VarCorr(mod))
+var_ind <- vc$vcov[vc$grp == group]
+var_total <- sum(vc$vcov)
+return(var_ind / var_total)
+}
+
+# --- Fit lmer models per isotope --------------------------------------------
+lmer_results <- list()
+vc_table <- tibble()
+icc_table <- tibble()
+isotopes <- unique(triplicate_dat$isotope)
+
+for (iso in isotopes) {
+message("Fitting lmer for ", iso)
+d_iso <- triplicate_dat %>% filter(isotope == iso)
+
+
+# Ensure there are repeated measures; if not, skip
+if (n_distinct(d_iso$Specimen_ID) < 2) {
+warning("Not enough individuals for isotope ", iso, " - skipping")
+next
+}
+
+
+# Fit model
+form <- as.formula("value_scaled ~ 1 + (1 | Specific_collection_location) + (1 | Specimen_ID)")
+m <- tryCatch(lmer(form, data = d_iso, REML = TRUE), error = function(e) e)
+if (inherits(m, "error")) {
+warning("lmer failed for ", iso, ": ", m$message)
+next
+}
+
+
+lmer_results[[iso]] <- m
+vc <- get_varcomp_lmer(m)$table %>% mutate(isotope = iso)
+vc_table <- bind_rows(vc_table, vc)
+icc <- calc_repeatability(m, group = "Specimen_ID")
+icc_table <- bind_rows(icc_table, tibble(isotope = iso, repeatability = icc))
+}
+
+
+# Tidy vc_table for plotting: ensure four groups present per isotope
+vc_plot_df <- vc_table %>%
+mutate(group = factor(group, levels = unique(group))) %>%
+rename(variance = variance, proportion = prop)
+
+# Tidy vc_table for plotting: ensure four groups present per isotope
+vc_plot_df <- vc_table %>%
+mutate(group = factor(group, levels = unique(group))) %>%
+rename(variance = variance, proportion = prop)
+
+
+# --- Plot variance partitioning per isotope ---------------------------------
+# Prepare a plot dataframe from lmer results (preferred for clarity)
+plot_df <- vc_table %>%
+rename(component = group) %>%
+mutate(component = recode(component,
+"Specific_collection_location" = "Population",
+"Specimen_ID" = "Individual",
+"Residual" = "Residual")) %>%
+group_by(isotope) %>%
+mutate(component = factor(component, levels = c("Population","Individual","Feather","Residual"))) %>%
+ungroup()
+
+
+# p <- ggplot(plot_df, aes(x = isotope, y = prop, fill = component)) +
+#   geom_col(position = "stack") +
+#   scale_x_discrete(labels = iso_labels) +
+#   labs(
+#     x = "Isotope",
+#     y = "Proportion of total variance",
+#     fill = "Component",
+#     title = "Variance partitioning per isotope"
+#   ) +
+#   theme_minimal() +
+#   scale_fill_brewer(palette = "Pastel1")
+# p
+
+# Create a named vector mapping original isotope names to formatted labels
+iso_labels <- c(
+  "normalised_d13c" = "delta^{13}*C",
+  "normalised_d15n" = "delta^{15}*N",
+  "normalised_d2h"  = "delta^{2}*H",
+  "normalised_d18o" = "delta^{18}*O"
+)
+
+vc_pie_chart <- 
+  ggplot(plot_df, aes(x = "", y = prop, fill = component)) +
+    geom_col(width = 1, color = "white") +
+    coord_polar(theta = "y") +
+    facet_grid(isotope ~ ., labeller = labeller(isotope = iso_labels)) +
+    labs(
+        x = NULL,
+        y = NULL,
+        fill = "Variance\ncomponent\npartitioning",
+        title = "Variance partitioning per isotope"
+    ) +
+    scale_fill_manual(values = c("grey20", "grey70", "grey90"),
+    guide = guide_legend(
+      title.position = "top",    # move title above keys
+      title.hjust = 0.5,         # center title
+      label.position = "right"   # labels stay to the right of keys
+    )) +
+    theme_minimal() +
+    theme(
+        axis.text = element_blank(),
+        axis.title = element_blank(),
+        panel.grid = element_blank(),
+        strip.text = element_blank(),
+        strip.background = element_blank(),
+        title = element_blank(),
+        
+        # Legend customization
+        legend.position = "right",        # move legend to the right
+        legend.direction = "vertical",    # legend items stacked (default), see below
+        # legend.text = element_text(angle = 90)
+        # legend.title = element_text(face = "bold", angle = 90),
+        # legend.key.height = unit(0.5, "cm"),   # increase spacing between keys
+        # legend.key.width  = unit(0.5, "cm"),
+    
+    # Increase white gap between keys
+    # legend.spacing.x = unit(5, "cm") 
+    )
+
+vc_pie_chart
+
+# Reorder individuals by population
+dat_plot <- triplicate_dat %>%
+  mutate(
+    site = case_when(
+      Specific_collection_location == "Waitangi West" ~ "Chatham Is.",
+      Specific_collection_location == "Paraparaumu, Wellington" ~ "Wellington",
+      Specific_collection_location == "Enderby Island"  ~ "Auckland Is.",
+      Specific_collection_location == "Lake Ellesmere, Canterbury" ~ "Lake Ellesmere",
+      Specific_collection_location == "Stewart Island, New Zealand"  ~ "Stewart Is.",
+      TRUE ~ Specific_collection_location
+    ),
+    site = factor(site, 
+                  levels = c("Auckland Is.", 
+                             "Stewart Is.",
+                             "Lake Ellesmere", 
+                             "Chatham Is.",
+                             "Wellington",
+                             "Porirua")),
+    Specimen_ID = fct_reorder(Specimen_ID, 
+                              as.numeric(site), 
+                              .fun = min),
+    isotope = factor(isotope)
+  )
+
+
+
+scatterplot <- 
+  ggplot(dat_plot, aes(
+    x = Specimen_ID,
+    y = value_scaled,
+    colour = site
+  )) +
+  geom_jitter(
+    size = 2.5,
+    alpha = 0.8, width = 0.15
+  ) +
+
+  # Mean ± 95% CI per individual
+  # stat_summary(
+  #   fun = mean,
+  #   fun.min = function(z) mean(z) - 1.96 * sd(z) / sqrt(length(z)),
+  #   fun.max = function(z) mean(z) + 1.96 * sd(z) / sqrt(length(z)),
+  #   geom = "pointrange",
+  #   colour = "grey20",
+  #   size = 0.4,
+  #   position = position_nudge(x = 0.15)  # CI nudged right
+  # ) +
+
+  facet_grid(isotope ~ ., scales = "free_y",
+             labeller = labeller(isotope = as_labeller(iso_labels, label_parsed))) +
+  labs(
+    x = "Individual",
+    y = "Scaled isotope value",
+    colour = "Population"
+  ) +
+  theme_bw(base_size = 13) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.spacing = unit(1, "lines"),
+    legend.position = "none",
+    
+    # Rotate vertical strip text
+    strip.text.y = element_text(angle = 0, size = 15),  # 0 = horizontal, 90 = vertical
+    strip.background = element_blank()
+  ) +
+  scale_y_continuous(limits = c(-2.5, 2.5))
+
+# Convert your table to an sf object
+locations_sf <- dat_plot %>%
+  dplyr::select(site, lon, lat) %>%
+  distinct() %>% 
+  st_as_sf(coords = c("lon", "lat"), crs = 4326)  # WGS84
+
+# fix point longitudes to -180..180
+locations_fixed <- dat_plot %>%
+  dplyr::select(site, lon, lat) %>%
+  distinct() %>%
+  mutate(
+    lon = as.numeric(lon),
+    lon = ifelse(lon > 180, lon - 360, lon)      # wrap >180 back into -180..180
+  ) %>%
+  st_as_sf(coords = c("lon", "lat"), crs = 4326)
+
+# Get New Zealand map
+nz <- ne_countries(scale = "medium", country = "New Zealand", returnclass = "sf")
+
+library(ggrepel)
+
+# Plot
+nz_map <- 
+  ggplot() +
+  geom_sf(data = nz, fill = "grey95", color = "black") +
+  geom_sf(data = locations_sf, aes(color = site), size = 3) +
+  geom_text_repel(
+    data = locations_sf,
+    aes(x = st_coordinates(geometry)[,1],
+        y = st_coordinates(geometry)[,2],
+        label = site),
+    size = 3,
+    nudge_y = 0.5,
+    max.overlaps = 50
+  ) +
+  coord_sf(xlim = c(165, 185), ylim = c(-51, -30)) +
+  theme_minimal(base_size = 13) +
+  labs(color = "Population", 
+       title = "Sampling locations in New Zealand") +
+  theme(
+    axis.text = element_blank(), 
+    axis.title = element_blank(),
+    legend.position = "none",
+    panel.grid = element_blank(),
+    title = element_blank()
+  )
+
+nz_map + scatterplot + vc_pie_chart +
+  plot_layout(widths = c(2, 2, 1), heights = c(3, 1, 1))
+```
+
+```{r}
+dat_ <- 
+  CNOH_dat_meta_full %>%
+  ungroup() %>% 
+  filter(Feather_type == "Breast") %>% 
+  mutate(
+    Specimen_ID = fct_reorder(as.factor(Specimen_ID), lon),
+    Specific_collection_location = as.factor(Specific_collection_location),
+    isotope = as.character(isotope),
+    mean_value = as.numeric(mean_value)
+  ) %>%
+  filter(!is.na(mean_value)) %>%
+  group_by(isotope) %>%
+  mutate(value_scaled = as.numeric(scale(mean_value))) %>%
+  ungroup() %>% 
+  group_by(isotope, Specific_collection_location) %>% 
+  mutate(n_inds = n_distinct(Specimen_ID)) #%>% 
+  # filter(n_inds > 1)
+
+dat_ %>% 
+  filter(geo_region == "New Zealand" & isotope == "normalised_d2h") %>% 
+  ggplot() +
+  geom_point(aes(x = lon, y = value_scaled))
+
+# --- Fit lmer models per isotope --------------------------------------------
+lmer_results <- list()
+vc_table <- tibble()
+icc_table <- tibble()
+isotopes <- unique(dat$isotope)
+
+for (iso in isotopes) {
+message("Fitting lmer for ", iso)
+d_iso <- dat_ %>% filter(isotope == iso)
+
+
+# Ensure there are repeated measures; if not, skip
+if (n_distinct(d_iso$Specimen_ID) < 2) {
+warning("Not enough individuals for isotope ", iso, " - skipping")
+next
+}
+
+
+# Fit model
+form <- as.formula("value_scaled ~ lat + lon + (1 | Specific_collection_location)")
+m <- tryCatch(lmer(form, data = d_iso, REML = TRUE), error = function(e) e)
+if (inherits(m, "error")) {
+warning("lmer failed for ", iso, ": ", m$message)
+next
+}
+
+
+lmer_results[[iso]] <- m
+vc <- get_varcomp_lmer(m)$table %>% mutate(isotope = iso)
+vc_table <- bind_rows(vc_table, vc)
+icc <- calc_repeatability(m, group = "Specimen_ID")
+icc_table <- bind_rows(icc_table, tibble(isotope = iso, repeatability = icc))
+}
+
+
+# Tidy vc_table for plotting: ensure four groups present per isotope
+vc_plot_df <- vc_table %>%
+mutate(group = factor(group, levels = unique(group))) %>%
+rename(variance = variance, proportion = prop)
+
+# Tidy vc_table for plotting: ensure four groups present per isotope
+vc_plot_df <- vc_table %>%
+mutate(group = factor(group, levels = unique(group))) %>%
+rename(variance = variance, proportion = prop)
+
+
+# --- Plot variance partitioning per isotope ---------------------------------
+# Prepare a plot dataframe from lmer results (preferred for clarity)
+plot_df <- vc_table %>%
+rename(component = group) %>%
+mutate(component = recode(component,
+"Specific_collection_location" = "Population",
+"Residual" = "Residual")) %>%
+group_by(isotope) %>%
+mutate(component = factor(component, levels = c("Population","Residual"))) %>%
+ungroup()
+
+
+# p <- ggplot(plot_df, aes(x = isotope, y = prop, fill = component)) +
+#   geom_col(position = "stack") +
+#   scale_x_discrete(labels = iso_labels) +
+#   labs(
+#     x = "Isotope",
+#     y = "Proportion of total variance",
+#     fill = "Component",
+#     title = "Variance partitioning per isotope"
+#   ) +
+#   theme_minimal() +
+#   scale_fill_brewer(palette = "Pastel1")
+# p
+
+vc_pie_chart <- 
+  ggplot(plot_df, aes(x = "", y = prop, fill = component)) +
+    geom_col(width = 1, color = "white") +
+    coord_polar(theta = "y") +
+    facet_grid(isotope ~ ., labeller = labeller(isotope = iso_labels)) +
+    labs(
+        x = NULL,
+        y = NULL,
+        fill = "Variance\ncomponent\npartitioning",
+        title = "Variance partitioning per isotope"
+    ) +
+    scale_fill_brewer(palette = "Pastel1",
+    guide = guide_legend(
+      title.position = "top",    # move title above keys
+      title.hjust = 0.5,         # center title
+      label.position = "right"   # labels stay to the right of keys
+    )) +
+    theme_minimal() +
+    theme(
+        axis.text = element_blank(),
+        axis.title = element_blank(),
+        panel.grid = element_blank(),
+        strip.text = element_blank(),
+        strip.background = element_blank(),
+        title = element_blank(),
+        
+        # Legend customization
+        legend.position = "right",        # move legend to the right
+        legend.direction = "vertical",    # legend items stacked (default), see below
+        # legend.text = element_text(angle = 90)
+        # legend.title = element_text(face = "bold", angle = 90),
+        # legend.key.height = unit(0.5, "cm"),   # increase spacing between keys
+        # legend.key.width  = unit(0.5, "cm"),
+    
+    # Increase white gap between keys
+    # legend.spacing.x = unit(5, "cm") 
+    )
+
+vc_pie_chart
+
+# Reorder individuals by population
+dat_plot <- dat_ %>%
+  mutate(
+    Specimen_ID = fct_reorder(Specimen_ID, lat),
+    isotope = factor(isotope)
+  )
+
+# Create a named vector mapping original isotope names to formatted labels
+iso_labels <- c(
+  "normalised_d13c" = "delta^{13}*C",
+  "normalised_d15n" = "delta^{15}*N",
+  "normalised_d2h"  = "delta^{2}*H",
+  "normalised_d18o" = "delta^{18}*O"
+)
+
+scatterplot <- 
+  ggplot(dat_plot, aes(
+    x = Specimen_ID,
+    y = value_scaled,
+    colour = Specific_collection_location
+  )) +
+  geom_jitter(
+    size = 2.5,
+    alpha = 0.8, width = 0.15
+  ) +
+
+  # # Mean ± 95% CI per individual
+  # stat_summary(
+  #   fun = mean,
+  #   fun.min = function(z) mean(z) - 1.96 * sd(z) / sqrt(length(z)),
+  #   fun.max = function(z) mean(z) + 1.96 * sd(z) / sqrt(length(z)),
+  #   geom = "pointrange",
+  #   colour = "black",
+  #   size = 0.4,
+  #   position = position_nudge(x = 0.15)  # CI nudged right
+  # ) +
+
+  facet_grid(isotope ~ ., scales = "free_y",
+             labeller = labeller(isotope = as_labeller(iso_labels, label_parsed))) +
+  labs(
+    x = "Individual",
+    y = "Scaled isotope value",
+    colour = "Population"
+  ) +
+  theme_bw(base_size = 13) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.spacing = unit(1, "lines"),
+    legend.position = "none",
+    
+    # Rotate vertical strip text
+    strip.text.y = element_text(angle = 0, size = 15),  # 0 = horizontal, 90 = vertical
+    strip.background = element_blank()
+  ) +
+  geom_smooth()
+
+scatterplot + vc_pie_chart
+
+```
+
+
+### Spatial d13C
+
+```{r}
+model_spat_C <- lmer(value ~ lat + lon + (1 | Specimen_ID), 
+                     data = triplicate_CNOH_dat_meta %>% filter(isotope == "normalised_d13c"))
+```
+
+```{r}
+spatial_effects <- allEffects(model_spat_C)
+plot(spatial_effects)
+```
+
+```{r}
+# Derive confidence intervals of effect sizes from parametric bootstrapping
+tidy_spat_C <-
+  tidy(model_spat_C, conf.int = TRUE, conf.method = "boot", nsim = 1000)
+
+# Calculate marginal and conditional R-squared
+r_squared <- r.squaredGLMM(model_spat_C)
+
+# Display the results
+print(r_squared)
+
+# run rptR to obtain repeatabilities of random effects
+rpt_spat_C <-
+  rpt(value ~ lat + lon + (1 | Specimen_ID),
+      grname = c("Specimen_ID", "Fixed"),
+      data = triplicate_CNOH_dat_meta %>% filter(isotope == "normalised_d13c"),
+      datatype = "Gaussian",
+      nboot = 1000, npermut = 1000, ratio = TRUE,
+      adjusted = TRUE, ncores = 4, parallel = TRUE)
+
+# run partR2 on each model to obtain marginal R2, parameter estimates, and beta
+# weights
+R2m_spat_C <-
+  partR2(model_spat_C,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "marginal",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+R2c_spat_C <-
+  partR2(model_spat_C,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "conditional",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+stats_spat_C <-
+  list(mod = model_spat_C,
+       tidy = tidy_spat_C,
+       rptR = rpt_spat_C,
+       partR2m = R2m_spat_C,
+       partR2c = R2c_spat_C,
+       data = triplicate_CNOH_dat_meta %>% filter(isotope == "normalised_d13c"))
+
+# summary(glht(smi_wing_lmer_seq))
+
+#### Table of effect sizes ----
+# Retrieve sample sizes
+sample_sizes <-
+  stats_spat_C$data %>%
+  ungroup() %>%
+  summarise(Individual = n_distinct(Specimen_ID),
+            Observations = nrow(.))
+
+sample_sizes <-
+  as.data.frame(t(as.data.frame(sample_sizes))) %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1) %>%
+  mutate(stat = "n")
+
+# clean model component names
+mod_comp_names <-
+  data.frame(comp_name = c("baseline \U03B4 13 C (intercept)",
+                           "latitude",
+                           "longitude",
+                           "Total Marginal \U1D479\U00B2",
+                           "latitude",
+                           "longitude",
+                           "Total Conditional \U1D479\U00B2",
+                           "Individual",
+                           "Residual",
+                           "Individual",
+                           "Residual",
+                           "Individuals",
+                           "Observations"))
+
+# Fixed effect sizes (non-standardized)
+fixefTable <-
+  stats_spat_C$tidy %>%
+  dplyr::filter(effect == "fixed") %>%
+  dplyr::select(term, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed")
+
+# Fixed effect sizes (standardized)
+fixef_bw_Table <-
+  stats_spat_C$partR2m$BW %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed_bw") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Semi-partial R2 estimates
+R2Table <-
+  bind_rows(stats_spat_C$partR2m$R2,
+            stats_spat_C$partR2c$R2[1,]) %>%
+  dplyr::select(term, estimate, CI_lower, CI_upper) %>%
+  as.data.frame() %>%
+  mutate(stat = "partR2") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Random effects variances
+ranefTable <-
+  stats_spat_C$tidy %>%
+  dplyr::filter(effect == "ran_pars") %>%
+  dplyr::select(group, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "rand") %>%
+  rename(term = group) %>%
+  mutate(estimate = estimate^2,
+         conf.high = conf.high^2,
+         conf.low = conf.low^2)
+
+# Adjusted repeatabilities
+coefRptTable <-
+  stats_spat_C$rptR$R_boot %>%
+  dplyr::select(-Fixed) %>%
+  mutate(residual = 1 - rowSums(.)) %>%
+  apply(., 2,
+        function(x) c(mean (x), quantile (x, prob = c(0.025, 0.975)))) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1,
+         conf.low = `2.5%`,
+         conf.high = `97.5%`) %>%
+  mutate(stat = "RptR")
+
+# Store all parameters into a single table and clean it up
+allCoefs_mod <-
+  bind_rows(fixefTable[1,], 
+            fixef_bw_Table,
+            R2Table,
+            ranefTable,
+            coefRptTable,
+            sample_sizes) %>%
+  bind_cols(.,
+            mod_comp_names) %>%
+  mutate(coefString = ifelse(!is.na(conf.low),
+                             paste0("[",
+                                    round(conf.low, 2), ", ",
+                                    round(conf.high, 2), "]"),
+                             NA),
+         effect = c(rep("Fixed effects \U1D6FD (standardized)", nrow(fixefTable[1,])),
+                    rep("Fixed effects \U1D6FD (standardized)", nrow(fixef_bw_Table)),
+                    rep("Partitioned \U1D479\U00B2", nrow(R2Table)),
+                    rep("Random effects \U1D70E\U00B2", nrow(ranefTable)),
+                    rep("Adjusted repeatability \U1D45F", nrow(coefRptTable)),
+                    rep("Sample sizes \U1D45B", nrow(sample_sizes)))) %>%
+  dplyr::select(effect, everything())
+
+# draw gt table
+stats_spat_C_table <-
+  allCoefs_mod %>%
+  dplyr::select(effect, comp_name, estimate, coefString) %>%
+  gt(rowname_col = "row",
+     groupname_col = "effect") %>%
+  cols_label(comp_name = html("<i>\U03B4 13 C</i>"),
+             estimate = "Mean estimate",
+             coefString = "95% confidence interval") %>%
+  fmt_number(columns = c(estimate),
+             rows = 1:11,
+             decimals = 2,
+             use_seps = FALSE) %>%
+  fmt_number(columns = c(estimate),
+             rows = 12:13,
+             decimals = 0,
+             use_seps = FALSE) %>%
+  sub_missing(columns = 1:4,
+              missing_text = "") %>%
+  cols_align(align = "left",
+             columns = c(comp_name)) %>%
+  tab_options(row_group.font.weight = "bold",
+              row_group.background.color = brewer.pal(9,"Greys")[3],
+              table.font.size = 12,
+              data_row.padding = 3,
+              row_group.padding = 4,
+              summary_row.padding = 2,
+              column_labels.font.size = 14,
+              row_group.font.size = 12,
+              table.width = pct(90))
+```
+
+```{r}
+stats_spat_C_table
+```
+
+### Spatial d15N
+
+```{r}
+model_spat_N <- lmer(value ~ lat + lon + (1 | Specimen_ID), 
+                     data = triplicate_CNOH_dat_meta %>% filter(isotope == "normalised_d15n"))
+```
+
+```{r}
+spatial_effects <- allEffects(model_spat_N)
+plot(spatial_effects)
+```
+
+```{r}
+# Derive confidence intervals of effect sizes from parametric bootstrapping
+tidy_spat_N<-
+  tidy(model_spat_N, conf.int = TRUE, conf.method = "boot", nsim = 1000)
+
+# run rptR to obtain repeatabilities of random effects
+rpt_spat_N <-
+  rpt(value ~ lat + lon + (1 | Specimen_ID),
+      grname = c("Specimen_ID", "Fixed"),
+      data = triplicate_CNOH_dat_meta %>% filter(isotope == "normalised_d15n"),
+      datatype = "Gaussian",
+      nboot = 1000, npermut = 1000, ratio = TRUE,
+      adjusted = TRUE, ncores = 4, parallel = TRUE)
+
+# run partR2 on each model to obtain marginal R2, parameter estimates, and beta
+# weights
+R2m_spat_N <-
+  partR2(model_spat_N,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "marginal",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+R2c_spat_N <-
+  partR2(model_spat_N,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "conditional",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+stats_spat_N <-
+  list(mod = model_spat_N,
+       tidy = tidy_spat_N,
+       rptR = rpt_spat_N,
+       partR2m = R2m_spat_N,
+       partR2c = R2c_spat_N,
+       data = triplicate_CNOH_dat_meta %>% filter(isotope == "normalised_d15n"))
+
+# summary(glht(model_spat_N))
+
+#### Table of effect sizes ----
+# Retrieve sample sizes
+sample_sizes <-
+  stats_spat_N$data %>%
+  ungroup() %>%
+  summarise(Individual = n_distinct(Specimen_ID),
+            Observations = nrow(.))
+
+sample_sizes <-
+  as.data.frame(t(as.data.frame(sample_sizes))) %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1) %>%
+  mutate(stat = "n")
+
+# clean model component names
+mod_comp_names <-
+  data.frame(comp_name = c("baseline \U03B4 15 N (intercept)",
+                           "latitude",
+                           "longitude",
+                           "Total Marginal \U1D479\U00B2",
+                           "latitude",
+                           "longitude",
+                           "Total Conditional \U1D479\U00B2",
+                           "Individual",
+                           "Residual",
+                           "Individual",
+                           "Residual",
+                           "Individuals",
+                           "Observations"))
+
+# Fixed effect sizes (non-standardized)
+fixefTable <-
+  stats_spat_N$tidy %>%
+  dplyr::filter(effect == "fixed") %>%
+  dplyr::select(term, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed")
+
+# Fixed effect sizes (standardized)
+fixef_bw_Table <-
+  stats_spat_N$partR2m$BW %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed_bw") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Semi-partial R2 estimates
+R2Table <-
+  bind_rows(stats_spat_N$partR2m$R2,
+            stats_spat_N$partR2c$R2[1,]) %>%
+  dplyr::select(term, estimate, CI_lower, CI_upper) %>%
+  as.data.frame() %>%
+  mutate(stat = "partR2") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Random effects variances
+ranefTable <-
+  stats_spat_N$tidy %>%
+  dplyr::filter(effect == "ran_pars") %>%
+  dplyr::select(group, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "rand") %>%
+  rename(term = group) %>%
+  mutate(estimate = estimate^2,
+         conf.high = conf.high^2,
+         conf.low = conf.low^2)
+
+# Adjusted repeatabilities
+coefRptTable <-
+  stats_spat_N$rptR$R_boot %>%
+  dplyr::select(-Fixed) %>%
+  mutate(residual = 1 - rowSums(.)) %>%
+  apply(., 2,
+        function(x) c(mean (x), quantile (x, prob = c(0.025, 0.975)))) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1,
+         conf.low = `2.5%`,
+         conf.high = `97.5%`) %>%
+  mutate(stat = "RptR")
+
+# Store all parameters into a single table and clean it up
+allCoefs_mod <-
+  bind_rows(fixefTable[1,], 
+            fixef_bw_Table,
+            R2Table,
+            ranefTable,
+            coefRptTable,
+            sample_sizes) %>%
+  bind_cols(.,
+            mod_comp_names) %>%
+  mutate(coefString = ifelse(!is.na(conf.low),
+                             paste0("[",
+                                    round(conf.low, 2), ", ",
+                                    round(conf.high, 2), "]"),
+                             NA),
+         effect = c(rep("Fixed effects \U1D6FD (standardized)", nrow(fixefTable[1,])),
+                    rep("Fixed effects \U1D6FD (standardized)", nrow(fixef_bw_Table)),
+                    rep("Partitioned \U1D479\U00B2", nrow(R2Table)),
+                    rep("Random effects \U1D70E\U00B2", nrow(ranefTable)),
+                    rep("Adjusted repeatability \U1D45F", nrow(coefRptTable)),
+                    rep("Sample sizes \U1D45B", nrow(sample_sizes)))) %>%
+  dplyr::select(effect, everything())
+
+# draw gt table
+stats_spat_N_table <-
+  allCoefs_mod %>%
+  dplyr::select(effect, comp_name, estimate, coefString) %>%
+  gt(rowname_col = "row",
+     groupname_col = "effect") %>%
+  cols_label(comp_name = html("<i>\U03B4 15 N</i>"),
+             estimate = "Mean estimate",
+             coefString = "95% confidence interval") %>%
+  fmt_number(columns = c(estimate),
+             rows = 1:11,
+             decimals = 2,
+             use_seps = FALSE) %>%
+  fmt_number(columns = c(estimate),
+             rows = 12:13,
+             decimals = 0,
+             use_seps = FALSE) %>%
+  sub_missing(columns = 1:4,
+              missing_text = "") %>%
+  cols_align(align = "left",
+             columns = c(comp_name)) %>%
+  tab_options(row_group.font.weight = "bold",
+              row_group.background.color = brewer.pal(9,"Greys")[3],
+              table.font.size = 12,
+              data_row.padding = 3,
+              row_group.padding = 4,
+              summary_row.padding = 2,
+              column_labels.font.size = 14,
+              row_group.font.size = 12,
+              table.width = pct(90))
+```
+
+```{r}
+stats_spat_N_table
+```
+
+### Spatial C:N
+
+```{r, include=FALSE, eval=FALSE}
+model_spat_CN <- lmer(value ~ lat + lon + (1 | Specimen_ID), 
+                      data = triplicate_CNOH_dat_meta %>% filter(isotope == "cn_mass_ratio") %>% filter(!is.na(value) & !is.na(lat) & !is.na(lon) & !is.na(Specimen_ID)))
+
+spatial_effects <- allEffects(model_spat_CN)
+plot(spatial_effects)
+
+# Derive confidence intervals of effect sizes from parametric bootstrapping
+tidy_spat_CN<-
+  tidy(model_spat_CN, conf.int = TRUE, conf.method = "boot", nsim = 1000)
+
+# run rptR to obtain repeatabilities of random effects
+rpt_spat_CN <-
+  rpt(value ~ lat + lon + (1 | Specimen_ID),
+      grname = c("Specimen_ID", "Fixed"),
+      data = triplicate_CNOH_dat_meta %>% filter(isotope == "cn_mass_ratio") %>% filter(!is.na(value)),
+      datatype = "Gaussian",
+      nboot = 1000, npermut = 1000, ratio = TRUE,
+      adjusted = TRUE, ncores = 4, parallel = TRUE)
+
+# run partR2 on each model to obtain marginal R2, parameter estimates, and beta
+# weights
+R2m_spat_CN <-
+  partR2(model_spat_CN,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "marginal",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+R2c_spat_CN <-
+  partR2(model_spat_CN,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "conditional",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+stats_spat_CN <-
+  list(mod = model_spat_CN,
+       tidy = tidy_spat_CN,
+       rptR = rpt_spat_CN,
+       partR2m = R2m_spat_CN,
+       partR2c = R2c_spat_CN,
+       data = triplicate_CNOH_dat_meta %>% filter(isotope == "cn_mass_ratio") %>% filter(!is.na(value)))
+
+# summary(glht(model_spat_CN))
+
+#### Table of effect sizes ----
+# Retrieve sample sizes
+sample_sizes <-
+  stats_spat_CN$data %>%
+  ungroup() %>%
+  summarise(Individual = n_distinct(Specimen_ID),
+            Observations = nrow(.))
+
+sample_sizes <-
+  as.data.frame(t(as.data.frame(sample_sizes))) %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1) %>%
+  mutate(stat = "n")
+
+# clean model component names
+mod_comp_names <-
+  data.frame(comp_name = c("baseline \U03B4 13 C : \U03B4 15 N (intercept)",
+                           "latitude",
+                           "longitude",
+                           "Total Marginal \U1D479\U00B2",
+                           "latitude",
+                           "longitude",
+                           "Total Conditional \U1D479\U00B2",
+                           "Individual",
+                           "Residual",
+                           "Individual",
+                           "Residual",
+                           "Individuals",
+                           "Observations"))
+
+# Fixed effect sizes (non-standardized)
+fixefTable <-
+  stats_spat_CN$tidy %>%
+  dplyr::filter(effect == "fixed") %>%
+  dplyr::select(term, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed")
+
+# Fixed effect sizes (standardized)
+fixef_bw_Table <-
+  stats_spat_CN$partR2m$BW %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed_bw") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Semi-partial R2 estimates
+R2Table <-
+  bind_rows(stats_spat_CN$partR2m$R2,
+            stats_spat_CN$partR2c$R2[1,]) %>%
+  dplyr::select(term, estimate, CI_lower, CI_upper) %>%
+  as.data.frame() %>%
+  mutate(stat = "partR2") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Random effects variances
+ranefTable <-
+  stats_spat_CN$tidy %>%
+  dplyr::filter(effect == "ran_pars") %>%
+  dplyr::select(group, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "rand") %>%
+  rename(term = group) %>%
+  mutate(estimate = estimate^2,
+         conf.high = conf.high^2,
+         conf.low = conf.low^2)
+
+# Adjusted repeatabilities
+coefRptTable <-
+  stats_spat_CN$rptR$R_boot %>%
+  dplyr::select(-Fixed) %>%
+  mutate(residual = 1 - rowSums(.)) %>%
+  apply(., 2,
+        function(x) c(mean (x), quantile (x, prob = c(0.025, 0.975)))) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1,
+         conf.low = `2.5%`,
+         conf.high = `97.5%`) %>%
+  mutate(stat = "RptR")
+
+# Store all parameters into a single table and clean it up
+allCoefs_mod <-
+  bind_rows(fixefTable[1,], 
+            fixef_bw_Table,
+            R2Table,
+            ranefTable,
+            coefRptTable,
+            sample_sizes) %>%
+  bind_cols(.,
+            mod_comp_names) %>%
+  mutate(coefString = ifelse(!is.na(conf.low),
+                             paste0("[",
+                                    round(conf.low, 2), ", ",
+                                    round(conf.high, 2), "]"),
+                             NA),
+         effect = c(rep("Fixed effects \U1D6FD (standardized)", nrow(fixefTable[1,])),
+                    rep("Fixed effects \U1D6FD (standardized)", nrow(fixef_bw_Table)),
+                    rep("Partitioned \U1D479\U00B2", nrow(R2Table)),
+                    rep("Random effects \U1D70E\U00B2", nrow(ranefTable)),
+                    rep("Adjusted repeatability \U1D45F", nrow(coefRptTable)),
+                    rep("Sample sizes \U1D45B", nrow(sample_sizes)))) %>%
+  dplyr::select(effect, everything())
+
+# draw gt table
+stats_spat_CN_table <-
+  allCoefs_mod %>%
+  dplyr::select(effect, comp_name, estimate, coefString) %>%
+  gt(rowname_col = "row",
+     groupname_col = "effect") %>%
+  cols_label(comp_name = html("<i>\U03B4 13 C : \U03B4 15 N</i>"),
+             estimate = "Mean estimate",
+             coefString = "95% confidence interval") %>%
+  fmt_number(columns = c(estimate),
+             rows = 1:11,
+             decimals = 2,
+             use_seps = FALSE) %>%
+  fmt_number(columns = c(estimate),
+             rows = 12:13,
+             decimals = 0,
+             use_seps = FALSE) %>%
+  sub_missing(columns = 1:4,
+              missing_text = "") %>%
+  cols_align(align = "left",
+             columns = c(comp_name)) %>%
+  tab_options(row_group.font.weight = "bold",
+              row_group.background.color = brewer.pal(9,"Greys")[3],
+              table.font.size = 12,
+              data_row.padding = 3,
+              row_group.padding = 4,
+              summary_row.padding = 2,
+              column_labels.font.size = 14,
+              row_group.font.size = 12,
+              table.width = pct(90))
+
+stats_spat_CN_table
+```
+
+### Spatial d18O
+
+```{r}
+model_spat_O <- lmer(value ~ lat + lon + (1 | Specimen_ID), 
+                     data = triplicate_CNOH_dat_meta %>% filter(isotope == "normalised_d18o"),
+                     control = lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 2e5)))
+```
+
+```{r}
+spatial_effects <- allEffects(model_spat_O)
+plot(spatial_effects)
+```
+
+```{r}
+# Derive confidence intervals of effect sizes from parametric bootstrapping
+tidy_spat_O <-
+  tidy(model_spat_O, conf.int = TRUE, conf.method = "boot", nsim = 1000)
+
+# run rptR to obtain repeatabilities of random effects
+rpt_spat_O <-
+  rpt(value ~ lat + lon + (1 | Specimen_ID),
+      grname = c("Specimen_ID", "Fixed"),
+      data = triplicate_CNOH_dat_meta %>% filter(isotope == "normalised_d18o"),
+      datatype = "Gaussian",
+      nboot = 1000, npermut = 1000, ratio = TRUE,
+      adjusted = TRUE, ncores = 4, parallel = TRUE)
+
+# run partR2 on each model to obtain marginal R2, parameter estimates, and beta
+# weights
+R2m_spat_O <-
+  partR2(model_spat_O,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "marginal",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+R2c_spat_O <-
+  partR2(model_spat_O,
+         partvars = c("lat",
+                      "lon"),
+         R2_type = "conditional",
+         nboot = 1000,
+         CI = 0.95,
+         max_level = 1)
+
+stats_spat_O <-
+  list(mod = model_spat_O,
+       tidy = tidy_spat_O,
+       rptR = rpt_spat_O,
+       partR2m = R2m_spat_O,
+       partR2c = R2c_spat_O,
+       data = triplicate_CNOH_dat_meta %>% filter(isotope == "normalised_d18o"))
+
+# summary(glht(model_spat_N))
+
+#### Table of effect sizes ----
+# Retrieve sample sizes
+sample_sizes <-
+  stats_spat_O$data %>%
+  ungroup() %>%
+  summarise(Individual = n_distinct(Specimen_ID),
+            Observations = nrow(.))
+
+sample_sizes <-
+  as.data.frame(t(as.data.frame(sample_sizes))) %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1) %>%
+  mutate(stat = "n")
+
+# clean model component names
+mod_comp_names <-
+  data.frame(comp_name = c("baseline \U03B4 18 O (intercept)",
+                           "latitude",
+                           "longitude",
+                           "Total Marginal \U1D479\U00B2",
+                           "latitude",
+                           "longitude",
+                           "Total Conditional \U1D479\U00B2",
+                           "Individual",
+                           "Residual",
+                           "Individual",
+                           "Residual",
+                           "Individuals",
+                           "Observations"))
+
+# Fixed effect sizes (non-standardized)
+fixefTable <-
+  stats_spat_O$tidy %>%
+  dplyr::filter(effect == "fixed") %>%
+  dplyr::select(term, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed")
+
+# Fixed effect sizes (standardized)
+fixef_bw_Table <-
+  stats_spat_O$partR2m$BW %>%
+  as.data.frame() %>%
+  mutate(stat = "fixed_bw") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Semi-partial R2 estimates
+R2Table <-
+  bind_rows(stats_spat_O$partR2m$R2,
+            stats_spat_O$partR2c$R2[1,]) %>%
+  dplyr::select(term, estimate, CI_lower, CI_upper) %>%
+  as.data.frame() %>%
+  mutate(stat = "partR2") %>%
+  rename(conf.low = CI_lower,
+         conf.high = CI_upper)
+
+# Random effects variances
+ranefTable <-
+  stats_spat_O$tidy %>%
+  dplyr::filter(effect == "ran_pars") %>%
+  dplyr::select(group, estimate, conf.low, conf.high) %>%
+  as.data.frame() %>%
+  mutate(stat = "rand") %>%
+  rename(term = group) %>%
+  mutate(estimate = estimate^2,
+         conf.high = conf.high^2,
+         conf.low = conf.low^2)
+
+# Adjusted repeatabilities
+coefRptTable <-
+  stats_spat_O$rptR$R_boot %>%
+  dplyr::select(-Fixed) %>%
+  mutate(residual = 1 - rowSums(.)) %>%
+  apply(., 2,
+        function(x) c(mean (x), quantile (x, prob = c(0.025, 0.975)))) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column("term") %>%
+  rename(estimate = V1,
+         conf.low = `2.5%`,
+         conf.high = `97.5%`) %>%
+  mutate(stat = "RptR")
+
+# Store all parameters into a single table and clean it up
+allCoefs_mod <-
+  bind_rows(fixefTable[1,], 
+            fixef_bw_Table,
+            R2Table,
+            ranefTable,
+            coefRptTable,
+            sample_sizes) %>%
+  bind_cols(.,
+            mod_comp_names) %>%
+  mutate(coefString = ifelse(!is.na(conf.low),
+                             paste0("[",
+                                    round(conf.low, 2), ", ",
+                                    round(conf.high, 2), "]"),
+                             NA),
+         effect = c(rep("Fixed effects \U1D6FD (standardized)", nrow(fixefTable[1,])),
+                    rep("Fixed effects \U1D6FD (standardized)", nrow(fixef_bw_Table)),
+                    rep("Partitioned \U1D479\U00B2", nrow(R2Table)),
+                    rep("Random effects \U1D70E\U00B2", nrow(ranefTable)),
+                    rep("Adjusted repeatability \U1D45F", nrow(coefRptTable)),
+                    rep("Sample sizes \U1D45B", nrow(sample_sizes)))) %>%
+  dplyr::select(effect, everything())
+
+# draw gt table
+stats_spat_O_table <-
+  allCoefs_mod %>%
+  dplyr::select(effect, comp_name, estimate, coefString) %>%
+  gt(rowname_col = "row",
+     groupname_col = "effect") %>%
+  cols_label(comp_name = html("<i>\U03B4 18 O</i>"),
+             estimate = "Mean estimate",
+             coefString = "95% confidence interval") %>%
+  fmt_number(columns = c(estimate),
+             rows = 1:11,
+             decimals = 2,
+             use_seps = FALSE) %>%
+  fmt_number(columns = c(estimate),
+             rows = 12:13,
+             decimals = 0,
+             use_seps = FALSE) %>%
+  sub_missing(columns = 1:4,
+              missing_text = "") %>%
+  cols_align(align = "left",
+             columns = c(comp_name)) %>%
+  tab_options(row_group.font.weight = "bold",
+              row_group.background.color = brewer.pal(9,"Greys")[3],
+              table.font.size = 12,
+              data_row.padding = 3,
+              row_group.padding = 4,
+              summary_row.padding = 2,
+              column_labels.font.size = 14,
+              row_group.font.size = 12,
+              table.width = pct(90))
+```
+
+```{r}
+stats_spat_O_table
+```
+
+## Different sampling and homogenization proceedures
+half a vane vs. sub-sample of scissor cut vane homogenate
+
+```{r}
+# import and consolidate key columns
+dat <-
+  read_excel(here("data/Master_SI_Replicate test Feathers_N_9_LEH_Jan25_v1_SB.xls"), 
+                     sheet = "Sample results_C&N", 
+                     col_types = "text", skip = 9, col_names = TRUE) %>%
+  dplyr::select(1, 2, 10:16, 18:24, 28:35, 37, 40:46, 48) %>%
+    rename_with(~ .x %>%
+                tolower() %>%
+                str_replace_all(" ", "_") %>%
+                str_replace_all("__", "_") %>%
+                str_replace_all("___", "_") %>%
+                str_replace_all("%", "_perc_") %>%
+                str_replace_all(":", "") %>%
+                str_replace_all("#", "")) %>% 
+  rename(all_correct_amt_perc__n_flash_tcd_____A = all_correct_amt_perc__n_flash_tcd...10, 
+         `ampl_28_mv_____A` = `ampl_28_(mv)...11`, 
+         normalised_d15n_____A = normalised_d15n...12,                
+         avg_amt_perc_n_____A = avg_amt_perc_n...13,             
+         stdev_amt_perc_n_____A = stdev_amt_perc_n...14,                  
+         avg_d15n_____A = avg_d15n...15,    
+         stdev_d15n_____A = stdev_d15n...16,                        
+         all_correct_amt_perc__n_flash_tcd_____B = all_correct_amt_perc__n_flash_tcd...18,
+         `ampl_28_mv_____B` = `ampl_28_(mv)...19`,                     
+         normalised_d15n_____B = normalised_d15n...20,    
+         avg_amt_perc_n_____B = avg_amt_perc_n...21,                    
+         stdev_amt_perc_n_____B = stdev_amt_perc_n...22,  
+         avg_d15n_____B = avg_d15n...23,                          
+         stdev_d15n_____B = stdev_d15n...24,   
+         all_correct_amt_perc__c_flash_tcd_____C = all_correct_amt_perc__c_flash_tcd...28,
+         ampl_44_mv_____C = `ampl_44_(mv)...29`,                      
+         normalised_d13c_____C = normalised_d13c...30, 
+         sample_dilution__perc_____C = `sample_dilution_(_perc_)`,               
+         avg_amt_perc_c_____C = avg_amt_perc_c...32,   
+         stdev_amt_perc_c_____C = stdev_amt_perc_c...33,                       
+         avg_d13c_____C = avg_d13c...34, 
+         stdev_d13c_____C = stdev_d13c...35,                             
+         cn_mass_ratio_____C = `cn_mass_ratio,_second_batch`,            
+         all_correct_amt_perc__c_flash_tcd_____D = all_correct_amt_perc__c_flash_tcd...40,
+         ampl_44_mv_____D = `ampl_44_(mv)...41`,                      
+         normalised_d13c_____D = normalised_d13c...42, 
+         avg_amt_perc_C_____D = avg_amt_perc_c...43,                    
+         stdev_amt_perc_C_____D = stdev_amt_perc_c...44,                 
+         avg_d13C_____D = avg_d13c...45,                          
+         stdev_d13C_____D = stdev_d13c...46,                       
+         cn_mass_ratio_____D = `cn_mass_ratio,_first_batch`) %>% 
+  pivot_longer(
+    cols = -c(index_, identifier_1), 
+    names_to = c("Group", "Variable"), 
+    names_sep = "_____"
+  ) %>% 
+  mutate(method = ifelse(Variable %in% c("A", "C"), "B", "A"),
+         element = ifelse(Variable %in% c("A", "B"), "N", "C"),
+         value = as.numeric(value)) %>% 
+  mutate(
+    NewColumn = str_extract(identifier_1, "^[^ ]+"),  # Extract text to the left of the first white space
+    feather_id = str_trim(str_replace(identifier_1, "^[^ ]+ ", "")),
+    identifier_1 = str_trim(str_replace(identifier_1, "^[^ ]+ ", ""))# Remove text to the left of the first white space and trim remaining white space
+  ) %>% mutate(identifier_1 = str_replace(identifier_1, "_.*", "")) %>% 
+  rename(Specimen_ID = NewColumn,
+         Feather_type = identifier_1) %>% 
+  left_join(., read_excel(here("../../stable_isotopes/data/for_Sarah/master_museum_sample_banded_dotterels.xlsx"), col_types = "text") %>% mutate(Specimen_ID = str_extract(Specimen_ID, "^[^ ]+")) %>% dplyr::select(Feather_type, Specimen_ID, General_collection_location, 
+         Specific_collection_location, Collection_date), join_by(Specimen_ID, Feather_type)) %>% 
+  dplyr::select(Specimen_ID, feather_id, Feather_type, Group, method, 
+         element, General_collection_location, 
+         Specific_collection_location, Collection_date, value) %>%
+  mutate(Month = str_extract(Collection_date, "(January|February|March|April|May|June|July|August|September|October|November|December)")) %>% 
+  mutate(location = paste(Specific_collection_location, General_collection_location, sep = ", ")) %>%
+  mutate(location = str_replace_all(location, "NA, ", ""))
+
+dat_C <-
+  dat %>% filter(element == "C") %>% 
+  pivot_wider(names_from = Group, values_from = value)
+
+dat_N <-  
+  dat %>% filter(element == "N") %>% 
+  pivot_wider(names_from = Group, values_from = value)
+  
+# Create a data frame 
+df <- data.frame(location = dat$location)
+
+# Remove duplicates to avoid redundant API calls
+unique_locations <- unique(df$location)
+
+# Get latitude and longitude for unique locations
+geocode_data <- geocode(unique_locations)
+
+# Combine the geocode data with the unique locations
+location_data <- data.frame(location = unique_locations, geocode_data)
+
+# Merge the geocode data back into the original dataframe
+dat_C <- left_join(dat_C, location_data, by = "location")
+dat_N <- left_join(dat_N, location_data, by = "location")
+
+# transform lon
+dat_C <-
+  dat_C %>% 
+  mutate(lon = ifelse(lon < 0, lon + 180*2, lon))
+
+dat_N <-
+  dat_N %>% 
+  mutate(lon = ifelse(lon < 0, lon + 180*2, lon))
+
+dat_C_mean <-
+  dat_C %>%
+  group_by(Specimen_ID, method) %>%
+  summarise(normalised_d13c = mean(normalised_d13c))
+
+dat_N_mean <-
+  dat_N %>%
+  group_by(Specimen_ID, method) %>%
+  summarise(normalised_d15n = mean(normalised_d15n))
+
+dat_NC_mean <- 
+  left_join(dat_C_mean, dat_N_mean)
+
+dat_N_ <- 
+  dat_N %>% 
+  dplyr::select(method, Specimen_ID, feather_id, normalised_d15n)
+
+dat_C_ <- 
+  dat_C %>% 
+  dplyr::select(method, Specimen_ID, feather_id, normalised_d13c)
+
+dat_NC_2 <- 
+  left_join(dat_C_, dat_N_)
+
+# Compute convex hulls for each Specimen_ID using chull() from sp
+hulls_ <- dat_NC_2 %>%
+  group_by(method, Specimen_ID) %>%
+  do({
+    # Extract the data for the current group
+    group_data <- .[ , c("normalised_d13c", "normalised_d15n")]
+    
+    # Create a spatial object but extract coordinates as a regular matrix
+    coords <- SpatialPoints(group_data)
+    coords_matrix <- coords@coords
+    
+    # Compute the convex hull using chull
+    chull_indices <- chull(coords_matrix)
+    hull_coords <- group_data[chull_indices, ]
+    
+    # Return the convex hull coordinates
+    data.frame(hull = I(list(hull_coords)))
+  }) %>%
+  unnest(cols = c(hull)) %>% 
+  left_join(., dat %>% dplyr::select(Specimen_ID, Month, location) %>% distinct(), by = "Specimen_ID") %>% 
+  mutate(Specimen_ID_method = paste(Specimen_ID, method, sep = "_"))
+
+ggplot() + 
+  geom_polygon(data = hulls_, 
+               aes(group = Specimen_ID_method, fill = location, 
+                   x = normalised_d13c, y = normalised_d15n), 
+               color = NA, alpha = 0.5) +
+  geom_point(data = hulls_, 
+             aes(fill = location, x = normalised_d13c, y = normalised_d15n, shape = method), 
+             size = 3) + 
+  labs(x = "d13C", y = "d15N") + 
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set1") +
+  scale_shape_manual(values = c(21, 24), labels = c("A" = "homogenate of entire half vane",
+                                                    "B" = "homogenate of vane sub-sample")) +
+  theme(legend.position = "bottom", legend.title = element_blank(),
+        axis.title = element_text(size = 15)) + 
+  guides(color = guide_legend(nrow = 3), fill = guide_legend(nrow = 3), shape = guide_legend(nrow = 3)) +
+  geom_point(data = dat_NC_mean, aes(x = normalised_d13c, y = normalised_d15n, shape = method), fill = "black")
+```
+
+## assess quantitative differences in the isotope data according to sampling/homogenization method
+
+```{r, eval=FALSE}
+C_amt_perc_mod <- 
+  lmer(all_correct_amt_perc__c_flash_tcd ~ method + (1 | Specimen_ID), 
+       data = dat_C)
+
+double_model = bf(all_correct_amt_perc__c_flash_tcd ~ method + gr(Specimen_ID, by = method),
+                  sigma ~ method)
+
+m3_brm <- brm(double_model,
+              data = dat_C,
+              warmup = 500,iter = 3000, thin=2,
+              chains = 2, inits = "random",
+              seed = 12345)
+
+
+C_ampl_44_mv_mod <- 
+  lmer(ampl_44_mv ~ method + (1 | Specimen_ID), 
+       data = dat_C)
+
+C_normalised_d13c_mod <- 
+  lmer(normalised_d13c ~ method + (1 | Specimen_ID), 
+       data = dat_C)
+
+N_amt_perc_mod <- 
+  lmer(all_correct_amt_perc__n_flash_tcd ~ method + (1 | Specimen_ID), 
+       data = dat_N)
+
+N_ampl_28_mv_mod <- 
+  lmer(ampl_28_mv ~ method + (1 | Specimen_ID), 
+       data = dat_N)
+
+N_normalised_d15n_mod <- 
+  lmer(normalised_d15n ~ method + (1 | Specimen_ID), 
+       data = dat_N)
+```
+
+## Sample management
+
+```{r}
+museum_samples <- 
+  read_sheet("https://docs.google.com/spreadsheets/d/1-iF-rvswS5QvlKgz4fgF14FnfkK17DYf6je5nwYw48o/edit?gid=0#gid=0", col_types = "c") %>% 
+  filter(Sent_to_Sarah == "yes" | Sent_to_Sarah == "Yes") %>%
+  mutate(Month = str_extract(Collection_date, "(January|February|March|April|May|June|July|August|September|October|November|December)")) %>% 
+  mutate(location = paste(gsub("\\s*\\([^\\)]+\\)", "", Specific_collection_location), General_collection_location, sep = ", ")) %>%
+  mutate(location = str_replace_all(location, "NA, ", ""))
+
+# Applying the transformation
+museum_samples <- museum_samples %>%
+  mutate(
+    month_extracted = sapply(Collection_date, extract_month),
+    month = ifelse(!is.na(Collection_month), as.numeric(Collection_month), month_extracted)
+  ) %>%
+  select(-month_extracted)
+
+# Create a data frame 
+museum_sample_loc <- 
+  data.frame(location = museum_samples$location) %>% 
+  pull(location) %>% unique()
+
+geocode_data <- geocode(museum_sample_loc)
+
+# Combine the geocode data with the unique locations
+museum_sample_loc_ <- data.frame(location = museum_sample_loc, geocode_data)
+
+# Merge the geocode data back into the original dataframe
+museum_samples <- left_join(museum_samples, museum_sample_loc_, by = "location")
+
+# Remove rows where month is NA
+museum_samples <- museum_samples %>% filter(!is.na(month))
+
+# Convert numeric month to month names
+museum_samples$month <- factor(month.name[museum_samples$month], levels = month.name)
+
+# Convert museum_samples to an sf object
+museum_samples_sf <- st_as_sf(museum_samples, coords = c("lon", "lat"), crs = 4326)
+
+# Reproject museum_samples to the desired projection
+museum_samples_sf <- st_transform(museum_samples_sf, crs = "+proj=ortho +lon_0=160 +lat_0=-41")
+
+museum_samples_sf <- 
+  museum_samples_sf %>%
+  mutate(Specimen_ID_ = gsub("WAM |AJB ", "", Specimen_ID)) %>%
+  mutate(Feather_type = ifelse(is.na(Feather_type), sub("^(\\S+\\s+\\S+)\\s+(.*)$", "\\2", Specimen_ID), Feather_type)) %>% 
+  mutate(
+    Specimen_ID_ = str_extract(Specimen_ID_, "^[^ ]+")) %>%   # Extract text to the left of the first white space
+  group_by(Specimen_ID_) %>%
+  mutate(Feather_status = case_when(
+    n_distinct(Feather_type) == 2 ~ "Primary and Breast",
+    "Breast" %in% Feather_type ~ "Breast",
+    "Primary" %in% Feather_type ~ "Primary"
+  )) %>%
+  ungroup()
+
+museum_samples_sf %>% dplyr::select(Specimen_ID_, Feather_status) %>% distinct()
+
+# Get world map data
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Extract the coordinates from the sf object
+museum_samples_df <- 
+  st_as_sf(museum_samples_sf %>% 
+             dplyr::select(Museum, Specimen_ID_, Sex, location, Feather_status, month) %>% distinct()) %>%
+  st_coordinates() %>%
+  as.data.frame() %>%
+  bind_cols(st_drop_geometry(museum_samples_sf %>% 
+             dplyr::select(Museum, Specimen_ID_, Sex, location, Feather_status, month) %>% distinct()))
+
+# Create the plot with projection centered on 180° longitude and custom bounds
+ggplot() +
+  geom_sf(data = world, fill = "lightgrey") +  # Add world map
+  geom_point(data = museum_samples_df %>% 
+               filter(month %in% c("May", "June", "July", "August")) %>% 
+               mutate(geo_region = ifelse(str_detect(location, "Zealand"), "NZ", "AU")), 
+             aes(x = X, y = Y, fill = geo_region),
+             shape = 21, 
+             size = 3, 
+             alpha = 0.8, 
+             position = position_jitter(width = 50000, height = 50000)) +  # Add jitter to points
+  # facet_wrap(~ month, ncol = 3) +  # Create facets for each month
+  coord_sf(xlim = c(-2312396, 1837687), ylim = c(-866762, 885204), 
+           crs = "+proj=ortho +lon_0=160 +lat_0=-41") +  # Custom bounds for x and y axes
+  theme_minimal() +  # Use a minimal theme
+  labs(title = "Museum specimens collected in winter") +#, 
+       # subtitle = "Collection Locations by Month", 
+       # x = "Longitude", y = "Latitude") +
+  theme(panel.grid.minor = element_line(linewidth = 0.5, colour = "grey40"),
+        axis.title = element_blank(), legend.position = "none") +
+  scale_fill_manual(values = c("AU" = "#E69F00", "NZ" = "#56B4E9"))
+
+museum_samples_df %>% 
+  filter(str_detect(location, "Australia") | 
+           (str_detect(location, "New Zealand") & 
+              month %in% c("May", "June", "July"))) %>% 
+  group_by(location, X, Y, month) %>%
+  mutate(n_ind_at_location = n_distinct(Specimen_ID_)) %>% 
+  ungroup() %>% 
+  dplyr::select(-X, -Y) %>% 
+  # filter(n_ind_at_location > 2) %>% View()
+  arrange(desc(n_ind_at_location)) %>% 
+  write.csv("data/museum_samples_to_analyze_161224.csv", row.names = FALSE)
+
+museum_samples_df %>% 
+  filter(str_detect(location, "Australia") | 
+           (str_detect(location, "New Zealand") & 
+              month %in% c("May", "June", "July"))) %>% 
+  group_by(location, X, Y, month) %>%
+  mutate(n_ind_at_location = n_distinct(Specimen_ID_)) %>% 
+  ungroup() %>% 
+  dplyr::select(-X, -Y) %>%
+  nrow()
+```
+
+```{r}
+museum_samples %>% 
+  group_by(Museum) %>% 
+  summarise(n_museums = n_distinct(Specimen_ID)) %>%
+  bind_rows(data.frame(Museum = "Total", 
+                       n_museums = museum_samples %>% 
+                         summarise(x = n_distinct(Specimen_ID)) %>% 
+                         pull(x))) %>% 
+  gt() %>% 
+  cols_label(Museum = "Museum",
+             n_museums = "No. specimens") %>% 
+  tab_options(row_group.font.weight = "bold",
+              row_group.background.color = brewer.pal(9,"Greys")[3],
+              table.font.size = 12,
+              data_row.padding = 3,
+              row_group.padding = 4,
+              summary_row.padding = 2,
+              column_labels.font.size = 14,
+              row_group.font.size = 12,
+              table.width = pct(90))
+```
+
+## checking feather barbs vs. feather shaft
+
+```{r}
+dat <-
+  read_excel(here("data/Master_EA_C_N_SI_Batch 3 Breast feathers_shaft and barb comparison_LEH_Sept25_v1_SB.xls"), 
+                     sheet = "Sample results_C&N", 
+                     col_types = "text", skip = 9, col_names = TRUE) %>%
+    rename_with(~ .x %>%
+                tolower() %>%
+                str_replace_all(" ", "_") %>%
+                str_replace_all("__", "_") %>%
+                str_replace_all("___", "_") %>%
+                str_replace_all("%", "_perc_") %>%
+                str_replace_all(":", "") %>%
+                str_replace_all("#", "")) %>%
+  rename(all_correct_amt_perc__n_flash_tcd = all_correct_amt_perc__n_flash_tcd, 
+         `ampl_28_mv` = `ampl_28_(mv)`, 
+         normalised_d15n = normalised_d15n,                
+         avg_amt_perc_n = avg_amt_perc__n,             
+         stdev_amt_perc_n = stdev_amt_perc__n,                  
+         avg_d15n = avg_d15n,    
+         stdev_d15n = stdev_d15n,                        
+         all_correct_amt_perc__c_flash_tcd = all_correct_amt_perc__c_flash_tcd,
+         ampl_44_mv = `ampl_44_(mv)`,
+         normalised_d13c = normalised_d13c,
+         sample_dilution__perc = `sample_dilution_(_perc_)`,
+         avg_amt_perc_c = avg_amt_perc__c,
+         stdev_amt_perc_c = stdev_amt_perc__c,
+         avg_d13c = avg_d13c,
+         stdev_d13c = stdev_d13c,
+         cn_mass_ratio = `cn_mass_ratio`) %>% 
+    filter(!is.na(index_)) %>%
+  mutate(
+    Feather_type = str_extract(identifier_1, regex("Primary|Breast", ignore_case = TRUE)),
+    region       = str_extract(identifier_1, regex("Barb|Shaft", ignore_case = TRUE)),
+    Specimen_ID  = str_extract(identifier_1, "^[^_]+")
+  ) %>% 
+  dplyr::select(Specimen_ID, Feather_type, region, c(4,9:35)) %>% 
+  left_join(., read_excel(here("../../stable_isotopes/data/for_Sarah/master_museum_sample_banded_dotterels.xlsx"), col_types = "text") %>% mutate(Specimen_ID = str_extract(Specimen_ID, "^[^ ]+")) %>% dplyr::select(Feather_type, Specimen_ID, General_collection_location, 
+         Specific_collection_location, Collection_date), join_by(Specimen_ID, Feather_type)) %>% 
+  mutate(Month = str_extract(Collection_date, "(January|February|March|April|May|June|July|August|September|October|November|December)")) %>% 
+  mutate(location = paste(Specific_collection_location, General_collection_location, sep = ", ")) %>%
+  mutate(location = str_replace_all(location, "NA, ", "")) %>% 
+  mutate(region = ifelse(region == "Shaft", "Rachis", region))
+
+# Create a data frame 
+df <- data.frame(location = dat$location)
+
+# Remove duplicates to avoid redundant API calls
+unique_locations <- unique(df$location)
+
+# Get latitude and longitude for unique locations
+geocode_data <- geocode(unique_locations)
+
+# Combine the geocode data with the unique locations
+location_data <- data.frame(location = unique_locations, geocode_data)
+
+dat <- left_join(dat, location_data, by = "location")
+
+CNOH_dat_meta_full <- readRDS(file = "data/CNOH_museum_samples_201125.rds")
+CNOH_dat_meta_full %>% 
+  group_by(Specimen_ID, isotope, Feather_type, value) %>% 
+  summarise(mean_value = mean(value)) %>% 
+  group_by(isotope) %>% 
+  summarise(mean_iso_value = mean(mean_value),
+            sd_iso_value = sd(mean_value))
+
+barb_shaft_ids <- 
+  CNOH_dat_meta_full %>% 
+  filter(region != "homogenate") %>% 
+  pull(Specimen_ID) %>% 
+  unique()
+
+barb_shaft_dat <-
+  CNOH_dat_meta_full %>% 
+  filter(Specimen_ID %in% barb_shaft_ids) %>% 
+  mutate(value_scaled = ifelse(isotope == "normalised_d13c", (value - -18.8) / 3.67,
+                        ifelse(isotope == "normalised_d15n", (value - 10.9) / 2.63,
+                        ifelse(isotope == "normalised_d18o", (value - 14.1) / 1.39,
+                        ifelse(isotope == "normalised_d2h", (value - -21.6) / 22.0, NA))))) %>% 
+  pivot_wider(
+    names_from = isotope,
+    values_from = value_scaled
+  ) %>% 
+  dplyr::select(Specimen_ID, Feather_type, region, normalised_d13c, normalised_d15n) %>% 
+    filter(region != "homogenate") %>%
+  group_by(Specimen_ID, Feather_type, region) %>%
+  summarise(
+    normalised_d13c = coalesce(normalised_d13c[!is.na(normalised_d13c)], NA_real_),
+    normalised_d15n = coalesce(normalised_d15n[!is.na(normalised_d15n)], NA_real_),
+    .groups = "drop"
+  )
+
+ggplot() + 
+  geom_line(data = barb_shaft_dat,
+             aes(x = as.numeric(normalised_d13c), y = as.numeric(normalised_d15n), 
+                 color = Feather_type, group = Specimen_ID), 
+             size = 0.5, alpha = 0.5) + 
+  geom_point(data = barb_shaft_dat,
+             aes(x = as.numeric(normalised_d13c), y = as.numeric(normalised_d15n), 
+                 color = Feather_type, shape = region), 
+             size = 3) + 
+    # geom_point(data = dat_C_N %>% select(Specimen_ID, avg_d13C_12C, avg_d15N_14N) %>% distinct(),
+    #          aes(x = avg_d13C_12C, y = avg_d15N_14N, 
+    #              color = Specimen_ID), shape = 3, 
+    #          size = 6) + 
+  labs(x = expression(delta^{13}*C[scaled]), y = expression(delta^{15}*N[scaled]), shape = "Region",
+  color = "Feather") + 
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1") +
+  theme(legend.position = "bottom", legend.title = element_blank(),
+        axis.title = element_text(size = 15)) +
+  luke_theme
+```
+
+## Batch 3 and 4 - C, N, & O
+
+### import and wrangle C, N, O, and H data
+
+```{r}
+CN_dat <-
+  read_excel(here("data/Master_EA_C_N_SI_Batch 3 vane_barb and Batch 4 Breast Feathers_LEH_Sept25_v1_SB.xls"), 
+                     sheet = "Sample results_C&N", 
+                     col_types = "text", skip = 9, col_names = TRUE) %>%
+    rename_with(~ .x %>%
+                tolower() %>%
+                str_replace_all(" ", "_") %>%
+                str_replace_all("__", "_") %>%
+                str_replace_all("___", "_") %>%
+                str_replace_all("%", "_perc_") %>%
+                str_replace_all(":", "") %>%
+                str_replace_all("#", "")) %>% 
+  dplyr::select(`identifier_1`, `amount_(mg)`, 
+         `ampl_flash_tcd_(mv)...10`, 
+         all_correct_amt_perc__n_flash_tcd, 
+         `ampl_28_(mv)`, 
+         normalised_d15n, 
+         `ampl_flash_tcd_(mv)...15`, 
+         all_correct_amt_perc__c_flash_tcd, 
+         `ampl_44_(mv)`, 
+         normalised_d13c, 
+         cn_mass_ratio) %>% 
+    filter(!is.na(normalised_d15n)) %>%
+  rename(amount = `amount_(mg)`) %>% 
+  mutate(
+    Feather_type = str_extract(identifier_1, regex("Primary|Breast", ignore_case = TRUE)),
+    region       = str_extract(identifier_1, regex("Barb|Shaft", ignore_case = TRUE)),
+    region       = if_else(is.na(region), "homogenate", region),
+    Specimen_ID  = str_extract(identifier_1, "^[^_]+")
+  ) %>%
+  dplyr::select(Specimen_ID, Feather_type, region, amount, normalised_d15n, normalised_d13c) %>% 
+  mutate(amount = as.numeric(amount), 
+         normalised_d15n = as.numeric(normalised_d15n), 
+         normalised_d13c = as.numeric(normalised_d13c)) %>%
+  pivot_longer(
+    cols = c(normalised_d15n, normalised_d13c),
+    names_to = "isotope",
+    values_to = "value"
+  )
+
+O_dat <-
+  read_excel(here("data/Master_TCEA_O_SI_Breast Feathers_Replication_Batch 4_LEH_Sept25_SB.xls"), 
+                     sheet = "Sample results_O", 
+                     col_types = "text", skip = 6, col_names = TRUE) %>%
+    rename_with(~ .x %>%
+                tolower() %>%
+                str_replace_all(" ", "_") %>%
+                str_replace_all("__", "_") %>%
+                str_replace_all("___", "_") %>%
+                str_replace_all("%", "_perc_") %>%
+                str_replace_all(":", "") %>%
+                str_replace_all("#", "")) %>%
+  dplyr::select(sia_id, `amount`, 
+         ampl_28, normalised_d18o) %>% 
+    filter(!is.na(normalised_d18o)) %>%
+  slice(16:44) %>% 
+  mutate(
+    Feather_type = "Breast",
+    region       = "homogenate") %>% 
+  rename(Specimen_ID  = sia_id) %>% 
+  dplyr::select(Specimen_ID, Feather_type, region, amount, normalised_d18o) %>% 
+  mutate(amount = as.numeric(amount), 
+         normalised_d18o = as.numeric(normalised_d18o)) %>%
+  pivot_longer(
+    cols = c(normalised_d18o),
+    names_to = "isotope",
+    values_to = "value"
+  )
+
+H_dat <-
+  read_excel(here("data/Master_TCEA_H_SI_BATCH 4 BREAST Feathers_LE_Nov25_v1.xls"), 
+                     sheet = "Sample results_H", 
+                     col_types = "text", skip = 9, col_names = TRUE) %>%
+    rename_with(~ .x %>%
+                tolower() %>%
+                str_replace_all(" ", "_") %>%
+                str_replace_all("__", "_") %>%
+                str_replace_all("___", "_") %>%
+                str_replace_all("%", "_perc_") %>%
+                str_replace_all(":", "") %>%
+                str_replace_all("#", "")) %>%
+  dplyr::select(sia_id, ampl_2, normalised_d2h) %>% 
+    filter(!is.na(normalised_d2h)) %>% 
+  mutate(
+    Feather_type = "Breast",
+    region       = "homogenate") %>% 
+  rename(Specimen_ID  = sia_id) %>% 
+  dplyr::select(Specimen_ID, Feather_type, region, normalised_d2h) %>% 
+  mutate(normalised_d2h = as.numeric(normalised_d2h)) %>%
+  pivot_longer(
+    cols = c(normalised_d2h),
+    names_to = "isotope",
+    values_to = "value"
+  )
+
+CNOH_dat <- 
+  bind_rows(O_dat, CN_dat, H_dat)
+
+CNOH_dat %>% 
+  group_by(Specimen_ID) %>% 
+  summarise(n_isotopes = n_distinct(isotope)) %>% 
+  pull(n_isotopes) %>%
+  table()
+```
+
+### import and wrangle sample meta data
+
+```{r}
+# import meta data for all museum samples and add spatial data.
+meta_data <-
+  read_excel(here("data/MASTER_museum_ALL SAMPLES INVENTORY_banded_dotterels_v4.xlsx"), 
+             col_types = "text") %>% 
+  mutate(Specimen_ID_ = str_remove(Specimen_ID, regex(" (Breast|Primary)$", ignore_case = TRUE))) %>%
+  mutate(Specimen_ID_ = str_remove_all(Specimen_ID_, regex("AJB ", ignore_case = TRUE)))  %>%
+  mutate(Specimen_ID_ = str_remove_all(Specimen_ID_, regex(" -", ignore_case = TRUE))) %>% 
+  dplyr::select(Feather_type, Specimen_ID, Specimen_ID_, General_collection_location, 
+         Specific_collection_location, Collection_date) %>% 
+  mutate(Month = str_extract(Collection_date, "(January|February|March|April|May|June|July|August|September|October|November|December)")) %>%
+  mutate(Month = match(tolower(Month), tolower(month.name))) %>%
+  mutate(
+    month_extracted = sapply(Collection_date, extract_month),
+    Month = ifelse(is.na(Month) & !is.na(month_extracted), month_extracted, Month),
+    Year = sapply(Collection_date, extract_year)
+  ) %>%
+  dplyr::select(-month_extracted) %>% 
+  mutate(location = paste(Specific_collection_location, General_collection_location, sep = ", ")) %>%
+  mutate(location = str_replace_all(location, "NA, ", "")) %>% 
+  filter(!is.na(Specimen_ID))
+
+meta_data %>% filter(Specimen_ID_ == "AV1740")
+
+# Create a data frame 
+df <- data.frame(location = meta_data$location)
+
+# Remove duplicates to avoid redundant API calls
+unique_locations <- unique(df$location)
+
+# Get latitude and longitude for unique locations
+geocode_data <- geocode(unique_locations)
+
+# Combine the geocode data with the unique locations
+location_data <- 
+  data.frame(location = unique_locations, geocode_data) %>%
+  filter(!is.na(location)) %>% arrange(lat)
+
+meta_data_ <-
+  left_join(meta_data, location_data, by = "location") %>% 
+  dplyr::select(-c(Feather_type, Specimen_ID)) %>%
+  distinct() %>% 
+  rename(Specimen_ID = Specimen_ID_)
+```
+
+### merge C, N, O, and H data with metadata
+
+```{r}
+meta_data_ %>% filter(Specimen_ID == "AV1740")
+CNOH_dat %>% filter(Specimen_ID == "AV1740")
+
+CNOH_dat_meta <-
+  stringdist_left_join(
+    CNOH_dat, meta_data_,
+    by = "Specimen_ID",
+    method = "cosine", # Jaro-Winkler distance
+    # max_dist = 1,         # tweak based on how much difference you allow
+    distance_col = "dist"
+  ) %>% #filter(Specimen_ID.y == "AV1740" | Specimen_ID.x == "AV1740") %>% group_by(Specimen_ID.x) %>% arrange(dist)
+  group_by(Specimen_ID.x, Feather_type, region, isotope) %>% arrange(dist) %>% slice(1) %>%
+  dplyr::select(Specimen_ID.x, Specimen_ID.y, dist, everything()) %>% ungroup() %>% arrange(desc(dist)) %>% 
+  dplyr::select(-c(Specimen_ID.y, dist)) %>% 
+  rename(Specimen_ID = Specimen_ID.x) %>% 
+  mutate(geo_region = ifelse(str_detect(location, "Australia"), "Australia", 
+                             ifelse(str_detect(location, "New Zealand"), "New Zealand", NA))) %>% 
+  mutate(geo_region_bin = ifelse(geo_region == "Australia", 1, 0)) %>%
+  mutate(
+    month_name = month.name[Month],          # full month names
+    month_abbrev = month.abb[Month],         # abbreviated names
+    month_factor = factor(Month, levels = 1:12, labels = month.name, ordered = TRUE) # ordered factor
+  ) %>% 
+  mutate(lon = ifelse(lon < 0, lon + 180*2, lon))
+```
+
+### merge with the triplicate data for a full dataset
+
+```{r}
+triplicate_CNOH_dat_meta <- 
+  triplicate_CNOH_dat_meta %>% 
+  mutate(region = "homogenate")
+
+CNOH_dat_meta <- 
+  CNOH_dat_meta %>% 
+  mutate(feather = NA)
+
+CNOH_dat_meta_full <- 
+  bind_rows(triplicate_CNOH_dat_meta, CNOH_dat_meta) %>% 
+  dplyr::select(Specimen_ID, Feather_type, feather, region, amount, 
+                isotope, lon, lat, geo_region, geo_region_bin, value, Collection_date, Month, Year, Specific_collection_location) %>% 
+  group_by(isotope) %>%                # scale within each isotope type
+  mutate(value_scaled = as.numeric(scale(value))) %>%
+  group_by(Specimen_ID, Feather_type,
+                isotope, lon, lat, geo_region, geo_region_bin, Collection_date, Month, Year, Specific_collection_location) %>%
+  summarise(mean_value = mean(value_scaled))
+
+saveRDS(CNOH_dat_meta_full, file = "data/CNOH_museum_samples_201125.rds")
+
+# CNOH_dat_meta_full <- 
+#   bind_rows(triplicate_CNOH_dat_meta, CNOH_dat_meta) %>% 
+#   dplyr::select(Specimen_ID, Feather_type, feather, region, amount, everything()) %>% 
+#   group_by(Specimen_ID, Feather_type, isotope, General_collection_location,
+#            Specific_collection_location, Month, location, lon, lat, geo_region, 
+#            geo_region_bin, month_name, month_abbrev, month_factor) %>% 
+#   summarise(mean_value = mean(value))
+```
+
+### exploration of CNOH breast feathers
+
+```{r}
+CNOH_dat_meta_full <- readRDS(file = "data/CNOH_museum_samples_201125.rds")
+```
+
+```{r}
+library(dplyr)
+library(leaflet)
+library(viridisLite)
+
+# Prepare data ----
+CNOH_map <- 
+  CNOH_dat_meta_full %>% 
+  # select(-value_scaled) %>% 
+  # group_by(Specimen_ID, isotope, Feather_type) %>% 
+  # mutate(mean_value = mean(value)) %>% 
+  # dplyr::select(-c(feather, value, amount, value, region)) %>% 
+  # distinct() %>% 
+  group_by(isotope) %>%                # scale within each isotope type
+  mutate(mean_value_scaled = as.numeric(scale(mean_value))) %>%
+  # filter(Feather_type == "Breast") %>%
+  filter(Month %in% c(5,6,7,8)) %>% 
+  # filter((Month %in% c(6,7,) & geo_region == "New Zealand") | (Month %in% c(6,7,8,9,10,11) & geo_region == "Australia")) %>%
+  ungroup() %>% 
+  group_by(Specimen_ID) %>% 
+  mutate(n_feather_types = n_distinct(Feather_type)) %>%
+                   mutate(
+                     Month = factor(Month, levels = 1:12, labels = month.abb)
+                   ) #%>% 
+  # filter(n_feather_types == 2)
+  # dplyr::select(Specimen_ID, Feather_type, isotope, lon, lat, Month, Year, Specific_collection_location, mean_value) %>% 
+  # group_by(isotope) %>%                # scale within each isotope type
+  # mutate(mean_value_scaled = as.numeric(scale(mean_value)))
+
+iso_sf <- 
+  CNOH_map %>% 
+  mutate(isotope = ifelse(isotope == "normalised_d13c", "d13C",
+                           ifelse(isotope == "normalised_d15n", "d15N",
+                                  ifelse(isotope == "normalised_d2h", "d2H", "d18O")))) %>% 
+  filter(Feather_type == "Breast") %>% 
+  st_as_sf(., coords = c("lon", "lat"), crs = 4326)
+iso_sf <- st_transform(iso_sf, 3857)  # Web Mercator
+  
+library(ggplot2)
+library(sf)
+library(dplyr)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(patchwork)
+library(ggforce)
+
+# your sf object: iso_sf
+# columns: isotope, mean_value, geometry (POINTS)
+
+# get basemap
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# restrict map to Australia + New Zealand region
+region_bbox <- st_bbox(c(xmin = 110, xmax = 180, ymin = -55, ymax = -0), crs = st_crs(world))
+world_region <- st_crop(world, region_bbox)
+
+# example palettes per isotope
+isotope_palettes <- list(
+  "d13C" = scale_color_viridis_c(option = "plasma", name = expression(delta^13*C[scaled])),
+  "d15N" = scale_color_viridis_c(option = "magma", name = expression(delta^15*N[scaled])),
+  "d2H"  = scale_color_viridis_c(option = "viridis", name = expression(delta^2*H[scaled])),
+  "d18O" = scale_color_viridis_c(option = "cividis", name = expression(delta^18*O[scaled]))
+)
+
+# helper to make per-isotope map
+make_iso_plot <- function(iso_name, xlim_, y_lim_) {
+  data_ = filter(iso_sf, isotope == iso_name) %>%
+    mutate(geometry = st_jitter(geometry, amount = 30000))
+  
+  ggplot() +
+    geom_sf(data = world_region, fill = "grey90", color = "white", size = 0.1) +
+    geom_sf(
+      data = data_,
+      aes(color = mean_value_scaled),
+      size = 2,
+      alpha = 0.8
+    ) +
+    isotope_palettes[[iso_name]] +
+    
+    # ---- HORIZONTAL COLORBAR INSIDE PLOT ----
+    guides(
+      color = guide_colorbar(
+        direction = "horizontal",
+        title.position = "left",
+        barwidth = unit(100, "pt"),
+        barheight = unit(10, "pt")
+      )
+    ) +
+    luke_theme +
+    theme(
+      legend.position = c(0, 0),              # inside panel
+      legend.justification = c(0, 0),             # anchor bottom-left
+      legend.background = element_blank(),
+      legend.key.height = unit(4, "pt"),
+      legend.key.width = unit(40, "pt"),
+      legend.title = element_text(size = 15),
+      
+      panel.grid.major = element_line(color = "grey95"),
+      axis.text = element_text(size = 8),
+      plot.title = element_text(face = "bold"),
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    ) +
+    
+    coord_sf(
+      xlim = xlim_,
+      ylim = y_lim_,
+      expand = FALSE
+    )
+}
+
+# build and combine plots
+AU_NZ_plots <- 
+  lapply(unique(iso_sf$isotope), function(x) {
+  make_iso_plot(iso_name = x, xlim_ = c(130, 180), y_lim_ = c(-50, -32))
+})
+final_AU_NZ_plot <- wrap_plots(AU_NZ_plots, ncol = 2)
+final_AU_NZ_plot
+
+VIC_TAS_plots <- 
+  lapply(unique(iso_sf$isotope), function(x) {
+  make_iso_plot(iso_name = x, xlim_ = c(140, 150), y_lim_ = c(-45, -35))
+})
+final_VIC_TAS_plot <- wrap_plots(VIC_TAS_plots, ncol = 2)
+final_VIC_TAS_plot
+
+NZ_plots <- 
+  lapply(unique(iso_sf$isotope), function(x) {
+  make_iso_plot(iso_name = x, xlim_ = c(165, 180), y_lim_ = c(-47, -35))
+})
+final_NZ_plot <- wrap_plots(NZ_plots, ncol = 2)
+final_NZ_plot
+
+
+CNOH_map %>% 
+      filter(Feather_type == "Breast") %>% 
+      filter(!is.na(Month)) %>% 
+  # filter(Specific_collection_location == "Ralphs Bay") %>% 
+  group_by(isotope, Month) %>% 
+    summarise(n_inds = n_distinct(Specimen_ID)) %>% 
+  filter(Month == "Jul")
+
+iso_labels <- c(
+  "normalised_d13c" = "delta^{13}*C",
+  "normalised_d15n" = "delta^{15}*N",
+  "normalised_d2h"  = "delta^{2}*H",
+  "normalised_d18o" = "delta^{18}*O"
+)
+
+ggplot() +
+  geom_bar(
+    data = CNOH_map %>% 
+      filter(Feather_type == "Breast"), #%>% 
+      # filter(!is.na(Month)),
+    aes(x = Month)
+  ) +
+  ylab("number of specimens") +
+  facet_grid(geo_region ~ isotope,
+             labeller = labeller(isotope = as_labeller(iso_labels, label_parsed))) +
+  luke_theme  +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.spacing = unit(1, "lines"),
+    legend.position = "none",
+    
+    # Rotate vertical strip text
+    strip.text.x = element_text(size = 15),  # 0 = horizontal, 90 = vertical
+    strip.background = element_blank()
+  )
+
+CNOH_map %>% filter(n_feather_types == 2)
+
+# Initialize leaflet map ----
+leaflet_map <- leaflet(options = leafletOptions(preferCanvas = TRUE)) %>%
+  addProviderTiles(providers$OpenStreetMap, group = "Terrain") %>%
+  addProviderTiles(providers$Esri.WorldImagery, group = "Satellite")   # background map
+
+# Loop through isotopes ----
+for (iso in unique(CNOH_map$isotope)) {
+  df <- CNOH_map %>% filter(isotope == iso)
+  if (nrow(df) == 0) next  # skip if no data
+  
+  # Dynamically assign palette
+  pal_option <- switch(iso,
+                       "normalised_d13c" = "plasma",
+                       "normalised_d15n" = "magma",
+                       "normalised_d2h"  = "viridis",
+                       "normalised_d18o" = "cividis",
+                       "viridis") # default fallback
+  
+  pal <- colorNumeric(
+    palette = viridis(100, option = pal_option),
+    domain = df$mean_value_scaled
+  )
+  
+  # Add markers and legend for this isotope
+  leaflet_map <- leaflet_map %>%
+    addCircleMarkers(
+      data = df,
+      lng = ~lon,
+      lat = ~lat,
+      color = ~pal(mean_value_scaled),
+      radius = 25,
+      stroke = FALSE,
+      fillOpacity = 0.8,
+      popup = ~paste0(
+        "<b>Specimen ID:</b> ", Specimen_ID, "<br>",
+        "<b>Month:</b> ", Month, "<br>",
+        "<b>Year:</b> ", Year, "<br>",
+        "<b>Location:</b> ", Specific_collection_location, "<br>",
+        "<b>Mean value:</b> ", round(mean_value_scaled, 2), "<br>",
+        "<b>Lon / Lat:</b> ", paste0(round(lon, 2), " / ", round(lat, 2)), "<br>",
+        "<b>Feather type:</b> ", Feather_type
+      ),
+      group = iso,
+      clusterOptions = markerClusterOptions(
+        spiderfyOnMaxZoom = TRUE,
+        spiderfyDistanceMultiplier = 3  # <-- longer spiderfy arms
+      )
+    ) %>%
+    addLegend(
+      "bottomleft",
+      pal = pal,
+      values = df$mean_value_scaled,
+      title = iso,
+      opacity = 1,
+      layerId = paste0("legend_", iso)
+    )
+}
+
+# Add layer control and zoom to bounds ----
+leaflet_map <- leaflet_map %>%
+  addLayersControl(
+    baseGroups = c("Terrain", "Satellite"),
+    overlayGroups = unique(CNOH_map$isotope),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+  fitBounds(
+    lng1 = min(CNOH_map$lon, na.rm = TRUE),
+    lat1 = min(CNOH_map$lat, na.rm = TRUE),
+    lng2 = max(CNOH_map$lon, na.rm = TRUE),
+    lat2 = max(CNOH_map$lat, na.rm = TRUE)
+  )
+
+# Display the map ----
+leaflet_map
+```
+
+
+```{r}
+CNOH_wide <- 
+  CNOH_dat_meta_full %>% 
+  filter(Feather_type == "Breast") %>%
+  ungroup() %>%
+  mutate(
+    isotope = case_when(
+      isotope == "normalised_d13c" ~ "d13C",
+      isotope == "normalised_d15n" ~ "d15N",
+      isotope == "normalised_d2h"  ~ "d2H",
+      isotope == "normalised_d18o" ~ "d18O",
+      TRUE ~ isotope
+    )
+  ) %>%
+  # average across repeated isotope measurements per specimen
+  # group_by(Specimen_ID, Feather_type, isotope, lon, lat, geo_region_bin, Month) %>%
+  # summarise(mean_value = mean(value)) %>%
+  group_by(isotope) %>%                # scale within each isotope type
+  mutate(mean_value_scaled = as.numeric(scale(mean_value)),
+         # feather = ifelse(is.na(feather), "A", feather),
+         isotope = as.factor(isotope)) %>%
+  ungroup() %>% 
+  filter(Month %in% c("5", "6", "7", "8")) %>% 
+  select(-mean_value) %>% 
+  # pivot to wide format
+  pivot_wider(
+    names_from = isotope,
+    values_from = mean_value_scaled
+  )
+
+# sample size
+CNOH_dat_meta_full %>%
+  filter(Feather_type == "Breast", Month %in% c("5", "6", "7", "8")) %>%
+  mutate(isotope_clean = str_remove(isotope, "normalised_")) %>%
+  group_by(Specimen_ID) %>%
+  summarise(
+    combo = paste(sort(unique(isotope_clean)), collapse = "+"),
+    n_isotopes = n_distinct(isotope_clean)
+  ) %>%
+  count(n_isotopes, combo, name = "n_individuals") %>%
+  arrange(desc(n_isotopes), desc(n_individuals))
+
+```
+
+#### linear mixed model
+```{r}
+# CNOH_dat_meta_full_s <- 
+#   bind_rows(triplicate_CNOH_dat_meta, CNOH_dat_meta) %>%
+#   mutate(
+#     isotope = case_when(
+#       isotope == "normalised_d13c" ~ "d13C",
+#       isotope == "normalised_d15n" ~ "d15N",
+#       isotope == "normalised_d2h"  ~ "d2H",
+#       isotope == "normalised_d18o" ~ "d18O",
+#       TRUE ~ isotope
+#     )
+#   ) %>% 
+#   filter(Feather_type == "Breast", Month %in% c("5", "6", "7", "8")) %>% 
+#   select(Specimen_ID, feather, isotope, value, lon, lat, geo_region_bin) %>% 
+#   group_by(Specimen_ID, feather, isotope, lon, lat, geo_region_bin) %>% 
+#   summarise(mean_value = mean(value)) %>%
+#   group_by(isotope) %>%                # scale within each isotope type
+#   mutate(mean_value_scaled = as.numeric(scale(mean_value)),
+#          feather = ifelse(is.na(feather), "A", feather),
+#          isotope = as.factor(isotope)) %>%
+#   ungroup()
+
+CNOH_dat_meta_full_s_ <- 
+  CNOH_dat_meta_full %>% 
+  group_by(isotope) %>%                # scale within each isotope type
+  mutate(mean_value_scaled = as.numeric(scale(mean_value))) %>% 
+  # group_by(Specimen_ID, isotope, Feather_type) %>% 
+  # mutate(mean_value_scaled = mean(value_scaled)) %>% 
+  # dplyr::select(-c(feather, value, amount, value_scaled, region)) %>% 
+  distinct() %>% 
+  filter(Feather_type == "Breast") %>%
+  filter((Month %in% c(5,6,7,8) & geo_region == "New Zealand") | (Month %in% c(5,6,7,8,9,10,11,12) & geo_region == "Australia")) %>%
+  ungroup() %>% 
+  filter(lon > 130)
+
+CNOH_full_mod1 <- 
+  glmer(geo_region_bin ~ mean_value_scaled + (1 | isotope), 
+       data = CNOH_dat_meta_full_s_, family = binomial)
+
+summary(CNOH_full_mod1)
+exp(coef(CNOH_full_mod1))
+
+CNOH_lon_mod2 <- 
+  lmer(mean_value_scaled ~ lon + lat + (1 | isotope), 
+       data = CNOH_dat_meta_full_s_)
+
+CNOH_reg_lat_full_mod <- 
+  lmer(mean_value_scaled ~ geo_region + lat + (1 | isotope),
+       data = CNOH_dat_meta_full_s_)
+summary(CNOH_reg_lat_full_mod)
+plot(allEffects(CNOH_reg_lat_full_mod))
+
+CNOH_reg_lat_CN_mod <- 
+  lmer(mean_value_scaled ~ geo_region + lat + (1 | isotope),
+       data = CNOH_dat_meta_full_s_ %>% filter(isotope %in% c("normalised_d13c", "normalised_d15n")))
+summary(CNOH_reg_lat_CN_mod)
+plot(allEffects(CNOH_reg_lat_CN_mod))
+
+CNOH_reg_lat_CN_mod <- 
+  glmer(geo_region_bin ~ mean_value_scaled + lat + (1 | isotope),
+       data = CNOH_dat_meta_full_s_ %>% filter(isotope %in% c("normalised_d13c", "normalised_d15n")),
+       family = binomial)
+summary(CNOH_reg_lat_CN_mod)
+plot(allEffects(CNOH_reg_lat_CN_mod))
+
+CNOH_reg_lat_CNH_mod <- 
+  lmer(mean_value_scaled ~ geo_region + lat + (1 | isotope),
+       data = CNOH_dat_meta_full_s_ %>% filter(isotope %in% c("normalised_d13c", "normalised_d15n", "normalised_d2h")))
+summary(CNOH_reg_lat_CNH_mod)
+plot(allEffects(CNOH_reg_lat_CNH_mod))
+
+# 1️⃣ Create new data for prediction
+newdata <- CNOH_dat_meta_full_s_ %>% filter(isotope %in% c("normalised_d13c", "normalised_d15n")) %>%
+  group_by(isotope) %>%
+  summarise(
+    mean_value_scaled = seq(min(mean_value_scaled), max(mean_value_scaled), length.out = 50),
+    lat = mean(lat)
+  ) %>%
+  ungroup()
+
+# 2️⃣ Predict probabilities AND standard errors for CI
+pred <- predict(CNOH_reg_lat_CN_mod, newdata, type = "link", se.fit = TRUE)
+
+# Calculate predicted probability and 95% CI
+newdata <- newdata %>%
+  mutate(
+    fit_link = pred$fit,
+    se_link = pred$se.fit,
+    # logistic transformation
+    pred_prob = plogis(fit_link),
+    lower = plogis(fit_link - 1.96 * se_link),
+    upper = plogis(fit_link + 1.96 * se_link)
+  )
+
+# 3️⃣ Plot raw data + predicted probability + confidence intervals
+ggplot() +
+  # raw data
+  geom_jitter(data = CNOH_dat_meta_full_s_ %>% filter(isotope %in% c("normalised_d13c", "normalised_d15n")), 
+              aes(x = mean_value_scaled, y = geo_region_bin, color = isotope), 
+              width = 0.1, height = 0.02, alpha = 0.6) +
+  # predicted probability curves
+  geom_line(data = newdata, aes(x = mean_value_scaled, y = pred_prob), size = 1.2) +
+  # confidence interval ribbons
+  geom_ribbon(data = newdata, aes(x = mean_value_scaled, ymin = lower, ymax = upper), 
+              alpha = 0.2, color = NA) +
+  theme_minimal() +
+  labs(
+    x = "Scaled isotope value",
+    y = "Probability of having wintered in Australia",
+    title = "Predicted probability by scaled value and isotope with raw data"
+  )
+
+library(glmmTMB)
+
+# Build a spatial covariance structure using 'exp' (exponential)
+glm_fit <- glmmTMB(
+  geo_region_bin ~ mean_value_scaled + isotope + 
+    (1 | gr(lon + lat, cov = "exp")),  # spatial random effect
+  data = CNOH_dat_meta_full_s,
+  family = binomial
+)
+  
+install.packages("spaMM")
+library(spaMM)
+
+glm_fit <- fitme(
+  geo_region_bin ~ mean_value_scaled + isotope + Matern(1 | lon + lat),
+  data = CNOH_dat_meta_full_s,
+  family = binomial()
+)
+
+# For each isotope, create a sequence of mean_value_scaled and include coordinates
+# If you have multiple locations per isotope, you can just pick a representative point
+# or expand predictions for each existing location
+
+newdata <- CNOH_dat_meta_full_s %>%
+  group_by(isotope) %>%
+  summarise(
+    mean_value_scaled = seq(min(mean_value_scaled), max(mean_value_scaled), length.out = 50),
+    lon = mean(lon),   # use mean lon for that isotope
+    lat = mean(lat)    # use mean lat for that isotope
+  ) %>%
+  ungroup()
+
+# Predict
+pred <- predict(glm_fit, newdata, type = "response")
+newdata$pred_prob <- pred
+
+# Plot
+library(ggplot2)
+
+ggplot(newdata, aes(x = mean_value_scaled, y = pred_prob, color = isotope)) +
+  geom_line(size = 1.2) +
+  theme_minimal() +
+  labs(
+    x = "Scaled value",
+    y = "Predicted probability of geo_region_bin = 1",
+    title = "Predicted probabilities by isotope (spaMM model)"
+  )
+```
+
+
+```{r}
+# install.packages("VIM")
+library(VIM)
+CNOH_imputed <- kNN(CNOH_wide, variable = c("d13C","d15N","d2H","d18O"), k = 5)
+```
+
+#### specimens with all 4 isotopes
+```{r}
+# run PCA on isotopes
+CNOH_wide_no_nas <- CNOH_wide %>% na.omit()
+
+pca <- prcomp(CNOH_wide_no_nas[, c("d13C", "d15N", "d2H", "d18O")], scale. = TRUE)
+
+# add PC scores
+iso_pca <- cbind(CNOH_wide_no_nas, pca$x[, 1:2])
+
+# logistic model on PC axes
+m_pca <- glm(geo_region_bin ~ PC1 + PC2, data = iso_pca, family = binomial)
+summary(m_pca)
+
+ggplot(iso_pca, aes(PC1, PC2, color = as.factor(geo_region_bin))) +
+  geom_point(size = 3) +
+  theme_minimal() +
+  labs(color = "Country (1=AU)")
+
+
+library(MASS)
+
+# Remove rows with any missing isotopes
+iso_lda <- CNOH_wide %>%
+  drop_na(d13C, d15N, d2H, d18O)
+
+# Make geo_region_bin a factor (required by lda)
+iso_lda <- iso_lda %>%
+  mutate(region = factor(geo_region_bin, levels = c(0, 1), labels = c("NZ", "AU")))
+
+# Run LDA
+lda_model <- lda(region ~ d13C + d15N + d2H + d18O, data = iso_lda)
+
+# View results
+lda_model
+
+# Get predictions
+pred <- predict(lda_model)
+
+# Add to dataframe
+iso_lda <- iso_lda %>%
+  mutate(LD1 = pred$x[, 1],
+         predicted = pred$class)
+
+# Confusion matrix
+table(Observed = iso_lda$region, Predicted = iso_lda$predicted)
+
+# Classification accuracy
+mean(iso_lda$region == iso_lda$predicted)
+
+ggplot(iso_lda, aes(x = LD1, fill = region)) +
+  geom_density(alpha = 0.5) +
+  theme_minimal() +
+  labs(title = "LDA separation between AU and NZ individuals",
+       x = "Linear Discriminant 1", fill = "Region")
+
+ggplot(iso_lda, aes(x = LD1, y = 0, color = region)) +
+  geom_jitter(width = 0, height = 0.05, size = 3, alpha = 0.8) +
+  theme_minimal() +
+  labs(x = "LD1", y = NULL, title = "LDA projection")
+
+lda_cv <- lda(region ~ d13C + d15N + d2H + d18O, data = iso_lda, CV = TRUE)
+
+# Accuracy
+mean(lda_cv$class == iso_lda$region)
+
+# Confusion matrix
+table(Observed = iso_lda$region, Predicted = lda_cv$class)
+
+ggplot(iso_lda, aes(x = region, y = LD1, color = region)) +
+  geom_jitter(width = 0.15, size = 3, alpha = 0.7) +
+  stat_summary(fun = mean, geom = "point", size = 4, shape = 23, fill = "white") +
+  scale_color_manual(values = c("AU" = "#E69F00", "NZ" = "#56B4E9")) +
+  theme_minimal(base_size = 14) +
+  labs(title = "LDA Separation by Region",
+       y = "LD1 score",
+       x = "Region")
+
+# Assuming lda_model is already fitted
+lda_coeff <- lda_model$scaling[, 1]  # LD1 coefficients
+lda_coeff_df <- data.frame(
+  isotope = rownames(lda_model$scaling),
+  coefficient = lda_coeff
+) %>%
+  arrange(desc(abs(coefficient)))  # order by absolute contribution
+
+ggplot(lda_coeff_df, aes(x = reorder(isotope, coefficient), y = coefficient, fill = coefficient > 0)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  coord_flip() +
+  scale_fill_manual(values = c("TRUE" = "#E69F00", "FALSE" = "#56B4E9"), guide = "none") +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "Contribution of isotopes to LD1",
+    x = "Isotope",
+    y = "LD1 coefficient"
+  )
+
+# --- LDA model (already fitted) ---
+lda_model <- lda(region ~ d13C + d15N + d2H + d18O, data = iso_lda)
+
+# --- LD1 scores ---
+lda_pred <- predict(lda_model)
+lda_df <- data.frame(CNOH_wide, LD1 = lda_pred$x[, 1])
+
+# --- LD1 density plot ---
+p1 <- ggplot(iso_lda, aes(x = LD1, fill = region)) +
+  geom_density(alpha = 0.5) +
+  scale_fill_manual(values = c("AU" = "#E69F00", "NZ" = "#56B4E9")) +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "LDA separation by region",
+    x = "LD1",
+    y = "Density",
+    fill = "Region"
+  )
+
+# --- Extract LD1 coefficients (loadings) ---
+lda_coeff_df <- data.frame(
+  isotope = rownames(lda_model$scaling),
+  coefficient = lda_model$scaling[, 1]
+) %>%
+  arrange(desc(abs(coefficient)))
+
+# --- Isotope contribution bar plot ---
+p2 <- ggplot(lda_coeff_df, aes(x = reorder(isotope, coefficient), y = coefficient, fill = coefficient > 0)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  coord_flip() +
+  scale_fill_manual(values = c("TRUE" = "#E69F00", "FALSE" = "#56B4E9"), guide = FALSE) +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "Contribution of isotopes to LD1",
+    x = "Isotope",
+    y = "LD1 coefficient"
+  )
+
+# --- Combine plots with patchwork ---
+combined_plot <- p1 / p2 + plot_layout(heights = c(2, 1))
+combined_plot
+
+library(caret)
+
+set.seed(123)
+train_control <- trainControl(method = "LOOCV")
+
+lda_cv <- train(
+  as.factor(geo_region_bin) ~ d13C + d15N + d2H + d18O,
+  data = CNOH_wide_no_nas,
+  method = "lda",
+  trControl = train_control
+)
+
+lda_cv
+```
+
+#### specimens with at least 2 isotopes, imputed based on spatial proximity
+```{r}
+# install.packages("mice")
+library(mice)
+CNOH_wide <- 
+  CNOH_dat_meta_full_s_ %>%
+  select(-mean_value) %>% 
+  pivot_wider(
+    names_from  = isotope,
+    values_from = mean_value_scaled
+  ) %>% 
+  rename(d13C = normalised_d13c, 
+         d15N = normalised_d15n, 
+         d2H = normalised_d2h, 
+         d18O = normalised_d18o) %>% 
+  distinct()
+
+mice_data <- CNOH_wide %>%
+  dplyr::select(d13C, d15N, d2H, d18O, geo_region_bin, lon, lat)
+
+mice_imp <- mice(mice_data, m = 5, method = "pmm", seed = 123)  # Predictive mean matching
+CNOH_imputed <- complete(mice_imp, 1)  # use first imputed dataset
+
+# run PCA on isotopes
+pca <- prcomp(CNOH_imputed[, c("d13C", "d15N", "d2H", "d18O")], scale. = TRUE)
+
+# add PC scores
+iso_pca <- cbind(CNOH_imputed, pca$x[, 1:2])
+
+# logistic model on PC axes
+m_pca <- glm(geo_region_bin ~ PC1 + PC2, data = iso_pca, family = binomial)
+summary(m_pca)
+
+ggplot(iso_pca, aes(PC1, PC2, color = as.factor(geo_region_bin))) +
+  geom_point(size = 3) +
+  theme_minimal() +
+  labs(color = "Country (1=AU)")
+
+library(MASS)
+
+# Make geo_region_bin a factor (required by lda)
+iso_lda <- CNOH_imputed %>%
+  mutate(region = factor(geo_region_bin, levels = c(0, 1), labels = c("NZ", "AU")))
+
+# Run LDA
+lda_model <- lda(region ~ d13C + d15N + d2H + d18O, data = iso_lda)
+
+# View results
+lda_model
+
+# Get predictions
+pred <- predict(lda_model)
+
+# Add to dataframe
+iso_lda <- iso_lda %>%
+  mutate(LD1 = pred$x[, 1],
+         predicted = pred$class)
+
+# Confusion matrix
+table(Observed = iso_lda$region, Predicted = iso_lda$predicted)
+
+# Classification accuracy
+mean(iso_lda$region == iso_lda$predicted)
+
+ggplot(iso_lda, aes(x = LD1, fill = region)) +
+  geom_density(alpha = 0.5) +
+  theme_minimal() +
+  labs(title = "LDA separation between AU and NZ individuals",
+       x = "Linear Discriminant 1", fill = "Region")
+
+ggplot(iso_lda, aes(x = LD1, y = 0, color = region)) +
+  geom_jitter(width = 0, height = 0.05, size = 3, alpha = 0.8) +
+  theme_minimal() +
+  labs(x = "LD1", y = NULL, title = "LDA projection")
+
+lda_cv <- lda(region ~ d13C + d15N + d2H + d18O, data = iso_lda, CV = TRUE)
+
+# Accuracy
+mean(lda_cv$class == iso_lda$region)
+
+# Confusion matrix
+table(Observed = iso_lda$region, Predicted = lda_cv$class)
+
+ggplot(iso_lda %>% mutate(region = factor(region, levels = c("AU", "NZ"))), aes(x = region, y = LD1, color = region)) +
+  geom_jitter(width = 0.15, size = 3, alpha = 0.7) +
+  stat_summary(fun = mean, geom = "point", size = 4, shape = 23, fill = "white") +
+  scale_color_manual(values = c("AU" = "#E69F00", "NZ" = "#56B4E9")) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none") +
+  scale_x_discrete(labels = c("NZ" = "New Zealand",
+                              "AU" = "Australia")) +
+  labs(y = "Linear discriminant axis 1\n scaled isotopic signature of δ13C, δ15N, δ18O, δ2H",
+       x = "collection location in winter")
+
+# Assuming lda_model is already fitted
+lda_coeff <- lda_model$scaling[, 1]  # LD1 coefficients
+lda_coeff_df <- data.frame(
+  isotope = rownames(lda_model$scaling),
+  coefficient = lda_coeff
+) %>%
+  arrange(desc(abs(coefficient)))  # order by absolute contribution
+
+ggplot(lda_coeff_df, aes(x = reorder(isotope, coefficient), y = coefficient, fill = coefficient > 0)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  coord_flip() +
+  scale_fill_manual(values = c("TRUE" = "#E69F00", "FALSE" = "#56B4E9"), guide = "none") +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "Contribution of isotopes to LD1",
+    x = "Isotope",
+    y = "LD1 coefficient"
+  )
+
+# --- LDA model (already fitted) ---
+lda_model <- lda(region ~ d13C + d15N + d2H + d18O, data = iso_lda)
+
+# --- LD1 scores ---
+lda_pred <- predict(lda_model)
+lda_df <- data.frame(CNOH_wide, LD1 = lda_pred$x[, 1])
+
+# --- LD1 density plot ---
+p1 <- ggplot(iso_lda, aes(x = LD1, fill = region)) +
+  geom_density(alpha = 0.5) +
+  scale_fill_manual(values = c("AU" = "#E69F00", "NZ" = "#56B4E9")) +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "LDA separation by region",
+    x = "LD1",
+    y = "Density",
+    fill = "Region"
+  )
+
+# --- Extract LD1 coefficients (loadings) ---
+lda_coeff_df <- data.frame(
+  isotope = rownames(lda_model$scaling),
+  coefficient = lda_model$scaling[, 1]
+) %>%
+  arrange(desc(abs(coefficient)))
+
+# --- Isotope contribution bar plot ---
+p2 <- ggplot(lda_coeff_df, aes(x = reorder(isotope, coefficient), y = coefficient, fill = coefficient > 0)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  coord_flip() +
+  scale_fill_manual(values = c("TRUE" = "#E69F00", "FALSE" = "#56B4E9"), guide = FALSE) +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "Contribution of isotopes to LD1",
+    x = "Isotope",
+    y = "LD1 coefficient"
+  )
+
+# --- Combine plots with patchwork ---
+combined_plot <- p1 / p2 + plot_layout(heights = c(2, 1))
+combined_plot
+
+library(caret)
+
+set.seed(123)
+train_control <- trainControl(method = "LOOCV")
+
+lda_cv <- train(
+  as.factor(geo_region_bin) ~ d13C + d15N + d2H + d18O,
+  data = CNOH_imputed,
+  method = "lda",
+  trControl = train_control
+)
+
+lda_cv
+
+```
+
+#### only C and N
+#### specimens with at least 2 isotopes, imputed based on spatial proximity
+```{r}
+# install.packages("mice")
+library(mice)
+
+mice_data <- CNOH_wide %>%
+  dplyr::select(d13C, d15N, geo_region_bin, lon, lat)
+
+mice_imp <- mice(mice_data, m = 5, method = "pmm", seed = 123)  # Predictive mean matching
+CNOH_imputed <- complete(mice_imp, 1)  # use first imputed dataset
+
+# run PCA on isotopes
+pca <- prcomp(CNOH_imputed[, c("d13C", "d15N")], scale. = TRUE)
+
+# add PC scores
+iso_pca <- cbind(CNOH_imputed, pca$x[, 1:2])
+
+# logistic model on PC axes
+m_pca <- glm(geo_region_bin ~ PC1 + PC2, data = iso_pca, family = binomial)
+summary(m_pca)
+
+ggplot(iso_pca, aes(PC1, PC2, color = as.factor(geo_region_bin))) +
+  geom_point(size = 3) +
+  theme_minimal() +
+  labs(color = "Country (1=AU)")
+
+
+library(MASS)
+
+# Make geo_region_bin a factor (required by lda)
+iso_lda <- CNOH_imputed %>%
+  mutate(region = factor(geo_region_bin, levels = c(0, 1), labels = c("NZ", "AU")))
+
+# Run LDA
+lda_model <- lda(region ~ d13C + d15N, data = iso_lda)
+
+# View results
+lda_model
+
+# Get predictions
+pred <- predict(lda_model)
+
+# Add to dataframe
+iso_lda <- iso_lda %>%
+  mutate(LD1 = pred$x[, 1],
+         predicted = pred$class)
+
+# Confusion matrix
+table(Observed = iso_lda$region, Predicted = iso_lda$predicted)
+
+# Classification accuracy
+mean(iso_lda$region == iso_lda$predicted)
+
+ggplot(iso_lda, aes(x = LD1, fill = region)) +
+  geom_density(alpha = 0.5) +
+  theme_minimal() +
+  labs(title = "LDA separation between AU and NZ individuals",
+       x = "Linear Discriminant 1", fill = "Region")
+
+ggplot(iso_lda, aes(x = LD1, y = 0, color = region)) +
+  geom_jitter(width = 0, height = 0.05, size = 3, alpha = 0.8) +
+  theme_minimal() +
+  labs(x = "LD1", y = NULL, title = "LDA projection")
+
+lda_cv <- lda(region ~ d13C + d15N, data = iso_lda, CV = TRUE)
+
+# Accuracy
+mean(lda_cv$class == iso_lda$region)
+
+# Confusion matrix
+table(Observed = iso_lda$region, Predicted = lda_cv$class)
+
+ggplot(iso_lda %>% mutate(region = factor(region, levels = c("AU", "NZ"))), aes(x = region, y = LD1, color = region)) +
+  geom_jitter(width = 0.15, size = 3, alpha = 0.7) +
+  stat_summary(fun = mean, geom = "point", size = 4, shape = 23, fill = "white") +
+  scale_color_manual(values = c("AU" = "#E69F00", "NZ" = "#56B4E9")) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none") +
+  scale_x_discrete(labels = c("NZ" = "New Zealand",
+                              "AU" = "Australia")) +
+  labs(y = "Linear discriminant axis 1\nIsotopic signature of δ13C, δ15N, δ18O, δ2H",
+       x = "collection location in winter")
+
+# Assuming lda_model is already fitted
+lda_coeff <- lda_model$scaling[, 1]  # LD1 coefficients
+lda_coeff_df <- data.frame(
+  isotope = rownames(lda_model$scaling),
+  coefficient = lda_coeff
+) %>%
+  arrange(desc(abs(coefficient)))  # order by absolute contribution
+
+ggplot(lda_coeff_df, aes(x = reorder(isotope, coefficient), y = coefficient, fill = coefficient > 0)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  coord_flip() +
+  scale_fill_manual(values = c("TRUE" = "#E69F00", "FALSE" = "#56B4E9"), guide = "none") +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "Contribution of isotopes to LD1",
+    x = "Isotope",
+    y = "LD1 coefficient"
+  )
+
+# --- LDA model (already fitted) ---
+lda_model <- lda(region ~ d13C + d15N, data = iso_lda)
+
+# --- LD1 scores ---
+lda_pred <- predict(lda_model)
+lda_df <- data.frame(CNOH_wide, LD1 = lda_pred$x[, 1])
+
+# --- LD1 density plot ---
+p1 <- ggplot(iso_lda, aes(x = LD1, fill = region)) +
+  geom_density(alpha = 0.5) +
+  scale_fill_manual(values = c("AU" = "#E69F00", "NZ" = "#56B4E9")) +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "LDA separation by region",
+    x = "LD1",
+    y = "Density",
+    fill = "Region"
+  )
+
+# --- Extract LD1 coefficients (loadings) ---
+lda_coeff_df <- data.frame(
+  isotope = rownames(lda_model$scaling),
+  coefficient = lda_model$scaling[, 1]
+) %>%
+  arrange(desc(abs(coefficient)))
+
+# --- Isotope contribution bar plot ---
+p2 <- ggplot(lda_coeff_df, aes(x = reorder(isotope, coefficient), y = coefficient, fill = coefficient > 0)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  coord_flip() +
+  scale_fill_manual(values = c("TRUE" = "#E69F00", "FALSE" = "#56B4E9"), guide = FALSE) +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "Contribution of isotopes to LD1",
+    x = "Isotope",
+    y = "LD1 coefficient"
+  )
+
+# --- Combine plots with patchwork ---
+combined_plot <- p1 / p2 + plot_layout(heights = c(2, 1))
+combined_plot
+
+library(caret)
+
+set.seed(123)
+train_control <- trainControl(method = "LOOCV")
+
+lda_cv <- train(
+  as.factor(geo_region_bin) ~ d13C + d15N + d2H + d18O,
+  data = CNOH_imputed,
+  method = "lda",
+  trControl = train_control
+)
+
+lda_cv
+
+```
+
+
+
+
+```{r}
+library(spdep)
+
+coords <- CNOH_wide %>%
+  mutate(
+    lon_jit = lon + runif(n(), -1e-5, 1e-5),
+    lat_jit = lat + runif(n(), -1e-5, 1e-5)
+  ) %>%
+  dplyr::select(lon_jit, lat_jit)
+nb <- knn2nb(knearneigh(coords, k = 1))  # 3 nearest neighbors
+spatial_mean <- sapply(1:nrow(coords), function(i) {
+  mean(CNOH_wide$d13C[nb[[i]]], na.rm = TRUE)
+})
+
+CNOH_mice$spatial_d13C <- spatial_mean
+```
+
+### Linear Discrimanent Analysis
+
+
+### build isoscapes
+
+currently not enough data for this to work
+
+```{r, eval=FALSE}
+library(sf)         # spatial objects
+library(gstat)      # geostatistics (kriging, variograms)
+library(raster)     # raster operations
+library(terra)      # modern replacement for raster
+library(spData)     # world basemap (optional)
+
+iso_sf <- 
+  CNOH_dat_meta_full %>% 
+  mutate(isotope = ifelse(isotope == "normalised_d13c", "d13C",
+                           ifelse(isotope == "normalised_d15n", "d15N",
+                                  ifelse(isotope == "normalised_d2h", "d2H", "d18O")))) %>% 
+  filter(Feather_type == "Breast") %>% filter(Month %in% c("5", "6", "7", "8")) %>% 
+  group_by(Specimen_ID, geo_region_bin, isotope, lon, lat) %>%
+  summarise(mean_value = mean(mean_value, na.rm = TRUE), .groups = "drop") %>% 
+  st_as_sf(., coords = c("lon", "lat"), crs = 4326)
+iso_sf <- st_transform(iso_sf, 3857)  # Web Mercator
+# iso_sf <- 
+#   iso_sf %>% 
+#   filter(Feather_type == "Breast") %>% filter(Month %in% c("5", "6", "7", "8"))
+  
+
+library(ggplot2)
+library(sf)
+library(dplyr)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(patchwork)
+library(ggforce)
+
+# your sf object: iso_sf
+# columns: isotope, mean_value, geometry (POINTS)
+
+# get basemap
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# restrict map to Australia + New Zealand region
+region_bbox <- st_bbox(c(xmin = 110, xmax = 180, ymin = -55, ymax = -0), crs = st_crs(world))
+world_region <- st_crop(world, region_bbox)
+
+# example palettes per isotope
+isotope_palettes <- list(
+  "d13C" = scale_color_viridis_c(option = "plasma", name = expression(delta^13*C)),
+  "d15N" = scale_color_viridis_c(option = "magma", name = expression(delta^15*N)),
+  "d2H"  = scale_color_viridis_c(option = "viridis", name = expression(delta^2*H)),
+  "d18O" = scale_color_viridis_c(option = "cividis", name = expression(delta^18*O))
+)
+
+# spread_points <- function(sf_obj, amount = 0.05) {
+#   coords <- st_coordinates(sf_obj)
+#   dup_groups <- as.data.frame(coords) %>% 
+#     dplyr::mutate(id = seq_len(nrow(.))) %>% 
+#     dplyr::group_by(X, Y) %>% 
+#     dplyr::mutate(
+#       n = n(),
+#       angle = seq(0, 2*pi, length.out = n + 1)[1:n],
+#       X = X + amount * cos(angle),
+#       Y = Y + amount * sin(angle)
+#     )
+#   sf_obj$geometry <- st_as_sf(dup_groups, coords = c("X", "Y"), crs = st_crs(sf_obj))$geometry
+#   sf_obj
+# }
+# 
+# make_iso_plot <- function(iso_name) {
+#   iso_data <- iso_sf %>%
+#     filter(isotope == iso_name) %>%
+#     spread_points(amount = 10)
+# 
+#   ggplot() +
+#     geom_sf(data = world_region, fill = "grey90", color = "white", size = 0.1) +
+#     geom_sf(data = iso_data, aes(color = mean_value), size = 2, alpha = 0.8) +
+#     isotope_palettes[[iso_name]] +
+#     coord_sf(xlim = c(110, 180), ylim = c(-55, -20), expand = FALSE) +
+#     theme_minimal() +
+#     theme(
+#       panel.grid.major = element_line(color = "grey95"),
+#       axis.text = element_text(size = 8),
+#       plot.title = element_text(face = "bold")
+#     ) +
+#     labs(title = iso_name, x = NULL, y = NULL)
+# }
+
+# helper to make per-isotope map
+make_iso_plot <- function(iso_name, xlim_, y_lim_) {
+  data_ = filter(iso_sf, isotope == iso_name) %>%
+    mutate(geometry = st_jitter(geometry, amount = 30000))
+  
+  ggplot() +
+    geom_sf(data = world_region, fill = "grey90", color = "white", size = 0.1) +
+    geom_sf(
+      data = data_,
+      aes(color = mean_value),
+      size = 2,
+      alpha = 0.8
+    ) +
+    isotope_palettes[[iso_name]] +
+    
+    # ---- HORIZONTAL COLORBAR INSIDE PLOT ----
+    guides(
+      color = guide_colorbar(
+        direction = "horizontal",
+        title.position = "top",
+        barwidth = unit(150, "pt"),
+        barheight = unit(10, "pt")
+      )
+    ) +
+    luke_theme +
+    theme(
+      legend.position = c(0.05, 0.05),              # inside panel
+      legend.justification = c(0, 0),             # anchor bottom-left
+      legend.background = element_blank(),
+      legend.key.height = unit(4, "pt"),
+      legend.key.width = unit(40, "pt"),
+      legend.title = element_text(size = 15),
+      
+      panel.grid.major = element_line(color = "grey95"),
+      axis.text = element_text(size = 8),
+      plot.title = element_text(face = "bold"),
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    ) +
+    
+    coord_sf(
+      xlim = xlim_,
+      ylim = y_lim_,
+      expand = FALSE
+    )
+}
+
+# build and combine plots
+AU_NZ_plots <- 
+  lapply(unique(iso_sf$isotope), function(x) {
+  make_iso_plot(iso_name = x, xlim_ = c(135, 180), y_lim_ = c(-50, -35))
+})
+final_AU_NZ_plot <- wrap_plots(AU_NZ_plots, ncol = 2)
+final_AU_NZ_plot
+
+VIC_TAS_plots <- 
+  lapply(unique(iso_sf$isotope), function(x) {
+  make_iso_plot(iso_name = x, xlim_ = c(140, 150), y_lim_ = c(-45, -35))
+})
+final_VIC_TAS_plot <- wrap_plots(VIC_TAS_plots, ncol = 2)
+final_VIC_TAS_plot
+
+NZ_plots <- 
+  lapply(unique(iso_sf$isotope), function(x) {
+  make_iso_plot(iso_name = x, xlim_ = c(165, 180), y_lim_ = c(-47, -35))
+})
+final_NZ_plot <- wrap_plots(NZ_plots, ncol = 2)
+final_NZ_plot
+
+# bounding box expanded by ~1 degree
+bb <- st_bbox(iso_sf_)
+grid <- st_make_grid(
+  iso_sf_,
+  cellsize = 20000, # grid resolution in meters (~20 km)
+  what = "centers"
+) %>%
+  st_as_sf()
+
+# Convert to sp for gstat
+iso_sp <- as(iso_sf_, "Spatial")
+
+# ---------------- δ13C ----------------
+# Variogram
+vgm_d13c <- variogram(value ~ 1, iso_sp[iso_sp@data$isotope == "normalised_d13c", ])
+fit_vgm_d13c <- fit.variogram(vgm_d13c, model = vgm("Sph"))
+
+# Kriging
+gstat_d13c <- gstat(id = "d13c", formula = value ~ 1, 
+                    data = iso_sp[iso_sp@data$isotope == "normalised_d13c", ], 
+                    model = fit_vgm_d13c)
+
+grid_sp <- as(grid, "Spatial")
+kriged_d13c <- predict(gstat_d13c, newdata = grid_sp)
+
+# Convert to raster
+r_d13c <- rasterFromXYZ(as.data.frame(kriged_d13c)[, c("coords.x1", "coords.x2", "d13c.pred")])
+plot(r_d13c, main = "Isoscape: δ13C")
+points(iso_sp, pch = 20, col = "black")
+
+# ---------------- δ15N ----------------
+# Variogram
+vgm_d15n <- variogram(value ~ 1, iso_sp[iso_sp@data$isotope == "normalised_d15n", ])
+fit_vgm_d15n <- fit.variogram(vgm_d15n, model = vgm("Sph"))
+
+# Kriging
+gstat_d15n <- gstat(id = "d15n", formula = value ~ 1, 
+                    data = iso_sp[iso_sp@data$isotope == "normalised_d15n", ], 
+                    model = fit_vgm_d15n)
+
+kriged_d15n <- predict(gstat_d15n, newdata = grid_sp)
+
+# Raster
+r_d15n <- rasterFromXYZ(as.data.frame(kriged_d15n)[, c("coords.x1", "coords.x2", "d15n.pred")])
+plot(r_d15n, main = "Isoscape: δ15N")
+points(iso_sp[iso_sp@data$isotope == "normalised_d15n", ], pch = 20, col = "black")
+
+# ---------------- δ18O ----------------
+# Variogram
+vgm_d18o <- variogram(value ~ 1, iso_sp[iso_sp@data$isotope == "normalised_d18o", ])
+fit_vgm_d18o <- fit.variogram(vgm_d18o, model = vgm("Gau"))
+
+# Kriging
+gstat_d18o <- gstat(id = "d18o", formula = value ~ 1, 
+                    data = iso_sp[iso_sp@data$isotope == "normalised_d18o", ], 
+                    model = fit_vgm_d18o)
+
+kriged_d18o <- predict(gstat_d18o, newdata = grid_sp)
+
+# Raster
+r_d18o <- rasterFromXYZ(as.data.frame(kriged_d18o)[, c("coords.x1", "coords.x2", "d18o.pred")])
+plot(r_d18o, main = "Isoscape: δ18O")
+points(iso_sp[iso_sp@data$isotope == "normalised_d18o", ], pch = 20, col = "black")
+```
+
+## linear models of spatial variation
+
+```{r}
+CNOH_dat_meta_breast_winter <- 
+  CNOH_dat_meta_full %>% 
+  filter(Feather_type == "Breast") %>% 
+  filter(Month %in% c("5", "6", "7", "8"))
+
+# δ13C
+mod_d13c <- glm(geo_region_bin ~ mean_value,
+                data = subset(CNOH_dat_meta_breast_winter, isotope == "normalised_d13c"),
+                family = binomial)
+
+summary(mod_d13c)
+anova(mod_d13c, test = "Chisq")
+
+# δ15N
+mod_d15n <- glm(geo_region_bin ~ mean_value,
+                data = subset(CNOH_dat_meta_breast_winter, isotope == "normalised_d15n"),
+                family = binomial)
+
+summary(mod_d15n)
+anova(mod_d15n, test = "Chisq")
+
+# δ18O
+mod_d18o <- glm(geo_region_bin ~ mean_value,
+                data = subset(CNOH_dat_meta_breast_winter, isotope == "normalised_d18o"),
+                family = binomial)
+
+summary(mod_d18o)
+anova(mod_d18o, test = "Chisq")
+
+# δ2H
+mod_d2h <- glm(geo_region_bin ~ mean_value,
+                data = subset(CNOH_dat_meta_breast_winter, isotope == "normalised_d2h"),
+                family = binomial)
+
+summary(mod_d2h)
+anova(mod_d2h, test = "Chisq")
+```
+
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# --- Prepare single-isotope predicted data ---
+predict_iso <- function(mod, data, iso_name){
+  pred <- predict(mod, type = "link", se.fit = TRUE)
+  data %>%
+    ungroup() %>%
+    mutate(
+      linear_pred = pred$fit,
+      fit = plogis(pred$fit),
+      lower = plogis(pred$fit - 1.96*pred$se.fit),
+      upper = plogis(pred$fit + 1.96*pred$se.fit),
+      isotope = iso_name
+    )
+}
+
+# δ13C
+d13c_data <- CNOH_dat_meta_breast_winter %>%
+  filter(isotope == "normalised_d13c") %>%
+  mutate(geo_region_bin = factor(geo_region_bin, levels = c(0,1)))
+
+mod_d13c <- glm(geo_region_bin ~ mean_value, data = d13c_data, family = binomial)
+pred_d13c <- predict_iso(mod_d13c, d13c_data, "δ13C")
+
+# δ15N
+d15n_data <- CNOH_dat_meta_breast_winter %>%
+  filter(isotope == "normalised_d15n") %>%
+  mutate(geo_region_bin = factor(geo_region_bin, levels = c(0,1)))
+
+mod_d15n <- glm(geo_region_bin ~ mean_value, data = d15n_data, family = binomial)
+pred_d15n <- predict_iso(mod_d15n, d15n_data, "δ15N")
+
+# δ18O
+d18o_data <- CNOH_dat_meta_breast_winter %>%
+  filter(isotope == "normalised_d18o") %>%
+  mutate(geo_region_bin = factor(geo_region_bin, levels = c(0,1)))
+
+mod_d18o <- glm(geo_region_bin ~ mean_value, data = d18o_data, family = binomial)
+pred_d18o <- predict_iso(mod_d18o, d18o_data, "δ18O")
+
+# δ2H
+d2h_data <- CNOH_dat_meta_breast_winter %>%
+  filter(isotope == "normalised_d2h") %>%
+  mutate(geo_region_bin = factor(geo_region_bin, levels = c(0,1)))
+
+mod_d2h <- glm(geo_region_bin ~ mean_value, data = d2h_data, family = binomial)
+pred_d2h <- predict_iso(mod_d2h, d2h_data, "δ2H")
+
+# --- Prepare multi-isotope model ---
+iso_wide <- CNOH_dat_meta_breast_winter %>%
+  pivot_wider(id_cols = c("Specimen_ID","geo_region_bin"),
+              names_from = "isotope",
+              values_from = "mean_value") %>%
+  filter(!is.na(normalised_d13c) & !is.na(normalised_d15n) & !is.na(normalised_d18o) & !is.na(normalised_d2h)) %>%
+  mutate(geo_region_bin = factor(geo_region_bin, levels = c(0,1))) %>%
+  ungroup()
+
+mod_multi <- glm(geo_region_bin ~ normalised_d13c + normalised_d15n + normalised_d18o + normalised_d2h,
+                 data = iso_wide, family = binomial)
+
+pred_multi <- predict(mod_multi, type = "link", se.fit = TRUE)
+
+iso_wide_pred <- iso_wide %>%
+  mutate(
+    linear_pred = pred_multi$fit,
+    fit = plogis(pred_multi$fit),
+    lower = plogis(pred_multi$fit - 1.96*pred_multi$se.fit),
+    upper = plogis(pred_multi$fit + 1.96*pred_multi$se.fit),
+    isotope = "multi-isotope"
+  )
+
+# --- Combine all predicted data ---
+pred_all <- bind_rows(
+  pred_d13c %>% dplyr::select(mean_value, fit, lower, upper, isotope),
+  pred_d15n %>% dplyr::select(mean_value, fit, lower, upper, isotope),
+  pred_d18o %>% dplyr::select(mean_value, fit, lower, upper, isotope),
+  pred_d2h %>% dplyr::select(mean_value, fit, lower, upper, isotope)#,
+  # iso_wide_pred %>% dplyr::select(linear_pred, fit, lower, upper, isotope) %>%
+    # rename(mean_value = linear_pred)
+)
+
+# Combine raw data points for plotting
+raw_all <- bind_rows(
+  d13c_data %>% dplyr::select(mean_value, geo_region_bin) %>% mutate(isotope = "δ13C"),
+  d15n_data %>% dplyr::select(mean_value, geo_region_bin) %>% mutate(isotope = "δ15N"),
+  d18o_data %>% dplyr::select(mean_value, geo_region_bin) %>% mutate(isotope = "δ18O"),
+  d2h_data %>% dplyr::select(mean_value, geo_region_bin) %>% mutate(isotope = "δ2H")#,
+  # iso_wide_pred %>% dplyr::select(linear_pred, geo_region_bin) %>% mutate(isotope = "multi-isotope") %>%
+    # rename(mean_value = linear_pred)
+)
+
+# Thresholds for plotting
+thresholds <- data.frame(
+  isotope = c("δ13C","δ15N","δ18O","δ2H"), #,"multi-isotope"),
+  threshold = c(0.475, 0.366, 0.282, 0.59)
+)
+
+# --- Plot ---
+ggplot() +
+  geom_point(data = raw_all, aes(x = mean_value, y = as.numeric(geo_region_bin)-1),
+             position = position_jitter(height = 0.05), alpha = 0.6) +
+  geom_line(data = pred_all, aes(x = mean_value, y = fit), color = "steelblue", size = 1) +
+  geom_ribbon(data = pred_all, aes(x = mean_value, ymin = lower, ymax = upper),
+              fill = "steelblue", alpha = 0.2) +
+  geom_hline(data = thresholds, aes(yintercept = threshold), linetype = "dashed", color = "red") +
+  facet_wrap(~isotope, scales = "free_x") +
+  labs(x = "Stable isotope value",
+       y = "Probability wintering in Australia",
+       title = "Predicted effects of single-isotope models on wintering region") +
+  theme_minimal()
+```
+
+```{r}
+CNOH_dat_meta_breast_winter_wide <- tidyr::pivot_wider(
+  CNOH_dat_meta_breast_winter,
+  id_cols = c(Specimen_ID, geo_region_bin),
+  names_from = isotope,
+  values_from = mean_value
+)
+
+mod_multi <- glm(geo_region_bin ~ normalised_d13c + normalised_d15n + normalised_d18o,
+                 data = CNOH_dat_meta_breast_winter_wide,
+                 family = binomial)
+
+summary(mod_multi)
+anova(mod_multi, test = "Chisq")
+```
+
+```{r}
+library(pscl)
+pR2(mod_d13c)   # univariate R2
+pR2(mod_d15n)
+pR2(mod_d18o)
+pR2(mod_multi)  # multivariate R2
+
+```
+
+## bootstrap ROC analysis
+```{r}
+install.packages("caret")
+install.packages("pROC")
+library(caret)
+library(pROC)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+```
+
+
+```{r, eval=FALSE}
+set.seed(123)
+n_runs <- 1000
+isotopes <- c("normalised_d13c", "normalised_d15n", "normalised_d18o")
+
+all_iso_results <- list()
+threshold_results <- data.frame()
+
+ctrl <- trainControl(
+  method = "cv",
+  number = 5,
+  classProbs = TRUE,
+  summaryFunction = twoClassSummary,
+  savePredictions = "final"
+)
+
+for(run in 1:n_runs){
+  
+  # --- Single-isotope models ---
+  for(iso in isotopes){
+    iso_data <- subset(CNOH_dat_meta_breast_winter, isotope == iso)
+    iso_data$geo_region_bin <- factor(iso_data$geo_region_bin, levels = c(0,1), labels = c("NZ","AU"))
+    
+    cv_mod <- train(
+      geo_region_bin ~ mean_value,
+      data = iso_data,
+      method = "glm",
+      family = binomial,
+      trControl = ctrl,
+      metric = "ROC"
+    )
+    
+    pred <- cv_mod$pred$NZ
+    roc_obj <- roc(cv_mod$pred$obs, pred, levels = c("AU","NZ"))
+    
+    roc_df <- coords(roc_obj, "all", ret = c("specificity","sensitivity"))
+    roc_df <- as.data.frame(roc_df) %>% mutate(model = iso, run = run)
+    all_iso_results[[length(all_iso_results)+1]] <- roc_df
+    
+    opt <- coords(roc_obj, "best", ret = c("threshold","sensitivity","specificity"), best.method = "youden")
+    threshold_results <- rbind(threshold_results,
+                               data.frame(run = run, model = iso,
+                                          threshold = opt["threshold"],
+                                          sensitivity = opt["sensitivity"],
+                                          specificity = opt["specificity"]))
+  }
+  
+  # --- Multi-isotope model ---
+  iso_wide <- tidyr::pivot_wider(
+    CNOH_dat_meta_breast_winter,
+    id_cols = c("Specimen_ID","geo_region_bin"),
+    names_from = "isotope",
+    values_from = "mean_value"
+  ) %>%
+    filter(!is.na(normalised_d13c) & !is.na(normalised_d15n) & !is.na(normalised_d18o))
+  
+  iso_wide$geo_region_bin <- factor(iso_wide$geo_region_bin, levels = c(0,1), labels = c("NZ","AU"))
+  
+  cv_multi <- train(
+    geo_region_bin ~ normalised_d13c + normalised_d15n + normalised_d18o,
+    data = iso_wide,
+    method = "glm",
+    family = binomial,
+    trControl = ctrl,
+    metric = "ROC"
+  )
+  
+  pred_multi <- cv_multi$pred$NZ
+  roc_multi <- roc(cv_multi$pred$obs, pred_multi, levels = c("AU","NZ"))
+  
+  roc_df_multi <- coords(roc_multi, "all", ret = c("specificity","sensitivity"))
+  roc_df_multi <- as.data.frame(roc_df_multi) %>% mutate(model = "multi_isotope", run = run)
+  all_iso_results[[length(all_iso_results)+1]] <- roc_df_multi
+  
+  opt_multi <- coords(roc_multi, "best", ret = c("threshold","sensitivity","specificity"), best.method = "youden")
+  threshold_results <- rbind(threshold_results,
+                             data.frame(run = run, model = "multi_isotope",
+                                        threshold = opt_multi["threshold"],
+                                        sensitivity = opt_multi["sensitivity"],
+                                        specificity = opt_multi["specificity"]))
+}
+
+# Combine ROC data
+roc_all <- list(iso_results = bind_rows(all_iso_results),
+                threshold_results = threshold_results)
+
+saveRDS(roc_all, "output/roc_all.rds")
+```
+
+
+```{r}
+roc_all <- readRDS("output/roc_all.rds")
+
+# Compute mean ROC for each model
+roc_mean <- roc_all$iso_results %>%
+  group_by(model, specificity) %>%
+  summarise(sensitivity_mean = mean(sensitivity), .groups = "drop")
+
+# Summarize optimal thresholds with mean and 95% CI
+threshold_summary <- roc_all$threshold_results %>%
+  group_by(model) %>%
+  summarise(
+    threshold_mean = mean(threshold),
+    threshold_lower = quantile(threshold, 0.025),
+    threshold_upper = quantile(threshold, 0.975),
+    sensitivity_mean = mean(sensitivity),
+    sensitivity_lower = quantile(sensitivity, 0.025),
+    sensitivity_upper = quantile(sensitivity, 0.975),
+    specificity_mean = mean(specificity),
+    specificity_lower = quantile(specificity, 0.025),
+    specificity_upper = quantile(specificity, 0.975)
+  )
+
+# Convert threshold values to a nicely formatted string
+threshold_summary <- threshold_summary %>%
+  mutate(threshold_label = sprintf("%.2f", threshold_mean))
+
+threshold_summary
+
+# Plot ROC curves with faint lines + mean curve + diagonal + mean optimal threshold points + labels + 95% CI
+ggplot() +
+  geom_line(data = roc_all$iso_results %>% group_by(model, run, sensitivity), aes(x = 1 - specificity, y = sensitivity, group = run),
+            alpha = 0.1, color = "lightsteelblue") +
+  geom_line(data = roc_mean, aes(x = 1 - specificity, y = sensitivity_mean),
+            color = "steelblue", size = 2) +
+  geom_point(data = threshold_summary, 
+             aes(x = 1 - specificity_mean, y = sensitivity_mean),
+             color = "black", size = 3) +
+  # geom_errorbar(data = threshold_summary,
+  #               aes(x = 1 - specificity_mean, ymin = sensitivity_lower, ymax = sensitivity_upper),
+  #               color = "black", width = 0.01) +
+  # geom_errorbarh(data = threshold_summary,
+  #                aes(y = sensitivity_mean, xmin = 1 - specificity_upper, xmax = 1 - specificity_lower),
+  #                color = "black", height = 0.01) +
+  geom_text(data = threshold_summary,
+            aes(x = 1 - specificity_mean, y = sensitivity_mean, label = threshold_label),
+            vjust = -1, hjust = 1.1, color = "black", size = 3) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "grey50") +
+  facet_wrap(~model) +
+  labs(x = "False Positive Rate (1 - Specificity)", 
+       y = "True Positive Rate (Sensitivity)",
+       title = "Bootstrap CV ROC curves (1000 runs) with Mean ROC, Optimal Thresholds, and 95% CI") +
+  theme_minimal()
+```
+
+## Overview
+
+The table summarizes the predictive performance of logistic regression models classifying samples into `geo_region` (NZ vs AU) based on stable isotope values (δ¹³C, δ¹⁵N, δ¹⁸O) and a combined multi-isotope model. For each model, the **mean optimal threshold** (based on Youden’s index) is reported, along with **95% confidence intervals** for threshold, sensitivity, and specificity across 1000 bootstrap cross-validation runs.
+
+## Key Observations
+
+### Multi-isotope model
+
+-   **Mean optimal threshold:** 0.59 (95% CI: 0.29–0.999)\
+-   **Sensitivity (true positive rate for AU):** 0.76 (CI: 0.50–0.83)\
+-   **Specificity (true negative rate for NZ):** 0.73 (CI: 0.50–1)
+
+**Interpretation:** Combining δ¹³C, δ¹⁵N, and δ¹⁸O provides moderately balanced performance, with some uncertainty due to small sample size, but achieves reasonably high sensitivity and specificity simultaneously.
+
+### δ¹³C (`normalised_d13c`)
+
+-   **Mean threshold:** 0.475 (CI: 0.418–0.554)\
+-   **Sensitivity (AU correctly identified):** 0.78 (CI: 0.778–0.778)\
+-   **Specificity (NZ correctly identified):** 0.915 (CI: 0.824–0.941)
+
+**Interpretation:** δ¹³C alone is highly specific—good at correctly identifying NZ samples—but slightly less sensitive in detecting AU samples. Narrow CI suggests consistent performance across bootstrap runs.\
+- **Context:** ROC = 0.93 → excellent discriminative ability of δ¹³C for separating NZ vs AU samples. Sensitivity = 0.78 → the model correctly identifies 78% of AU samples. Specificity = 0.915 → the model correctly identifies 91.5% of NZ samples.
+
+### δ¹⁵N (`normalised_d15n`)
+
+-   **Mean threshold:** 0.366 (CI: 0.256–0.441)\
+-   **Sensitivity (AU correctly identified):** 0.68 (CI: 0.556–0.889)\
+-   **Specificity (NZ correctly identified):** 0.78 (CI: 0.529–0.882)
+
+**Interpretation:** δ¹⁵N provides moderate predictive power, with both sensitivity and specificity lower than δ¹³C and wider CI, reflecting higher uncertainty in classification.
+
+### δ¹⁸O (`normalised_d18o`)
+
+-   **Mean threshold:** 0.282 (CI: 0.201–0.353)\
+-   **Sensitivity (AU correctly identified):** 0.86 (CI: 0.857–0.857)\
+-   **Specificity (NZ correctly identified):** 0.71 (CI: 0.647–0.765)
+
+**Interpretation:** δ¹⁸O is highly sensitive (good at detecting AU samples) but less specific (more false positives for NZ), with relatively narrow CI.
+
+## General Interpretation
+
+-   **δ¹³C** shows the best overall specificity (strong at identifying NZ samples).\
+-   **δ¹⁸O** shows the best sensitivity (strong at identifying AU samples).\
+-   The **multi-isotope model** balances sensitivity and specificity, leveraging complementary information from all three isotopes.\
+-   Confidence intervals highlight **uncertainty due to small sample size**, but the bootstrap approach provides robust estimates of model performance and optimal thresholds.
+
+**Summary:** Among the single isotopes, **δ¹³C is the best predictor** for geographic origin, providing the highest discriminative ability between NZ and AU samples. The sensitivity and specificity values indicate that the models are able to correctly classify a high proportion of both regions, with δ¹³C correctly identifying ~78% of AU samples and ~91% of NZ samples at the mean optimal threshold.
+
+### C and N data from live birds
+```{r}
+sfc_as_cols <- function(x, geometry, names = c("x", "y")) {
+  if (missing(geometry)) {
+    geometry <- sf::st_geometry(x)
+  } else {
+    geometry <- rlang::eval_tidy(enquo(geometry), x)
+  }
+  
+  stopifnot(inherits(x, "sf"), inherits(geometry, "sfc_POINT"))
+  
+  coords <- sf::st_coordinates(geometry)
+  coords_df <- tibble::as_tibble(coords)
+  
+  stopifnot(length(names) == ncol(coords_df))
+  
+  x <- x[, !names(x) %in% names]
+  coords_df <- setNames(coords_df, names)
+  
+  dplyr::bind_cols(x, coords_df)
+}
+
+bdot_phenotypes <- 
+  read_excel(path = "/Users/luketheduke2/ownCloud/kemp_projects/bdot/R_projects/bdot_stable_isotopes/data/LIMS_251105_MaxPlanck_Eberhart-Hertel.xlsx",
+             sheet = "Sample Submission Form", skip = 3,
+             # range = cell_cols("A:Z"),
+             col_names = TRUE) %>%
+  select(`Sample Identifier`, TagID, Sex, `Individual Leg Markings`, `Migratory Status`, 
+         `Date Sampled`, `Longitude Sampled`, `Latitude Sampled`, `Migratory Status Comment`) %>% 
+  mutate(tag_id = ifelse(
+    TagID == "266470" & as.Date(`Date Sampled`) < as.Date("2024-12-09"),
+    "266470_A",
+    ifelse(
+      TagID == "266470" & as.Date(`Date Sampled`) >= as.Date("2024-12-09"),
+      "266470_B",
+      TagID
+    )
+  )) %>% 
+  select(-c(TagID, `Date Sampled`)) %>% 
+  rename(status = `Migratory Status`,
+         latitude_cap = `Latitude Sampled`,
+         longitude_cap = `Longitude Sampled`,
+         comment = `Migratory Status Comment`,
+         sex = Sex,
+         mark = `Individual Leg Markings`,
+         ring = `Sample Identifier`) %>% 
+  mutate(ring = stringr::str_extract(ring, "^[^_]+")) %>% distinct()
+
+live_bdot_data <-
+  # read_excel(here("data/RAW DATA_SI_Feathers_LEH_Nov25.xls"), 
+  #            sheet = "RAW_sample data",
+  #            col_types = "text", skip = 9, col_names = TRUE) %>%
+  read_excel(here("data/Master_EA_C_N_SI_Batch 5 Breast and Primary Feathers_LEH_Repeats added_April25_v1_SB_v2.xls"),
+             sheet = "Sample results_C&N",
+             col_types = "text", skip = 10, col_names = TRUE) %>%
+    rename_with(~ .x %>%
+                tolower() %>%
+                str_replace_all(" ", "_") %>%
+                str_replace_all("__", "_") %>%
+                str_replace_all("___", "_") %>%
+                str_replace_all("%", "_perc_") %>%
+                str_replace_all(":", "") %>%
+                str_replace_all("#", "")) %>% 
+  dplyr::select(corrected_identifer_1, `amount_(mg)`, normalised_d15n, 
+                normalised_d13c, cn_mass_ratio) %>% 
+  rename(d15N = normalised_d15n,
+         d13C = normalised_d13c,
+         sample = `corrected_identifer_1`,
+         amount = `amount_(mg)`) %>% 
+  mutate(
+    feather_type = str_extract(sample, regex("primary|breast|pimary", ignore_case = TRUE)),
+    ring  = str_extract(sample, "^[^_]+")
+  ) %>%
+    # filter(ring != "CP19311") %>% 
+  mutate(feather_type = ifelse(feather_type == "pimary", "primary", feather_type)) %>% 
+  dplyr::select(ring, sample, feather_type, amount, d15N, d13C) %>% 
+  mutate(amount = as.numeric(amount), 
+         d15N = as.numeric(d15N), 
+         d13C = as.numeric(d13C),
+         d15N_scaled = as.numeric(scale(d15N)),
+         d13C_scaled = as.numeric(scale(d13C))) %>%
+  arrange(ring, feather_type) %>%
+  # select(ring, feather_type, d15N, d13C) %>%
+  # pivot_wider(
+  #   names_from  = feather_type,
+  #   values_from = c(d15N, d13C),
+  #   names_glue  = "{.value}_{feather_type}"
+  # ) %>% 
+  left_join(., bdot_phenotypes, by = "ring") %>%
+  mutate(status_bin = ifelse(str_detect(status, "migrant"), "migrant", status) %>% as.factor()) %>%
+  filter(!is.na(ring)) %>% 
+  filter(status != "unknown")
+  #   na.omit() %>% 
+  #   mutate(d15N_diff = abs(d15N_primary - d15N_breast),
+  #          d13C_diff = abs(d13C_primary - d13C_breast)) %>% 
+  # pivot_longer(
+  #   cols = c(d15N_diff, d13C_diff),
+  #   names_to = "isotope_diff",
+  #   values_to = "value"
+  # ) %>%
+  # group_by(isotope_diff) %>%
+  # mutate(value_scaled = as.numeric(scale(value))) %>%
+  # ungroup() %>% 
+  # left_join(., bdot_phenotypes, by = "ring") %>% 
+  # mutate(status_bin = ifelse(str_detect(status, "migrant"), "migrant", status) %>% as.factor()) #%>% 
+  # filter(status != "unknown")
+bdot_argos_proc_2024 <- readRDS(file = "/Users/luketheduke2/ownCloud/kemp_projects/bdot/R_projects/bdot_db/output/bdot_argos_proc_2024_lonE.rds")
+
+# Make midpoint the geometry and set it active
+st_geometry(bdot_argos_proc_2024$ctdf) <- "midpoint"
+library(geosphere)
+bdot_winter_sites_2024_max_dist <- 
+  bdot_argos_proc_2024$ctdf %>% 
+  st_transform(4326) %>% 
+  sfc_as_cols(names = c("longitude", "latitude")) %>% 
+  rename(tag_id = id) %>% 
+  # left_join(., bdot_phenotypes, by = "tag_id") %>% 
+  st_drop_geometry() %>% 
+  select(-chull) %>%
+  mutate(status = ifelse(tag_id %in% c("266388", "266451"), "resident", status),
+         longitude_cap = ifelse(tag_id == "266388", 172.6316, 
+                                ifelse(tag_id == "266388", 172.6795, longitude_cap)),
+         latitude_cap = ifelse(tag_id == "266388", -43.82988, 
+                                ifelse(tag_id == "266388", -43.82687, latitude_cap))) %>% 
+  mutate(distance_km = distHaversine(
+    cbind(longitude, latitude),
+    cbind(longitude_cap, latitude_cap)
+  ) / 1000) %>% 
+  group_by(tag_id) %>% 
+  arrange(desc(distance_km)) %>% 
+  slice(1) %>% 
+  ungroup
+
+bdot_winter_sites_2024_max_dist %>% 
+  filter(status != "unknown") %>% 
+  arrange(status)
+
+live_bdot_data %>% 
+  left_join(., 
+            bdot_winter_sites_2024_max_dist %>% 
+              select(ring, longitude, latitude, distance_km), 
+            by = "ring") %>% 
+  rename(longitude_winter = longitude, 
+         latitude_winter = latitude,
+         longitude_breed = longitude_cap,
+         latitude_breed = latitude_cap) %>% 
+  arrange(ring, feather_type) %>% 
+  select(ring, feather_type, d15N, d13C, d15N_scaled, d13C_scaled, sex, status, 
+         status_bin, longitude_breed, latitude_breed)#, longitude_winter, latitude_winter)
+
+### Exploratory plot ----
+ggplot() + 
+  geom_line(data = live_bdot_data,
+             aes(x = d13C_scaled, y = d15N_scaled, 
+                 color = status, group = ring), 
+             size = 0.5, alpha = 0.5) + 
+  geom_point(data = live_bdot_data,
+             aes(x = d13C_scaled, y = d15N_scaled, 
+                 color = status, shape = feather_type), 
+             size = 3) + 
+  labs(x = expression(delta^{13}*C[scaled]), 
+       y = expression(delta^{15}*N[scaled]), 
+       shape = "Feather",
+       color = "Status") + 
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1") +
+  theme(legend.position = "right", legend.title = element_blank(),
+        axis.title = element_text(size = 15)) +
+  facet_wrap(status ~ ., nrow = 2, ncol = 2)
+
+df_dist <- 
+  live_bdot_data %>%
+  group_by(ring, status) %>%
+  filter(n() == 2) %>%              # keep only groups with 2 points
+  summarise(
+    distance = sqrt((d15N_scaled[2] - d15N_scaled[1])^2 + (d13C_scaled[2] - d13C_scaled[1])^2)
+  ) %>%
+  ungroup() %>% 
+  left_join(., bdot_winter_sites_2024_max_dist %>% select(ring, distance_km), by = "ring")
+
+ggplot(data = df_dist) +
+  geom_point(aes(x = distance, y = distance_km)) +
+  geom_smooth(aes(x = distance, y = distance_km), method = "lm") +
+  luke_theme +
+  xlab("Eucledian distance in scaled N & C space") +
+  ylab("Geographic distance between\nbreeding and wintering site (km)")
+
+hist(df_dist$distance)
+
+m1 <- aov(distance ~ status, data = df_dist)
+summary(m1)
+  
+# Primaries
+# 17 AU migrants, 22 residents, X unknown, 7 NI migrants, 10 SI migrants
+live_bdot_data %>% 
+  group_by(status) %>% summarise(n_birds = n_distinct(ring))
+
+# 56 birds
+live_bdot_data %>% 
+  summarise(n_birds = n_distinct(ring))
+
+# 55 birds with both feathers analyzed
+live_bdot_data %>% 
+  group_by(ring) %>% summarise(n_feathers = n_distinct(feather_type)) %>% 
+  pull(n_feathers) %>% table()
+
+live_bdot_data %>% 
+  filter(!is.na(d15N) & !is.na(d13C)) %>% 
+  group_by(feather_type) %>% summarise(n_birds = n_distinct(ring))
+
+# Breast
+# 11 AU migrants, 13 residents, 13 unknown, 5 NI migrants, 3 SI migrants
+live_bdot_data %>% 
+  filter(!is.na(d15N_breast) & !is.na(d13C_breast)) %>% 
+  group_by(status) %>% summarise(n_birds = n_distinct(ring))
+
+AUmig_res_primary <- 
+  live_bdot_data %>% 
+  filter(!is.na(d15N_primary) & !is.na(d13C_primary))
+  
+C_live_mod1 <- 
+  glm(status_bin ~ value_scaled, 
+       data = live_bdot_data %>% 
+        filter(isotope_diff == "d13C_diff"), 
+      family = binomial)
+
+N_live_mod1 <- 
+  glm(status_bin ~ value_scaled, 
+       data = live_bdot_data %>% 
+        filter(isotope_diff == "d15N_diff"), 
+      family = binomial)
+
+summary(C_live_mod1)
+summary(N_live_mod1)
+
+# 1️⃣ Create new data for prediction
+newdataN <- 
+  live_bdot_data %>% 
+  filter(isotope_diff == "d15N_diff") %>% 
+  reframe(
+    value_scaled = seq(min(value_scaled), max(value_scaled), length.out = 50)
+  ) %>%
+  ungroup()
+
+newdataC <- 
+  live_bdot_data %>% 
+  filter(isotope_diff == "d13C_diff") %>% 
+  reframe(
+    value_scaled = seq(min(value_scaled), max(value_scaled), length.out = 50)
+  ) %>%
+  ungroup()
+
+# 2️⃣ Predict probabilities AND standard errors for CI
+predC <- predict(C_live_mod1, newdataC, type = "link", se.fit = TRUE)
+predN <- predict(N_live_mod1, newdataN, type = "link", se.fit = TRUE)
+
+# Calculate predicted probability and 95% CI
+newdataC <- newdataC %>%
+  mutate(
+    fit_link = predC$fit,
+    se_link = predC$se.fit,
+    # logistic transformation
+    pred_prob = plogis(fit_link),
+    lower = plogis(fit_link - 1.96 * se_link),
+    upper = plogis(fit_link + 1.96 * se_link)
+  )
+
+newdataN <- newdataN %>%
+  mutate(
+    fit_link = predN$fit,
+    se_link = predN$se.fit,
+    # logistic transformation
+    pred_prob = plogis(fit_link),
+    lower = plogis(fit_link - 1.96 * se_link),
+    upper = plogis(fit_link + 1.96 * se_link)
+  )
+
+# 3️⃣ Plot raw data + predicted probability + confidence intervals
+ggplot() +
+  # raw data
+  geom_jitter(data = live_bdot_data %>% filter(isotope_diff == "d15N_diff"), 
+              aes(x = value_scaled, y = status_bin, color = isotope_diff), 
+              width = 0.1, height = 0.02, alpha = 0.6) +
+  # predicted probability curves
+  geom_line(data = newdataN, aes(x = value_scaled, y = pred_prob), size = 1.2) +
+  # confidence interval ribbons
+  geom_ribbon(data = newdataN, aes(x = value_scaled, ymin = lower, ymax = upper), 
+              alpha = 0.2, color = NA) +
+  theme_minimal() +
+  labs(
+    x = "Scaled difference in d13N",
+    y = "Probability of having migrated"
+  )
+```
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# --- Prepare single-isotope predicted data ---
+predict_iso <- function(mod, data, iso_name){
+  pred <- predict(mod, se.fit = TRUE)
+  data %>%
+    ungroup() %>%
+    mutate(
+      linear_pred = pred$fit,
+      fit = plogis(pred$fit),
+      lower = plogis(pred$fit - 1.96*pred$se.fit),
+      upper = plogis(pred$fit + 1.96*pred$se.fit),
+      isotope = iso_name
+    )
+}
+
+ggplot(data = live_bdot_data) +
+  geom_boxplot(aes(x = status_bin, y = d15N, color = feather_type))
+
+ggplot(data = live_bdot_data) +
+  geom_boxplot(aes(x = status_bin, y = d13C, color = feather_type))
+
+# δ13C
+mod_d13C <- lm(d13C_scaled ~ status_bin, data = live_bdot_data)
+pred_d13C <- predict_iso(mod_d13C, live_bdot_data, "δ13C")
+
+# δ15N
+mod_d15N <- lm(d15N_scaled ~ status_bin, data = live_bdot_data)
+pred_d15N <- predict_iso(mod_d15N, live_bdot_data, "δ15N")
+
+pred_all <- bind_rows(
+  pred_d13C %>% dplyr::select(d13C_scaled, fit, lower, upper, isotope) %>% rename(mean_value = d13C_scaled),
+  pred_d15N %>% dplyr::select(d15N_scaled, fit, lower, upper, isotope) %>% rename(mean_value = d15N_scaled)
+)
+
+# # δ15N + δ13C
+# mod_multi <- glm(geo_region_bin ~ d13C + d15N,
+#                  data = iso_wide, family = binomial)
+# 
+# pred_multi <- predict(mod_multi, type = "link", se.fit = TRUE)
+# 
+# iso_wide_pred <- iso_wide %>%
+#   mutate(
+#     linear_pred = pred_multi$fit,
+#     fit = plogis(pred_multi$fit),
+#     lower = plogis(pred_multi$fit - 1.96*pred_multi$se.fit),
+#     upper = plogis(pred_multi$fit + 1.96*pred_multi$se.fit),
+#     isotope = "multi-isotope"
+#   )
+
+# --- Combine all predicted data ---
+# pred_all <- bind_rows(
+#   pred_d13c %>% dplyr::select(mean_value, fit, lower, upper, isotope),
+#   pred_d15n %>% dplyr::select(mean_value, fit, lower, upper, isotope),
+#   pred_d18o %>% dplyr::select(mean_value, fit, lower, upper, isotope),
+#   pred_d2h %>% dplyr::select(mean_value, fit, lower, upper, isotope)#,
+#   # iso_wide_pred %>% dplyr::select(linear_pred, fit, lower, upper, isotope) %>%
+#     # rename(mean_value = linear_pred)
+# )
+
+# Combine raw data points for plotting
+raw_all <- bind_rows(
+  live_bdot_data %>% dplyr::select(d13C_scaled, status_bin) %>% mutate(isotope = "δ13C") %>% rename(mean_value = d13C_scaled),
+  live_bdot_data %>% dplyr::select(d15N_scaled, status_bin) %>% mutate(isotope = "δ15N") %>% rename(mean_value = d15N_scaled)#,
+  # d18o_data %>% dplyr::select(mean_value, geo_region_bin) %>% mutate(isotope = "δ18O"),
+  # d2h_data %>% dplyr::select(mean_value, geo_region_bin) %>% mutate(isotope = "δ2H")#,
+  # iso_wide_pred %>% dplyr::select(linear_pred, geo_region_bin) %>% mutate(isotope = "multi-isotope") %>%
+    # rename(mean_value = linear_pred)
+)
+
+# Thresholds for plotting
+thresholds <- data.frame(
+  isotope = c("δ13C","δ15N","δ18O","δ2H"), #,"multi-isotope"),
+  threshold = c(0.475, 0.366, 0.282, 0.59)
+)
+
+# --- Plot ---
+ggplot() +
+  geom_point(data = raw_all, aes(x = mean_value, y = as.numeric(status_bin)-1),
+             position = position_jitter(height = 0.05), alpha = 0.6) +
+  geom_line(data = pred_all, aes(x = mean_value, y = fit), color = "steelblue", size = 1) +
+  geom_ribbon(data = pred_all, aes(x = mean_value, ymin = lower, ymax = upper),
+              fill = "steelblue", alpha = 0.2) +
+  # geom_hline(data = thresholds, aes(yintercept = threshold), linetype = "dashed", color = "red") +
+  facet_wrap(~isotope, scales = "free_x") +
+  labs(x = "Stable isotope value",
+       y = "Probability wintering in Australia",
+       title = "Predicted effects of single-isotope models on wintering region") +
+  theme_minimal()
+```
+
+```{r}
+# Required packages
+packages <- c("tidyverse","tidymodels","caret","lme4","brms","MASS","randomForest","pROC","patchwork","rsample","vip")
+invisible(lapply(packages, function(p) if(!requireNamespace(p, quietly=TRUE)) install.packages(p)))
+library(tidyverse); library(tidymodels); library(caret); library(lme4); library(brms)
+library(MASS); library(randomForest); library(pROC); library(patchwork); library(rsample); library(vip)
+library(DBI); library(dbo); library(elevatr); library(gghalves)
+library(dbo)
+library(elevatr)
+con = dbcon(db = "FIELD_2024_BADOatNZ")
+
+df <- 
+  live_bdot_data %>% 
+  left_join(., 
+            bdot_winter_sites_2024_max_dist %>% 
+              select(ring, longitude, latitude, distance_km), 
+            by = "ring") %>% 
+  rename(longitude_winter = longitude, 
+         latitude_winter = latitude,
+         longitude_breed = longitude_cap,
+         latitude_breed = latitude_cap) %>% 
+  arrange(ring, feather_type) %>% 
+  select(ring, feather_type, d15N, d13C, d15N_scaled, d13C_scaled, sex, status, 
+         status_bin, longitude_breed, latitude_breed) %>% 
+  left_join(., dbq(con, "SELECT * FROM CAPTURES") %>% select(ring, site) %>% distinct()) %>% 
+  group_by(ring) %>% 
+  mutate(n_tissues = n_distinct(feather_type)) %>% 
+  ungroup() %>% 
+  mutate(x_line = ifelse(feather_type == "primary", 1 + 0.15,
+                         ifelse(feather_type == "breast", 
+                                2 - 0.15, NA)),
+         x_point = ifelse(feather_type == "primary", 1, 
+                          ifelse(feather_type == "breast", 
+                                 2, NA)),
+         x_box = ifelse(feather_type == "primary", 1 - 0.15, 
+                          ifelse(feather_type == "breast", 
+                                 2 + 0.15, NA))) %>% 
+  mutate(status = factor(status, levels = c("resident", "SI migrant", "NI migrant", "AU migrant"))) %>% 
+  mutate(site_name = case_when(
+      site == "KT" ~ "Kaitorete Spit",
+      site == "TS" ~ "Tasman River",
+      site == "KP" ~ "Kena Peninsula",
+      site == "MS" ~ "Motueka Spit",
+      site == "KK" ~ "Kaikoura",
+      site == "CR" ~ "Cass River",
+      site == "TA" ~ "Upukeroa River",
+      site == "TP" ~ "Tiwai Point",
+      site == "CH" ~ "Chathams",
+      site == "HC" ~ "Napier",
+      site == "OM" ~ "Old Man Range",
+      site == "PR" ~ "Pisa Range",
+      site == "PB" ~ "Porters Beach, Abel Tasman National Park",
+      site == "TO" ~ "Rangipo Desert",
+      site == "MC" ~ "Macaulay River",
+      site == "MB" ~ "Maryburn",
+      site == "OD" ~ "Ohau Downs",
+      site == "TR" ~ "Tekapo River",
+      site == "MA" ~ "Miranda Rescue",
+      site == "PW" ~ "Port Waikato",
+      TRUE ~ site
+    ))
+
+status_facets <- c('SI migrant' = "South Island migrant", 
+                   'NI migrant' = "North Island migrant", 
+                   'AU migrant' = "Australia migrant", 
+                   'resident' = "Resident")
+
+# Step 1: Convert to sf object
+points_sf <- st_as_sf(df, coords = c("longitude_breed", "latitude_breed"), crs = 4326)
+
+# Step 2: Get elevation (units: meters)
+elevations <- get_elev_point(locations = points_sf, units = "meters", src = "aws")
+
+# Step 3: Add elevation to original data
+df <- 
+  bind_cols(df, elevation = elevations$elevation) %>% 
+  mutate(elevation = ifelse(elevation < 0, 0, elevation))
+
+df_wide <- df %>% 
+  select(ring, feather_type, d15N, elevation, status) %>% 
+  group_by(ring, elevation, status, feather_type) %>% 
+  summarise(d15N = mean(d15N, na.rm = TRUE), .groups = "drop") %>% 
+  pivot_wider(
+    names_from = feather_type,
+    values_from = d15N
+  ) %>% 
+  mutate(
+    d15N_diff = primary - breast
+  ) %>% 
+  drop_na(d15N_diff)# %>% 
+  # filter(status %in% c("AU migrant", "NI migrant"))
+
+mod <- lm(d15N_diff ~ elevation, data = df_wide)
+summary(mod)
+
+newdat <- expand.grid(
+  elevation = seq(min(df_wide$elevation), max(df_wide$elevation), length.out = 100),
+  status = unique(df_wide$status)
+)
+
+pred <- predict(mod, newdata = newdat, interval = "confidence")
+newdat$fit <- pred[, "fit"]
+newdat$lwr <- pred[, "lwr"]
+newdat$upr <- pred[, "upr"]
+
+ggplot() +
+  geom_point(data = df_wide,
+             aes(x = elevation, y = d15N_diff),
+             alpha = 0.7) +
+  geom_ribbon(data = newdat,
+              aes(x = elevation, ymin = lwr, ymax = upr),
+              alpha = 0.25, colour = NA) +
+  geom_line(data = newdat,
+            aes(x = elevation, y = fit),
+            size = 1.2) +
+  labs(
+    x = "Elevation",
+    y = "Difference in d15N (primary – breast)",
+    color = "Status"
+  ) +
+  theme_minimal(base_size = 14)# +
+  # facet_grid(.~status)
+
+# ---------------------------
+# 0. Basic data assumptions
+# ---------------------------
+# Input: one row per feather (like your sample). Columns required:
+# ring (unique bird id), feather_type (e.g., "primary" or "breast"),
+# d15N, d13C, sex, status (resident/migrant), longitude_breed, latitude_breed
+# If you have scaled values already, you can use them (d15N_scaled etc.) or compute within pipeline.
+
+# Example: df <- read_csv("your_data.csv")
+# I'll assume df exists.
+
+# ---------------------------
+# 1. Reshape to one-row-per-bird
+# ---------------------------
+# We need paired samples per bird (primary = breeding feather, breast = winter feather).
+# If some birds miss one feather, we can decide to keep them later (but paired data is best).
+
+df_wide <- df %>%
+  group_by(site, ring, sex, status, longitude_breed, latitude_breed, elevation, feather_type) %>%
+  summarise(
+    d15N = mean(d15N, na.rm = TRUE),
+    d13C = mean(d13C, na.rm = TRUE),
+    d15N_scaled = mean(d15N_scaled, na.rm = TRUE),
+    d13C_scaled = mean(d13C_scaled, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  pivot_wider(names_from = feather_type,
+              values_from = c(d15N, d13C, d15N_scaled, d13C_scaled),
+              names_sep = "_") %>%
+  # Derive new useful cols: deltas (breast - primary), and absolute delta
+  mutate(
+    delta_d15N = d15N_breast - d15N_primary,
+    delta_d13C = d13C_breast - d13C_primary,
+    abs_delta_d13C = abs(delta_d13C),
+    abs_delta_d15N = abs(delta_d15N),
+    # keep factor status with resident as reference
+    status = factor(status, levels = c("resident", "SI migrant", "NI migrant", "AU migrant"))
+  )
+# Check number of complete pairs
+n_pairs <- df_wide %>% filter(!is.na(d15N_primary) & !is.na(d15N_breast)) %>% nrow()
+message("Paired birds: ", n_pairs)
+
+# ---------------------------
+# 2. Exploratory plots
+# ---------------------------
+# Scatter primary vs breast for each isotope; and delta histograms
+p1 <- ggplot(df_wide, aes(x = d13C_primary, y = d13C_breast, colour = status)) +
+  geom_abline(lty=2) + 
+  geom_point(size=3, alpha=0.8) + 
+  labs(x="d13C primary (breeding)", y="d13C breast (winter)")
+
+p2 <- ggplot(df_wide, aes(x = d15N_primary, y = d15N_breast, colour = status)) +
+  geom_abline(lty=2) + 
+  geom_point(size=3, alpha=0.8) + 
+  labs(x="d15N primary", y="d15N breast")
+
+p3 <- ggplot(df_wide, aes(x = delta_d13C, fill = status)) + 
+  geom_density(alpha=0.4) + 
+  labs(x="delta d13C (breast - primary)")
+
+p4 <- ggplot(df_wide, aes(x = delta_d15N, fill = status)) + 
+  geom_density(alpha=0.4) + 
+  labs(x="delta d15N (breast - primary)")
+
+(p1 + p2) / (p3 + p4)
+
+### box plots of status and feather type ----
+# p5 <- 
+  ggplot(df %>% filter(n_tissues == 2) %>% filter(status %in% c("AU migrant", "resident")), 
+         aes(x = status, y = d15N, fill = feather_type)) + 
+  geom_boxplot(alpha = 0.4) +
+  theme(#legend.position = "none",
+        axis.text.x = element_text(angle = 45, hjust = 1))
+
+# p6 <- 
+  ggplot(df %>% filter(n_tissues == 2) %>% filter(status %in% c("AU migrant", "resident")), 
+         aes(x = status, y = d13C, fill = feather_type)) + 
+  geom_boxplot(alpha = 0.4) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p7 <-
+  ggplot() +
+  geom_line(data = df %>% filter(n_tissues == 2), 
+            aes(x = x_line, y = d13C, group = ring, color = site_name)) +
+  geom_jitter(data = df %>% filter(n_tissues == 2),
+              size = 4, aes(x = x_point, y = d13C, fill = site_name),
+              shape = 21, alpha = 1, width = 0.075) +
+  geom_half_boxplot(data = df %>% filter(n_tissues == 2) %>% filter(feather_type == "primary"), 
+                    aes(x = x_box, y = d13C), side = "l") +
+  geom_half_boxplot(data = df %>% filter(n_tissues == 2) %>% filter(feather_type == "breast"), 
+                    aes(x = x_box, y = d13C), side = "r") +
+  facet_grid(~ status, labeller = as_labeller(status_facets)) +
+  theme_light() +
+  theme(legend.position = "top",
+        axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        strip.text = element_text(size = 11)) +
+  scale_x_continuous(limits = c(0.3, 2.7), breaks = c(1, 2), labels = c("Primary", "Breast")) +
+  xlab("Feather tissue") +
+  labs(color = NULL, fill = NULL, size = NULL)
+
+p8 <-
+  ggplot() +
+  geom_line(data = df %>% filter(n_tissues == 2), 
+            aes(x = x_line, y = d15N, group = ring, color = site_name)) +
+  geom_jitter(data = df %>% filter(n_tissues == 2),
+              size = 4, aes(x = x_point, y = d15N, fill = site_name),
+              shape = 21, alpha = 1, width = 0.075) +
+  geom_half_boxplot(data = df %>% filter(n_tissues == 2) %>% filter(feather_type == "primary"), 
+                    aes(x = x_box, y = d15N), side = "l") +
+  geom_half_boxplot(data = df %>% filter(n_tissues == 2) %>% filter(feather_type == "breast"), 
+                    aes(x = x_box, y = d15N), side = "r") +
+  facet_grid(~ status, labeller = as_labeller(status_facets)) +
+  theme_light() +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        strip.text = element_blank()) +
+  scale_x_continuous(limits = c(0.3, 2.7), breaks = c(1, 2), labels = c("Primary", "Breast")) +
+  xlab("Feather tissue")
+
+(p7 / p8)
+```
+
+```{r}
+library(MASS)
+# Remove rows with any missing isotopes
+iso_lda <- df %>%
+  drop_na(d15N_scaled, d13C_scaled) %>% 
+  mutate(geo_region_bin = ifelse(status == "AU migrant", 1, 0))
+
+# Make geo_region_bin a factor (required by lda)
+iso_lda <- iso_lda %>%
+  mutate(region = factor(geo_region_bin, levels = c(0, 1), labels = c("NZ", "AU")))
+
+# Run LDA
+lda_model <- lda(region ~ d13C_scaled + d15N_scaled, data = iso_lda)
+
+# View results
+lda_model
+
+# Get predictions
+pred <- predict(lda_model)
+
+# Add to dataframe
+iso_lda <- iso_lda %>%
+  mutate(LD1 = pred$x[, 1],
+         predicted = pred$class)
+
+# Confusion matrix
+table(Observed = iso_lda$region, Predicted = iso_lda$predicted)
+
+# Classification accuracy
+mean(iso_lda$region == iso_lda$predicted)
+
+ggplot(iso_lda, aes(x = LD1, fill = region)) +
+  geom_density(alpha = 0.5) +
+  theme_minimal() +
+  labs(title = "LDA separation between AU and NZ individuals",
+       x = "Linear Discriminant 1", fill = "Region")
+
+ggplot(iso_lda, aes(x = LD1, y = 0, color = region)) +
+  geom_jitter(width = 0, height = 0.05, size = 3, alpha = 0.8) +
+  theme_minimal() +
+  labs(x = "LD1", y = NULL, title = "LDA projection")
+
+lda_cv <- lda(region ~ d13C_scaled + d15N_scaled, data = iso_lda, CV = TRUE)
+
+# Accuracy
+mean(lda_cv$class == iso_lda$region)
+
+# Confusion matrix
+table(Observed = iso_lda$region, Predicted = lda_cv$class)
+
+ggplot(iso_lda, aes(x = region, y = LD1, color = region)) +
+  geom_jitter(width = 0.15, size = 3, alpha = 0.7) +
+  stat_summary(fun = mean, geom = "point", size = 4, shape = 23, fill = "white") +
+  scale_color_manual(values = c("AU" = "#E69F00", "NZ" = "#56B4E9")) +
+  theme_minimal(base_size = 14) +
+  labs(title = "LDA Separation by Region",
+       y = "LD1 score",
+       x = "Region")
+
+# Assuming lda_model is already fitted
+lda_coeff <- lda_model$scaling[, 1]  # LD1 coefficients
+lda_coeff_df <- data.frame(
+  isotope = rownames(lda_model$scaling),
+  coefficient = lda_coeff
+) %>%
+  arrange(desc(abs(coefficient)))  # order by absolute contribution
+
+ggplot(lda_coeff_df, aes(x = reorder(isotope, coefficient), y = coefficient, fill = coefficient > 0)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  coord_flip() +
+  scale_fill_manual(values = c("TRUE" = "#E69F00", "FALSE" = "#56B4E9"), guide = "none") +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "Contribution of isotopes to LD1",
+    x = "Isotope",
+    y = "LD1 coefficient"
+  )
+
+# --- LDA model (already fitted) ---
+lda_model <- lda(region ~ d13C + d15N + d2H + d18O, data = iso_lda)
+
+# --- LD1 scores ---
+lda_pred <- predict(lda_model)
+lda_df <- data.frame(CNOH_wide, LD1 = lda_pred$x[, 1])
+
+# --- LD1 density plot ---
+p1 <- ggplot(iso_lda, aes(x = LD1, fill = region)) +
+  geom_density(alpha = 0.5) +
+  scale_fill_manual(values = c("AU" = "#E69F00", "NZ" = "#56B4E9")) +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "LDA separation by region",
+    x = "LD1",
+    y = "Density",
+    fill = "Region"
+  )
+
+# --- Extract LD1 coefficients (loadings) ---
+lda_coeff_df <- data.frame(
+  isotope = rownames(lda_model$scaling),
+  coefficient = lda_model$scaling[, 1]
+) %>%
+  arrange(desc(abs(coefficient)))
+
+# --- Isotope contribution bar plot ---
+p2 <- ggplot(lda_coeff_df, aes(x = reorder(isotope, coefficient), y = coefficient, fill = coefficient > 0)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  coord_flip() +
+  scale_fill_manual(values = c("TRUE" = "#E69F00", "FALSE" = "#56B4E9"), guide = FALSE) +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "Contribution of isotopes to LD1",
+    x = "Isotope",
+    y = "LD1 coefficient"
+  )
+
+# --- Combine plots with patchwork ---
+combined_plot <- p1 / p2 + plot_layout(heights = c(2, 1))
+combined_plot
+```
+
+
+```{r}
+# Also pairwise PCA (optional)
+df_pca <- df_wide %>%
+  select(d13C_primary, d13C_breast, d15N_primary, d15N_breast) %>%
+  na.omit()
+pca_res <- prcomp(df_pca %>% scale(), center = TRUE)
+autoplot_pca <- function() {
+  p <- tibble(pca1 = pca_res$x[,1], pca2 = pca_res$x[,2], status = df_wide$status[!is.na(df_wide$d13C_primary & df_wide$d13C_breast)]) %>%
+    ggplot(aes(pca1,pca2,colour=status)) + geom_point(size=3)
+  p
+}
+print(autoplot_pca())
+
+# ---------------------------
+# 3. Feature engineering choices
+# ---------------------------
+# Candidate predictors (try several sets in models):
+#  A) primary feather isotopes (d13C_primary, d15N_primary)
+#  B) breast feather isotopes (d13C_breast, d15N_breast)
+#  C) deltas (delta_d13C, delta_d15N)
+#  D) combinations (primary + delta)
+# Also consider: sex, breeding longitude/latitude, altitude or site (if you have a site id),
+# and interactions (e.g. sex * delta_d13C)
+#
+# Standardize predictors for models that need it:
+num_vars <- c("d13C_primary","d15N_primary","d13C_breast","d15N_breast","delta_d13C","delta_d15N","abs_delta_d13C","abs_delta_d15N")
+df_wide <- df_wide %>%
+  mutate(across(all_of(num_vars), ~ scale(.)[,1], .names = "z_{col}"))
+
+# ---------------------------
+# 4. Cross-validation strategy
+# ---------------------------
+# --- diagnostics: check site counts first ---
+library(dplyr)
+n_sites <- df_wide %>% filter(!is.na(delta_d13C)) %>% pull(site) %>% unique() %>% length()
+site_counts <- df_wide %>% filter(!is.na(delta_d13C)) %>% count(site, sort = TRUE)
+
+message("Unique sites with paired data: ", n_sites)
+print(head(site_counts, 20))
+
+# If you have fewer than 2 sites, grouped CV doesn't make sense:
+if(n_sites < 2) stop("Need at least 2 unique sites for grouped CV. Found: ", n_sites)
+
+# choose v sensibly: at most number of sites, default 5 but reduce if needed
+v_desired <- 5L
+v <- min(v_desired, n_sites)
+if(v < v_desired) message("Reduced v to number of sites: v = ", v)
+
+# remove rows missing the predictors you need (e.g. delta_d13C) before cv
+df_for_cv <- df_wide %>% filter(!is.na(delta_d13C) & !is.na(d13C_primary) & !is.na(d13C_breast))
+
+# --- Correct usage: pass the column name (unquoted) or as string ---
+# Option A: unquoted column name (tidy-eval)
+set.seed(123)
+group_folds <- rsample::group_vfold_cv(df_for_cv, group = site, v = v)
+
+# Option B: pass column name as a string
+# group_folds <- rsample::group_vfold_cv(df_for_cv, group = "site", v = v)
+
+# --- Quick check of folds produced ---
+# each element of group_folds is a vfold object; inspect the first split
+group_folds$splits[[1]] %>% print()
+# get the grouping sites left-out in the first split
+first_assessment <- assessment(group_folds$splits[[1]])
+leftout_sites <- setdiff(df_for_cv$site, first_assessment$site) # not quite right; better to compute directly:
+# better: we can get the analysis set and assessment set and see which sites are in the assessment:
+analysis_sites <- unique(analysis(group_folds$splits[[1]])$site)
+assessment_sites <- unique(assessment(group_folds$splits[[1]])$site)
+message("First split: analysis sites = ", length(analysis_sites), "; assessment sites = ", length(assessment_sites))
+message("Example assessment sites (first split): ", paste(head(assessment_sites, 10), collapse = ", "))
+
+# Optional: if some sites have only 1 bird and you want to avoid leaving them alone in assessment,
+# consider grouping by larger unit or grouping rare singletons together.
+
+# Print a summary of number of rows in analysis & assessment for each split
+fold_summary <- map_dfr(group_folds$splits, ~ tibble(
+  id = attr(.x, "id"),
+  n_analysis = nrow(analysis(.x)),
+  n_assessment = nrow(assessment(.x)),
+  n_sites_analysis = n_distinct(analysis(.x)$site),
+  n_sites_assessment = n_distinct(assessment(.x)$site)
+))
+print(fold_summary)
+
+# Because birds may cluster by site, use grouped CV where each fold leaves out entire sites.
+# If you have a column for site or geo_region, use that. I'll use longitude_breed rounded as a proxy.
+df_wide <- df_wide %>% mutate(site = as.character(site))
+
+set.seed(123)
+# grouped 5-fold CV; replace site_group with 'site' if you have it
+group_folds <- group_vfold_cv(df_wide %>% filter(!is.na(delta_d13C)), group = df_wide$site, v = 5)
+
+# ---------------------------
+# 5. Modeling with tidymodels (logistic, LDA, random forest)
+# ---------------------------
+# We'll build a function to evaluate models across folds and compute metrics.
+
+# Helper: formula for model (example: using deltas & primary)
+model_formula <- status ~ d13C_primary + d15N_primary + delta_d13C + delta_d15N
+
+
+df_wide$status_bin <- ifelse(df_wide$status == "resident", "resident", "migrant")
+df_wide$status_bin <- factor(df_wide$status_bin)
+
+# Prepare recipe
+rec <- recipe(status_bin ~ d13C_primary + d15N_primary + delta_d13C + delta_d15N + ring, 
+              data = df_wide) %>%
+  update_role(ring, new_role = "ID") %>%
+  # step_string2factor(sex) %>%
+  step_normalize(all_numeric_predictors())
+
+# Logistic Regression (multinomial if >2 classes)
+log_spec <- multinom_reg(mode = "classification") %>%
+  set_engine("nnet")   # robust multinomial implementation
+
+# Linear Discriminant Analysis
+lda_spec <- discrim_linear() %>%
+  set_engine("MASS")
+
+# Random Forest
+rf_spec <- rand_forest(
+  trees = 1000,
+  mtry = 3,
+  min_n = 5
+) %>% 
+  set_mode("classification") %>%
+  set_engine("ranger", importance = "impurity")
+
+# logistic workflow
+wf_log <- workflow() %>%
+  add_recipe(rec) %>%
+  add_model(log_spec)
+library(discrim)
+# install.packages("discrim")
+# LDA workflow
+wf_lda <- workflow() %>%
+  add_recipe(rec) %>%
+  add_model(lda_spec)
+
+# random forest workflow
+wf_rf <- workflow() %>%
+  add_recipe(rec) %>%
+  add_model(rf_spec)
+
+# Fit with resampling
+set.seed(123)
+folds <- vfold_cv(df_wide, v = 10, strata = status_bin)
+
+# install.packages("finetune")
+library(finetune)
+
+# Function to evaluate workflows
+eval_model <- function(wflow) {
+  fit_res <- fit_resamples(
+    wflow,
+    resamples = folds,
+    metrics = metric_set(accuracy, roc_auc),
+    control = control_resamples(save_pred = TRUE)
+  )
+  return(fit_res)
+}
+# install.packages("ranger")
+library(ranger)
+res_log <- eval_model(wf_log)
+res_lda <- eval_model(wf_lda)
+res_rf  <- eval_model(wf_rf)
+
+
+log_res <- fit_resamples(wf_log, resamples = group_folds, metrics = metric_set(roc_auc, accuracy, sens, spec), control = control_resamples(save_pred = TRUE))
+lda_res <- fit_resamples(wf_lda, resamples = group_folds, metrics = metric_set(roc_auc, accuracy, sens, spec), control = control_resamples(save_pred = TRUE))
+rf_res  <- fit_resamples(wf_rf,  resamples = group_folds, metrics = metric_set(roc_auc, accuracy, sens, spec), control = control_resamples(save_pred = TRUE))
+
+collect_metrics(log_res)
+collect_metrics(lda_res)
+collect_metrics(rf_res)
+
+# Inspect pooled ROC AUC using saved predictions (example for logistic):
+log_preds <- collect_predictions(log_res)
+roc_auc(log_preds, truth = status, .pred_migrant) # .pred_migrant will exist if glm returns prob for class 'migrant'
+
+# ---------------------------
+# 6. Evaluate best model & calibration
+# ---------------------------
+# Pick winner (e.g. rf_res). Refit on full dataset (or fit a brms GLMM if you want random effects)
+best_wf <- wf_rf
+final_fit <- last_fit(best_wf %>% update_model(rand_forest(trees = 1000) %>% set_engine("randomForest")), split = initial_split(df_wide %>% filter(!is.na(delta_d13C)), strata = status))
+# or simply fit to whole dataset
+final_model <- fit(best_wf, data = df_wide)
+
+# Variable importance (for RF)
+rf_fit_obj <- extract_fit_parsnip(final_model)$fit
+varImp <- importance(rf_fit_obj) %>% as.data.frame() %>% rownames_to_column("variable") %>% arrange(desc(MeanDecreaseGini))
+print(varImp)
+
+# Calibration plot for predicted probabilities
+preds_all <- predict(final_model, df_wide, type = "prob") %>% bind_cols(df_wide %>% select(status))
+preds_all <- preds_all %>% mutate(prob = .pred_migrant)
+calib_df <- preds_all %>% mutate(bin = ntile(prob, 10)) %>% group_by(bin) %>% summarise(mean_pred = mean(prob), obs = mean(status == "migrant"), n = n())
+ggplot(calib_df, aes(x = mean_pred, y = obs)) + geom_point() + geom_abline(slope = 1, intercept = 0, lty=2) + labs(x="Mean predicted prob (migrant)", y="Observed frequency")
+
+# ---------------------------
+# 7. Grouped (site-aware) performance summary
+# ---------------------------
+# It's often useful to show sensitivity/specificity by site (or region)
+preds_by_fold <- collect_predictions(rf_res)
+# compute confusion matrices per resample
+conf_by_split <- preds_by_fold %>%
+  group_by(id) %>%
+  summarise(
+    cm = list(conf_mat(data = ., truth = status, estimate = .pred_class))
+  )
+conf_by_split
+
+# ---------------------------
+# 8. Bayesian GLMM (optional, for uncertainty & site random effects)
+# ---------------------------
+# If you want to include random intercept for site and report posterior probability:
+# Requires brms installed and a working backend; this can be slow but gives full posterior probs.
+
+# Create site factor (replace with real site ID if available)
+df_wide <- df_wide %>% mutate(site = site_group)
+brms_formula <- bf(as.integer(status=="migrant") ~ d13C_primary + d15N_primary + delta_d13C + delta_d15N + sex + (1|site))
+# Fit (short chains for example)
+# fit_brms <- brm(brms_formula, data = df_wide, family = bernoulli(link="logit"), chains=4, cores=4, iter=2000)
+# After fit, get posterior predicted probability for new observations with posterior_predict or posterior_linpred (type="response")
+
+# ---------------------------
+# 9. Predict function for a new bird
+# ---------------------------
+# Assume you will supply d13C_primary, d15N_primary, d13C_breast, d15N_breast (or deltas). This returns predicted probability of migrant.
+
+predict_migration <- function(model_fit, newdata_df){
+  # newdata_df should have columns: d13C_primary, d15N_primary, d13C_breast, d15N_breast, sex (if used)
+  newdata_df <- newdata_df %>%
+    mutate(delta_d13C = d13C_breast - d13C_primary,
+           delta_d15N = d15N_breast - d15N_primary)
+  probs <- predict(model_fit, newdata_df, type = "prob")
+  # return dataframe with prob of migrant
+  bind_cols(newdata_df, probs)
+}
+
+# Example usage:
+# newbird <- tibble(d13C_primary = -21.0, d15N_primary = 12.3, d13C_breast = -17.0, d15N_breast = 14.1, sex = "F")
+# predict_migration(final_model, newbird)
+
+# ---------------------------
+# 10. Thresholding & reporting
+# ---------------------------
+# Choose a classification threshold depending on your goal:
+# - If missing a migrant is costly, choose threshold to maximize sensitivity.
+# - If false positives are costly, maximize specificity.
+# Use ROC curve to pick threshold:
+rf_preds <- collect_predictions(rf_res)
+roc_obj <- roc(response = rf_preds$truth, predictor = rf_preds$.pred_migrant)
+coords(roc_obj, x="best", best.method = "youden") # returns threshold maximizing sensitivity+specificity
+
+# ---------------------------
+# 11. Quick realism assessment
+# ---------------------------
+# After running the models, assess:
+# - AUC > 0.80 => good discrimination (screening feasible),
+# - 0.7 < AUC < 0.8 => moderate (useful as a triage tool),
+# - AUC < 0.7 => poor for single-bird classification.
+# Also inspect confusion matrix, and site-wise performance. If performance differs strongly among sites, you may need site-specific models or include spatial covariates.
+
+# ---------------------------
+# 12. Sensitivity checks & suggestions
+# ---------------------------
+# - Try simpler rule-based classifier: e.g., if delta_d13C > X then migrant. Use ROC to pick X.
+# - Test models restricted to alpine or coastal birds to see if patterns differ.
+# - If you have sample-age or feather molt timing metadata, include it.
+# - External validation: ideally test on an independent holdout of birds not used in training.
+# - Bayesian GLMM recommended if you want full posterior uncertainty and to borrow strength across sites.
+# - Beware possible trophic or dietary differences (d15N) that might confound movement signal; interpret with ecology in mind.
+
+# End of pipeline
+message("Pipeline script executed. Fit models and inspect metrics to judge feasibility.")
+
+```
+

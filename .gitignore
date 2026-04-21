@@ -1,49 +1,34 @@
-# History files
-.Rhistory
-.Rapp.history
+# Ignore everything in this repository by default.
+/*
 
-# Session Data files
-.RData
-.RDataTmp
+# Keep this ignore file and the target Quarto document.
+!/.gitignore
+!/bdot_stable_isotopes2.qmd
 
-# User-specific files
-.Ruserdata
+# Keep only the in-repo datasets that bdot_stable_isotopes2.qmd reads.
+!/data/
+/data/*
+!/data/old file versions/
+/data/old file versions/*
+!/data/old file versions/Master_SI_Feathers_LEH_Sept24_v1_SB_v3_sample wts added.xls
+!/data/Master_TCEA_H_SI_Batch 1_triplicate breast feathers_LEH_Nov25_SB.xls
+!/data/Master_TCEA_O_SI_Breast Feathers_Replication_Batch 4_LEH_Sept25_SB.xls
+!/data/MASTER_museum_ALL SAMPLES INVENTORY_banded_dotterels_v4.xlsx
+!/data/CNOH_museum_samples_201125.rds
+!/data/Master_SI_Replicate test Feathers_N_9_LEH_Jan25_v1_SB.xls
+!/data/Master_EA_C_N_SI_Batch 3 Breast feathers_shaft and barb comparison_LEH_Sept25_v1_SB.xls
+!/data/Master_EA_C_N_SI_Batch 3 vane_barb and Batch 4 Breast Feathers_LEH_Sept25_v1_SB.xls
+!/data/Master_TCEA_H_SI_BATCH 4 BREAST Feathers_LE_Nov25_v1.xls
+!/data/LIMS_251105_MaxPlanck_Eberhart-Hertel.xlsx
+!/data/Master_EA_C_N_SI_Batch 5 Breast and Primary Feathers_LEH_Repeats added_April25_v1_SB_v2.xls
 
-# Example code in package build process
-*-Ex.R
+# Keep the local output the document reads back in later.
+!/output/
+/output/*
+!/output/roc_all.rds
 
-# Output files from R CMD build
-/*.tar.gz
-
-# Output files from R CMD check
-/*.Rcheck/
-
-# RStudio files
-.Rproj.user/
-
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
-
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
-
-# knitr and R markdown default cache directories
-*_cache/
-/cache/
-
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md
-
-# R Environment Variables
-.Renviron
-
-# pkgdown site
-docs/
-
-# translation temp files
-po/*~
-
-# RStudio Connect folder
-rsconnect/
+# External dependencies referenced by the QMD are outside this repo and are
+# not managed by this .gitignore:
+# - ../../stable_isotopes/data/for_Sarah/master_museum_sample_banded_dotterels.xlsx
+# - https://docs.google.com/spreadsheets/d/1-iF-rvswS5QvlKgz4fgF14FnfkK17DYf6je5nwYw48o/edit?gid=0#gid=0
+# - /Users/luketheduke2/ownCloud/kemp_projects/bdot/R_projects/bdot_db/output/bdot_argos_proc_2024_lonE.rds
