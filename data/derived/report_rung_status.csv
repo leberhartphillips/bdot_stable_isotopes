@@ -1,0 +1,4 @@
+rung,status,lead_model,key_reasons
+Rung 1,operational,R1 C: Paired-contrast C/N,Paired breast-primary C/N contrast outperformed baselines and remained the strongest validated option after uncertainty propagation with an explicit indeterminate rule.
+Rung 2,promising but not operational,Co-leading: R2 C direct breast C/N/H + paired contrasts; R2 S2 staged hierarchical R1 C then breast C/N/H NZ-vs-AU,"Two Rung 2 candidates now lead the field. R2 C remains the strongest direct high-information model, while R2 S2 stays competitive after uncertainty propagation, avoids direct dependence on primary H, and is easier to explain biologically; both still have high indeterminate rates and neither is operational."
+Rung 3,exploratory only,None,"Rung 3 still lacks enough support for operational use because class counts are small, deployment-relevant blocking is weak, and no validated uncertainty-aware win has been shown."
