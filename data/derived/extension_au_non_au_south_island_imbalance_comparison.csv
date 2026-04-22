@@ -1,0 +1,3 @@
+dataset_scope,n_rows,n_sites,n_AU,n_non_AU,prop_AU,n_mixed_sites,n_AU_only_sites,n_non_AU_only_sites,largest_AU_site,largest_AU_site_n_AU,largest_AU_site_share_of_AU,removed_sites
+full_extension,56,11,17,39,0.30357142857142855,3,2,6,Tasman River,11,0.6470588235294118,NA
+south_island_only_extension,50,9,17,33,0.34,3,2,4,Tasman River,11,0.6470588235294118,Napier|Rangipo Desert

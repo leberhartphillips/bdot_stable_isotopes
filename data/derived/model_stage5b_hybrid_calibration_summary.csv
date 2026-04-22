@@ -1,0 +1,17 @@
+rung,candidate_id,candidate_label,validation_layer,metric,value,class
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,blocked_site_cv,macro_brier,0.23904503818706624,overall
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,blocked_site_cv,confidence_ece,0.1908787105256074,overall
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,blocked_site_cv,one_vs_rest_brier,0.23890116532642072,resident
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,blocked_site_cv,one_vs_rest_ece,0.12574351400636935,resident
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,blocked_site_cv,one_vs_rest_brier,0.2076563039378597,NZ migrant
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,blocked_site_cv,one_vs_rest_ece,0.06089560825506434,NZ migrant
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,blocked_site_cv,one_vs_rest_brier,0.2705776452969183,AU migrant
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,blocked_site_cv,one_vs_rest_ece,0.28933678259399476,AU migrant
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,macro_brier,0.23520100242458333,overall
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,confidence_ece,0.1588573930539918,overall
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,one_vs_rest_brier,0.2341520627397133,resident
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,one_vs_rest_ece,0.1139178404117507,resident
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,one_vs_rest_brier,0.2019413113302679,NZ migrant
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,one_vs_rest_ece,0.03227663328180479,NZ migrant
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,one_vs_rest_brier,0.2695096332037687,AU migrant
+Rung 2,r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,one_vs_rest_ece,0.26699555643724915,AU migrant

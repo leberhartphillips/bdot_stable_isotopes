@@ -1,0 +1,25 @@
+candidate_id,candidate_label,validation_layer,truth,operational_call,n
+r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,blocked_coordinate_cv,resident,indeterminate,11
+r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,blocked_coordinate_cv,resident,NA,11
+r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,blocked_coordinate_cv,migrant,indeterminate,5
+r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,blocked_coordinate_cv,migrant,NA,29
+r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,repeated_stratified_cv,resident,indeterminate,109
+r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,repeated_stratified_cv,resident,NA,111
+r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,repeated_stratified_cv,migrant,indeterminate,49
+r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,repeated_stratified_cv,migrant,NA,291
+r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,blocked_coordinate_cv,resident,indeterminate,15
+r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,blocked_coordinate_cv,resident,NA,7
+r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,blocked_coordinate_cv,migrant,indeterminate,6
+r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,blocked_coordinate_cv,migrant,NA,28
+r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,repeated_stratified_cv,resident,indeterminate,103
+r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,repeated_stratified_cv,resident,NA,117
+r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,repeated_stratified_cv,migrant,indeterminate,53
+r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,repeated_stratified_cv,migrant,NA,287
+r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,blocked_coordinate_cv,resident,indeterminate,10
+r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,blocked_coordinate_cv,resident,NA,12
+r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,blocked_coordinate_cv,migrant,indeterminate,2
+r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,blocked_coordinate_cv,migrant,NA,32
+r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,repeated_stratified_cv,resident,indeterminate,99
+r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,repeated_stratified_cv,resident,NA,121
+r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,repeated_stratified_cv,migrant,indeterminate,56
+r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,repeated_stratified_cv,migrant,NA,284

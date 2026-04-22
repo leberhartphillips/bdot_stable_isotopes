@@ -1,0 +1,7 @@
+candidate_id,candidate_label,validation_layer,pooled_log_loss,pooled_bal_accuracy,pooled_brier,pooled_ece,pooled_mean_top_prob,pooled_weak_support_rate,pooled_log_loss_rank,pooled_bal_accuracy_rank
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_site_cv,1.066326627989996,0.3074866310160428,0.21466856110778945,0.20599607374289325,0.48939324548235086,0.5892857142857143,1,1
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_site_cv,1.168515983545654,0.2905525846702317,0.2374349585181463,0.16391649550099768,0.4853450669295691,0.6785714285714286,2,3
+r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,blocked_site_cv,1.197058534692785,0.2994652406417112,0.23904503818706624,0.1908787105256074,0.4858033392895111,0.6428571428571429,3,2
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,1.0913747978520494,0.36185383244206776,0.21930289739794925,0.10954635980436668,0.5149867390502124,0.5,1,1
+r2h_b_hybrid_siteaware_r1_then_breast_cnh,Rung 2 H: Site-aware R1 then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,1.1821126127876351,0.29233511586452765,0.23520100242458333,0.1588573930539918,0.4700899289107742,0.6428571428571429,2,2
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,leave_one_site_out_cv,1.229211397474666,0.2210338680926916,0.24749270652071764,0.20386917498145352,0.4538691749814535,0.8035714285714286,3,3

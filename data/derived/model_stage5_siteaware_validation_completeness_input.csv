@@ -1,0 +1,5 @@
+dataset,n_rows,n_distinct_sites,n_missing_sampling_site_label,n_missing_sampling_location_specific,n_missing_longitude,n_missing_latitude,n_missing_any_validation_field,missing_ring_ids,validation_ready
+live_phenotypes_canonical,277,14,0,0,0,0,0,NA,TRUE
+live_cn_paired_by_ring,74,12,0,0,0,0,0,NA,TRUE
+live_screening_ready_paired_labelled,56,11,0,0,0,0,0,NA,TRUE
+live_primary_reference_input,73,12,0,0,0,0,0,NA,TRUE

@@ -1,0 +1,5 @@
+dataset,status_known,has_complete_cnh_pair,n_rings
+live_cn_paired_by_ring,FALSE,FALSE,1
+live_cn_paired_by_ring,FALSE,TRUE,17
+live_cn_paired_by_ring,TRUE,TRUE,56
+live_screening_ready_paired_labelled,TRUE,TRUE,56

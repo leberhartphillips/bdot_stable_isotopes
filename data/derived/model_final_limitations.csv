@@ -1,0 +1,5 @@
+limitation,scope,why_it_matters
+Primary H remains the main H-related weak point,Rung 2 and any future H-heavy extensions,"Primary H still relies on a breast-H proxy variance and lacks direct retained repeat support, so H-driven gains need caution."
+No canonical site field for stronger blocking,"All rungs, especially deployment-relevant validation","Current blocked validation uses coordinate groups as a proxy rather than a canonical site variable, which weakens the strength of deployment-relevant blocking."
+Multinomial sample-size limits remain important,Rung 2 and especially Rung 3,"Some multinomial training splits still have very small class counts, which increases instability and limits how strongly Rung 2 and Rung 3 can be claimed."
+Conservative indeterminate rules reduce immediate coverage,Rung 1 and Rung 2 operational use,"The current rules are intentionally cautious, so promising models can still yield high indeterminate rates and limited immediate operational coverage."

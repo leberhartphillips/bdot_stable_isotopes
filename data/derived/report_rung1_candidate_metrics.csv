@@ -1,0 +1,7 @@
+rung,candidate_id,candidate_label,validation_layer,uncertainty_log_loss,uncertainty_bal_accuracy,indeterminate_rate,mean_switch_rate,sensitivity_only,caution_level
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,Blocked coordinate CV,0.4938804216378254,0.7638095238095238,0.2833333333333333,0.11058181818181818,FALSE,paired_cn_benchmark
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,Blocked coordinate CV,0.5093588895044305,0.7188095238095238,0.37272727272727274,0.10167575757575756,FALSE,paired_cn_benchmark
+Rung 1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,Blocked coordinate CV,0.5533657931776574,0.6473809523809524,0.21666666666666667,0.07400606060606062,TRUE,primary_h_high_caution_tertiary_sensitivity
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,Repeated stratified CV,0.5124038438528995,0.7354285714285714,0.28136363636363637,0.08726084848484848,FALSE,paired_cn_benchmark
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,Repeated stratified CV,0.5333265919338955,0.6739285714285714,0.2784242424242424,0.0935619393939394,FALSE,paired_cn_benchmark
+Rung 1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,Repeated stratified CV,0.5340767785988938,0.676047619047619,0.27624242424242423,0.08934048484848485,TRUE,primary_h_high_caution_tertiary_sensitivity

@@ -1,0 +1,17 @@
+candidate_id,candidate_label,validation_layer,truth,operational_call,n
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,resident,resident,16
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,resident,indeterminate,6
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,NZ migrant,resident,3
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,NZ migrant,indeterminate,14
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,AU migrant,resident,2
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,AU migrant,NZ migrant,1
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,AU migrant,indeterminate,14
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,resident,resident,146
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,resident,indeterminate,74
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,NZ migrant,resident,27
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,NZ migrant,NZ migrant,4
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,NZ migrant,indeterminate,139
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,AU migrant,resident,21
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,AU migrant,NZ migrant,6
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,AU migrant,AU migrant,4
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,AU migrant,indeterminate,139

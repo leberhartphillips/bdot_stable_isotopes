@@ -1,0 +1,3 @@
+candidate_id,candidate_label,strategy_family,caution_level,uses_r1_upstream,uses_breast_h,uses_primary_h,uses_hard_or_soft_staging
+r2s_a_breast_cnh_plus_r1c_prob,Rung 2 S1: Breast C/N/H + out-of-fold R1 migrant probability,probability_augmented_direct,staged_r1c_prob_plus_breast_cnh_no_primary_h,TRUE,TRUE,FALSE,stacked_direct
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,soft_hierarchical_two_step,staged_r1c_then_breast_cnh_no_primary_h,TRUE,TRUE,FALSE,soft_hierarchical

@@ -1,0 +1,12 @@
+sampling_site_label,sampling_location_specific,is_south_island_breeder,classification_basis,classification_note
+Cass River,"Cass River, Canterbury",TRUE,site_label_and_specific_location,South Island site retained in South-Island-only branch.
+Kaikoura,"Kaikoura, Canterbury",TRUE,site_label_and_specific_location,South Island site retained in South-Island-only branch.
+Kaitorete,"Kaitorete Spit, Canterbury",TRUE,site_label_and_specific_location,South Island site retained in South-Island-only branch.
+Motueka Spit,"Motueka Spit, Tasman Bay",TRUE,site_label_and_specific_location,South Island site retained in South-Island-only branch.
+Napier,"Napier, Hawkes Bay",FALSE,site_label_and_specific_location,North Island breeding site excluded from the South-Island-only branch.
+Pisa Range,"Pisa Range, Otago",TRUE,site_label_and_specific_location,South Island site retained in South-Island-only branch.
+Porters Beach,"Porters Beach, Abel Tasman National Park",TRUE,site_label_and_specific_location,South Island site retained in South-Island-only branch.
+Rangipo Desert,"Rangipo Desert, Tongariro National Park",FALSE,site_label_and_specific_location,North Island breeding site excluded from the South-Island-only branch.
+Tasman River,"Tasman River, Mt. Cook National Park",TRUE,site_label_and_specific_location,South Island site retained in South-Island-only branch.
+Te Anau,"Te Anau, Southland",TRUE,site_label_and_specific_location,South Island site retained in South-Island-only branch.
+Tiwai Point,"Tiwai Point, Canterbury",TRUE,site_label_and_specific_location,South Island site retained in South-Island-only branch.

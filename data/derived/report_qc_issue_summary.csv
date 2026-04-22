@@ -1,0 +1,8 @@
+dataset,severity,issue_type,n_records
+museum_metadata,info,harmonization_summary,96
+museum_metadata,warning,invalid_inventory_key,84
+museum_batch_cn,info,harmonization_summary,41
+live_cn_measurements,info,harmonization_summary,1
+museum_metadata,warning,coordinate_date_mismatch_with_checkpoint,1
+museum_metadata,warning,coordinate_location_mismatch_with_checkpoint,1
+museum_triplicate_h,warning,identifier_vs_sia_id_mismatch,1

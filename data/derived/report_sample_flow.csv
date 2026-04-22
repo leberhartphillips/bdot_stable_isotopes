@@ -1,0 +1,11 @@
+stage_order,stage,n,unit,note
+1,Raw live assay-isotope rows,464,assay-isotope rows,One row per live assay x isotope value before adjudication.
+2,Audit-retained live assay-isotope rows,462,assay-isotope rows,Retained for audit after explicit workbook-backed QC exclusions only.
+3,Model-contributing live assay-isotope rows,456,assay-isotope rows,Retained rows that contributed to the adjudicated modelling values.
+4,Adjudicated live sample-isotope values,440,sample-isotope values,One adjudicated modelling value per sample x isotope.
+5,Adjudicated live sample rows,294,samples,Sample-level rows after recombining isotopes by adjudicated sample.
+6,Live tissue summaries,147,ring x feather summaries,One row per ring x feather type summary used for pairing.
+7,Paired rings,74,rings,One ring-level row with breast and primary tissues side by side.
+8,Complete paired C/N rings,73,rings,Paired rings with complete breast and primary C/N.
+9,Complete paired C/N/H rings,73,rings,Paired rings with complete breast and primary C/N/H.
+10,Labelled paired birds,56,birds,Known-status birds retained for accepted screening-model comparison.

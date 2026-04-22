@@ -1,0 +1,6 @@
+summary_type,class,n
+overall_binary_target,AU,17
+overall_binary_target,non_AU,39
+matched_3class_benchmark,AU migrant,17
+matched_3class_benchmark,NZ migrant,17
+matched_3class_benchmark,resident,22

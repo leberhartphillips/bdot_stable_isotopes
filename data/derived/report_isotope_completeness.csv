@@ -1,0 +1,11 @@
+source,subset,feather_type,isotope,n_present,n_total,prop_present
+live,tissue_summary,Breast,d13c,74,147,0.5034013605442177
+live,tissue_summary,Breast,d15n,74,147,0.5034013605442177
+live,tissue_summary,Breast,d2h,73,147,0.4965986394557823
+live,tissue_summary,Primary,d13c,73,147,0.4965986394557823
+live,tissue_summary,Primary,d15n,73,147,0.4965986394557823
+live,tissue_summary,Primary,d2h,73,147,0.4965986394557823
+museum,winter_breast_homogenate,Breast,d13c,24,35,0.6857142857142857
+museum,winter_breast_homogenate,Breast,d15n,24,35,0.6857142857142857
+museum,winter_breast_homogenate,Breast,d18o,23,35,0.6571428571428571
+museum,winter_breast_homogenate,Breast,d2h,23,35,0.6571428571428571

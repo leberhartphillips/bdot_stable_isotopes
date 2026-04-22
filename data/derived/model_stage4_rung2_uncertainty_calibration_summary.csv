@@ -1,0 +1,33 @@
+candidate_id,candidate_label,validation_layer,caution_level,metric,value,class
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,baseline_cn_benchmark,macro_brier,0.22148499181327463,overall
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,baseline_cn_benchmark,confidence_ece,0.03210678210678211,overall
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,baseline_cn_benchmark,one_vs_rest_brier,0.23999526287405076,resident
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,baseline_cn_benchmark,one_vs_rest_ece,0.03210678210678211,resident
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,baseline_cn_benchmark,one_vs_rest_brier,0.2122298562828866,NZ migrant
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,baseline_cn_benchmark,one_vs_rest_ece,0.045418470418470434,NZ migrant
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,baseline_cn_benchmark,one_vs_rest_brier,0.21222985628288657,AU migrant
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,baseline_cn_benchmark,one_vs_rest_ece,0.045418470418470414,AU migrant
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,primary_h_proxy_variance_high_caution,macro_brier,0.18327766713144697,overall
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,primary_h_proxy_variance_high_caution,confidence_ece,0.13705215245669825,overall
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,primary_h_proxy_variance_high_caution,one_vs_rest_brier,0.19135060772421675,resident
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,primary_h_proxy_variance_high_caution,one_vs_rest_ece,0.10527869588525145,resident
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,primary_h_proxy_variance_high_caution,one_vs_rest_brier,0.18790511160854134,NZ migrant
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,primary_h_proxy_variance_high_caution,one_vs_rest_ece,0.05672273725091147,NZ migrant
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,primary_h_proxy_variance_high_caution,one_vs_rest_brier,0.17057728206158282,AU migrant
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,primary_h_proxy_variance_high_caution,one_vs_rest_ece,0.14907911519211903,AU migrant
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,baseline_cn_benchmark,macro_brier,0.22125200870231737,overall
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,baseline_cn_benchmark,confidence_ece,0.01957107176197124,overall
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,baseline_cn_benchmark,one_vs_rest_brier,0.23952559193598183,resident
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,baseline_cn_benchmark,one_vs_rest_ece,0.022223048012825215,resident
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,baseline_cn_benchmark,one_vs_rest_brier,0.2123295286992837,NZ migrant
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,baseline_cn_benchmark,one_vs_rest_ece,0.024263686269618,NZ migrant
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,baseline_cn_benchmark,one_vs_rest_brier,0.21190090547168658,AU migrant
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,baseline_cn_benchmark,one_vs_rest_ece,0.0037094566995458512,AU migrant
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,primary_h_proxy_variance_high_caution,macro_brier,0.19265097098840572,overall
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,primary_h_proxy_variance_high_caution,confidence_ece,0.12449709798914686,overall
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,primary_h_proxy_variance_high_caution,one_vs_rest_brier,0.19618059321944414,resident
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,primary_h_proxy_variance_high_caution,one_vs_rest_ece,0.14146789715257144,resident
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,primary_h_proxy_variance_high_caution,one_vs_rest_brier,0.19880022688548135,NZ migrant
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,primary_h_proxy_variance_high_caution,one_vs_rest_ece,0.08229890863310911,NZ migrant
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,primary_h_proxy_variance_high_caution,one_vs_rest_brier,0.18297209286029167,AU migrant
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,primary_h_proxy_variance_high_caution,one_vs_rest_ece,0.10123763033265848,AU migrant

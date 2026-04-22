@@ -1,0 +1,13 @@
+geo_region,reference_object,grouping_variable,feature_x,feature_y,n_complete_pairs,covariance,correlation
+Australia,museum_winter_breast_region,geo_region,normalised_d13c,normalised_d15n,15,-1.1096841013729766,-0.3848555371409075
+Australia,museum_winter_breast_region,geo_region,normalised_d13c,normalised_d18o,6,0.8722398701154594,0.3841566687163377
+Australia,museum_winter_breast_region,geo_region,normalised_d13c,normalised_d2h,6,-6.444639365765982,-0.21180814393246333
+Australia,museum_winter_breast_region,geo_region,normalised_d15n,normalised_d18o,6,0.4993032690140489,0.23145308734195752
+Australia,museum_winter_breast_region,geo_region,normalised_d15n,normalised_d2h,6,27.159343061694944,0.9394840733956713
+Australia,museum_winter_breast_region,geo_region,normalised_d18o,normalised_d2h,16,3.277643055539506,0.14589726938592265
+New Zealand,museum_winter_breast_region,geo_region,normalised_d13c,normalised_d15n,9,2.3701554503974664,0.54079056363568
+New Zealand,museum_winter_breast_region,geo_region,normalised_d13c,normalised_d18o,6,3.1139086685188015,0.7975493889097257
+New Zealand,museum_winter_breast_region,geo_region,normalised_d13c,normalised_d2h,6,-11.395636092348932,-0.20742158456495438
+New Zealand,museum_winter_breast_region,geo_region,normalised_d15n,normalised_d18o,6,0.41122496559070054,0.24603698988300202
+New Zealand,museum_winter_breast_region,geo_region,normalised_d15n,normalised_d2h,6,18.88368974486044,0.8029184694313504
+New Zealand,museum_winter_breast_region,geo_region,normalised_d18o,normalised_d2h,7,-2.9140868908188806,-0.11793700077969489

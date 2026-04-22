@@ -1,0 +1,27 @@
+candidate_id,candidate_label,validation_layer,truth,operational_call,n
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,resident,indeterminate,22
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,NZ migrant,indeterminate,17
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,AU migrant,indeterminate,17
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,resident,indeterminate,220
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,NZ migrant,indeterminate,170
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,AU migrant,indeterminate,170
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,resident,resident,9
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,resident,indeterminate,13
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,NZ migrant,resident,2
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,NZ migrant,NZ migrant,2
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,NZ migrant,indeterminate,13
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,AU migrant,resident,1
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,AU migrant,AU migrant,3
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,AU migrant,indeterminate,13
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,resident,resident,71
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,resident,NZ migrant,2
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,resident,AU migrant,3
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,resident,indeterminate,144
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,NZ migrant,resident,22
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,NZ migrant,NZ migrant,9
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,NZ migrant,AU migrant,4
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,NZ migrant,indeterminate,135
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,AU migrant,resident,12
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,AU migrant,NZ migrant,16
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,AU migrant,AU migrant,26
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,AU migrant,indeterminate,116

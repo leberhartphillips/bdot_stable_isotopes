@@ -1,0 +1,57 @@
+validation_layer,split_id,ring,coord_group,status_rung1,status_rung2
+blocked_coordinate_cv,Fold3,04258275,"167.744617,-45.414383",migrant,AU migrant
+blocked_coordinate_cv,Fold2,CP16140,"173.667221,-42.413402",migrant,NZ migrant
+blocked_coordinate_cv,Fold1,CP16409,"172.431853,-43.845691",resident,resident
+blocked_coordinate_cv,Fold1,CP16446,"172.397899,-43.851742",migrant,AU migrant
+blocked_coordinate_cv,Fold4,CP16461,"173.681777,-42.390193",resident,resident
+blocked_coordinate_cv,Fold3,CP16470,"173.663729,-42.413163",resident,resident
+blocked_coordinate_cv,Fold2,CP16501,"173.031797,-41.120263",resident,resident
+blocked_coordinate_cv,Fold5,CP16507,"172.601856,-43.830575",resident,resident
+blocked_coordinate_cv,Fold2,CP16529,"170.48481,-43.880201",migrant,AU migrant
+blocked_coordinate_cv,Fold2,CP16533,"170.143316,-43.733096",migrant,AU migrant
+blocked_coordinate_cv,Fold3,CP16534,"170.145302,-43.731722",migrant,AU migrant
+blocked_coordinate_cv,Fold1,CP16536,"170.144062,-43.736643",migrant,NZ migrant
+blocked_coordinate_cv,Fold4,CP16543,"173.033468,-41.123473",resident,resident
+blocked_coordinate_cv,Fold2,CP16609,"173.667221,-42.413402",migrant,NZ migrant
+blocked_coordinate_cv,Fold3,CP16627,"172.684973,-43.82787",resident,resident
+blocked_coordinate_cv,Fold3,CP16628,"172.684973,-43.82787",resident,resident
+blocked_coordinate_cv,Fold1,CP16641,"173.011986,-40.992659",migrant,NZ migrant
+blocked_coordinate_cv,Fold5,CP16642,"172.67954,-43.826875",migrant,AU migrant
+blocked_coordinate_cv,Fold5,CP16643,"172.67954,-43.826875",migrant,AU migrant
+blocked_coordinate_cv,Fold2,CP16652,"173.031797,-41.120263",resident,resident
+blocked_coordinate_cv,Fold1,CP16655,"170.144062,-43.736643",migrant,AU migrant
+blocked_coordinate_cv,Fold4,CP16656,"170.146122,-43.727942",migrant,AU migrant
+blocked_coordinate_cv,Fold4,CP16667,"169.161329995841,-44.8660619650036",migrant,AU migrant
+blocked_coordinate_cv,Fold4,CP16693,"172.608074,-43.830353",migrant,NZ migrant
+blocked_coordinate_cv,Fold4,CP16784,"168.433454,-46.606459",resident,resident
+blocked_coordinate_cv,Fold4,CP16815,"170.143369,-43.736814",migrant,AU migrant
+blocked_coordinate_cv,Fold5,CP16906,"173.681912,-42.392022",resident,resident
+blocked_coordinate_cv,Fold4,CP16938,"175.727142,-39.291327",migrant,NZ migrant
+blocked_coordinate_cv,Fold2,CP16945,"175.702629005536,-39.379794029519",migrant,NZ migrant
+blocked_coordinate_cv,Fold1,CP16953,"175.700161037967,-39.3611319735646",migrant,NZ migrant
+blocked_coordinate_cv,Fold3,CP16958,"176.92653497681,-39.5726949814707",migrant,NZ migrant
+blocked_coordinate_cv,Fold1,CP16990,"176.930825,-39.575394",migrant,NZ migrant
+blocked_coordinate_cv,Fold4,CP17010,"168.425144,-46.604315",resident,resident
+blocked_coordinate_cv,Fold4,CP17011,"168.425144,-46.604315",migrant,NZ migrant
+blocked_coordinate_cv,Fold5,CP19311,"170.146284,-43.725414",migrant,NZ migrant
+blocked_coordinate_cv,Fold1,CP19312,"170.145122,-43.729755",migrant,AU migrant
+blocked_coordinate_cv,Fold2,CP19314,"170.144119,-43.736765",migrant,AU migrant
+blocked_coordinate_cv,Fold5,CP19327,"173.011575,-40.993306",migrant,NZ migrant
+blocked_coordinate_cv,Fold5,CP19340,"170.14463,-43.734073",migrant,AU migrant
+blocked_coordinate_cv,Fold1,CP19346,"172.431853,-43.845691",resident,resident
+blocked_coordinate_cv,Fold3,CP19350,"172.591216,-43.832075",migrant,NZ migrant
+blocked_coordinate_cv,Fold3,CP19360,"173.030661,-41.11765",migrant,NZ migrant
+blocked_coordinate_cv,Fold4,CP19361,"173.033468,-41.123473",resident,resident
+blocked_coordinate_cv,Fold3,CP19365,"170.143352,-43.73679",migrant,AU migrant
+blocked_coordinate_cv,Fold1,CP19366,"170.144062,-43.736643",migrant,AU migrant
+blocked_coordinate_cv,Fold2,CP19368,"173.0307,-41.11812",migrant,AU migrant
+blocked_coordinate_cv,Fold2,CP19371,"173.031797,-41.120263",resident,resident
+blocked_coordinate_cv,Fold1,CP19907,"167.746751,-45.414278",resident,resident
+blocked_coordinate_cv,Fold5,CP19908,"167.745905,-45.414044",resident,resident
+blocked_coordinate_cv,Fold3,CP19915,"168.430146,-46.605879",migrant,NZ migrant
+blocked_coordinate_cv,Fold5,CP19921,"168.431945,-46.606263",resident,resident
+blocked_coordinate_cv,Fold5,CP19922,"168.431945,-46.606263",resident,resident
+blocked_coordinate_cv,Fold2,CP19923,"168.433515,-46.606197",resident,resident
+blocked_coordinate_cv,Fold5,CP19931,"176.919071981683,-39.5101300254464",migrant,NZ migrant
+blocked_coordinate_cv,Fold3,CP19983,"167.744617,-45.414383",resident,resident
+blocked_coordinate_cv,Fold1,CP9059,"173.662786,-42.413422",resident,resident

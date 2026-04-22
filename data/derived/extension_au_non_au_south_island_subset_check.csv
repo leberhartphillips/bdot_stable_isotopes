@@ -1,0 +1,6 @@
+table_name,n_rows,n_unique_rings,rings_match_frozen_subset,note
+extension_au_non_au_south_island_matched_paired_labelled.csv,50,50,TRUE,Frozen South-Island-only binary extension benchmark table.
+extension_au_non_au_south_island_breast_features.csv,50,50,TRUE,Breast-only South-Island-only AU-vs-non_AU modelling-ready feature table.
+extension_au_non_au_south_island_paired_contrast_features.csv,50,50,TRUE,Paired-contrast South-Island-only AU-vs-non_AU modelling-ready feature table.
+extension_au_non_au_south_island_site_block_folds.csv,50,50,TRUE,Reuses accepted grouped site-block definitions after South Island filtering.
+extension_au_non_au_south_island_site_loso_folds.csv,50,50,TRUE,Reuses accepted LOSO site definitions after South Island filtering.

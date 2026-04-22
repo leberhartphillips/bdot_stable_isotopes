@@ -1,0 +1,37 @@
+sampling_site_label,sampling_location_specific,sampling_location_general,reference_object,grouping_variable,feature_x,feature_y,n_complete_pairs,covariance,correlation
+Cass River,"Cass River, Canterbury","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d15n,5,-0.2521927952479537,-0.986467529098239
+Cass River,"Cass River, Canterbury","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d2h,5,0.6491909783079718,0.09170558878340582
+Cass River,"Cass River, Canterbury","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d15n,normalised_d2h,5,-1.3357907000566982,-0.10082062234280625
+Kaikoura,"Kaikoura, Canterbury","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d15n,6,-0.49409754805528133,-0.19104475867159032
+Kaikoura,"Kaikoura, Canterbury","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d2h,6,-4.575622146568917,-0.42618122481099713
+Kaikoura,"Kaikoura, Canterbury","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d15n,normalised_d2h,6,-0.08163916697236372,-0.010308013217448411
+Kaitorete,"Kaitorete Spit, Canterbury","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d15n,10,0.9369646928715637,0.4899294983290607
+Kaitorete,"Kaitorete Spit, Canterbury","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d2h,10,-4.479015690386998,-0.19995791910050503
+Kaitorete,"Kaitorete Spit, Canterbury","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d15n,normalised_d2h,10,7.6830390321832125,0.3244490020245338
+Motueka Spit,"Motueka Spit, Tasman Bay","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d15n,6,-2.1574899467901547,-0.7413698503278663
+Motueka Spit,"Motueka Spit, Tasman Bay","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d2h,6,-17.759164189633744,-0.8610665359243679
+Motueka Spit,"Motueka Spit, Tasman Bay","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d15n,normalised_d2h,6,6.287906823270326,0.5444959373999566
+Napier,"Napier, Hawkes Bay","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d15n,5,-2.267070012810349,-0.8219639288734207
+Napier,"Napier, Hawkes Bay","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d2h,5,5.9434393610926355,0.18593628191745706
+Napier,"Napier, Hawkes Bay","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d15n,normalised_d2h,5,-18.158314943788962,-0.5891711931329888
+Old Man Range,"Old Man Range, Otago","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d15n,5,0.1375577183424421,0.9943607856762992
+Old Man Range,"Old Man Range, Otago","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d2h,5,1.83160101935399,0.9029059288733224
+Old Man Range,"Old Man Range, Otago","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d15n,normalised_d2h,5,3.5427801101257055,0.9138245437876794
+Pisa Range,"Pisa Range, Otago","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d15n,4,-0.011701931477662126,-0.19185946670890652
+Pisa Range,"Pisa Range, Otago","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d2h,4,-0.3655035271930258,-0.3726111142937449
+Pisa Range,"Pisa Range, Otago","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d15n,normalised_d2h,4,2.0336520477845226,0.8701628719337915
+Porters Beach,"Porters Beach, Abel Tasman National Park","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d15n,2,-0.8465453854955843,-0.9999999999999999
+Porters Beach,"Porters Beach, Abel Tasman National Park","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d2h,2,-0.48222569527687137,-1
+Porters Beach,"Porters Beach, Abel Tasman National Park","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d15n,normalised_d2h,2,0.5899901132441402,0.9999999999999998
+Rangipo Desert,"Rangipo Desert, Tongariro National Park","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d15n,5,0.1852433392308635,0.34239987028616586
+Rangipo Desert,"Rangipo Desert, Tongariro National Park","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d2h,5,2.5116942938913023,0.6098992651025015
+Rangipo Desert,"Rangipo Desert, Tongariro National Park","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d15n,normalised_d2h,5,13.26381283149384,0.748946119776474
+Tasman River,"Tasman River, Mt. Cook National Park","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d15n,13,0.3265595809273012,0.3764032217598318
+Tasman River,"Tasman River, Mt. Cook National Park","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d2h,13,0.7401692685748594,0.15275796225696422
+Tasman River,"Tasman River, Mt. Cook National Park","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d15n,normalised_d2h,13,3.2315313799700696,0.32075024981819517
+Te Anau,"Te Anau, Southland","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d15n,5,-0.42773397063426005,-0.7170709466874025
+Te Anau,"Te Anau, Southland","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d2h,5,30.035411776687127,0.6792455601730321
+Te Anau,"Te Anau, Southland","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d15n,normalised_d2h,5,-1.1724163069753528,-0.15281434557752635
+Tiwai Point,"Tiwai Point, Canterbury","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d15n,7,1.42156923008938,0.8695465017962591
+Tiwai Point,"Tiwai Point, Canterbury","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d13c,normalised_d2h,7,0.9900881866702601,0.12318082697075045
+Tiwai Point,"Tiwai Point, Canterbury","South Island, New Zealand",live_primary_breeding_site,sampling_site_label,normalised_d15n,normalised_d2h,7,-0.15283009208329196,-0.016425282579405807

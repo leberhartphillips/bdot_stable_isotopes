@@ -1,0 +1,19 @@
+source_order,ring,longitude_capture,latitude_capture,has_complete_cn_pair,has_complete_cnh_pair,r1_map_status,r2a_map_status,r2c_map_status,r2s2_map_status,informal_rung2_consensus
+1,CP16670,169.215938011184,-45.3418160229921,TRUE,TRUE,R1: indeterminate,R2 A: indeterminate,R2 C: indeterminate,R2 S2: resident,single-model lead: resident
+2,CP16671,169.213724015281,-45.3410719614476,TRUE,TRUE,R1: migrant,R2 A: indeterminate,R2 C: indeterminate,R2 S2: indeterminate,no determinate Rung 2 call
+3,CP16677,169.20916903764,-45.3364670276642,TRUE,TRUE,R1: migrant,R2 A: indeterminate,R2 C: AU migrant,R2 S2: indeterminate,single-model lead: AU migrant
+4,CP16678,169.20916903764,-45.3364670276642,TRUE,TRUE,R1: migrant,R2 A: indeterminate,R2 C: indeterminate,R2 S2: indeterminate,no determinate Rung 2 call
+5,CP16681,175.731553025544,-39.2938620038331,TRUE,TRUE,R1: migrant,R2 A: indeterminate,R2 C: AU migrant,R2 S2: indeterminate,single-model lead: AU migrant
+6,CP16685,175.731553025544,-39.2938620038331,TRUE,TRUE,R1: migrant,R2 A: indeterminate,R2 C: NZ migrant,R2 S2: NZ migrant,informal consensus: NZ migrant
+7,CP16686,169.211730966344,-45.3636030200869,TRUE,TRUE,R1: migrant,R2 A: indeterminate,R2 C: AU migrant,R2 S2: indeterminate,single-model lead: AU migrant
+8,CP16961,176.893405001611,-39.485479015857,TRUE,TRUE,R1: migrant,R2 A: indeterminate,R2 C: indeterminate,R2 S2: indeterminate,no determinate Rung 2 call
+9,CP16962,176.893405001611,-39.485479015857,TRUE,TRUE,R1: indeterminate,R2 A: indeterminate,R2 C: indeterminate,R2 S2: resident,single-model lead: resident
+10,CP19307,170.477445,-43.873901,TRUE,TRUE,R1: indeterminate,R2 A: indeterminate,R2 C: indeterminate,R2 S2: indeterminate,no determinate Rung 2 call
+11,CP19308,170.477445,-43.873901,TRUE,TRUE,R1: migrant,R2 A: indeterminate,R2 C: indeterminate,R2 S2: indeterminate,no determinate Rung 2 call
+12,CP19902,170.478219,-43.873307,TRUE,TRUE,R1: indeterminate,R2 A: indeterminate,R2 C: indeterminate,R2 S2: resident,single-model lead: resident
+13,CP19903,170.478219,-43.873307,TRUE,TRUE,R1: indeterminate,R2 A: indeterminate,R2 C: indeterminate,R2 S2: indeterminate,no determinate Rung 2 call
+14,CP19938,169.187014997005,-44.8751709982753,FALSE,FALSE,R1 unavailable,R2 A: indeterminate,R2 C unavailable,R2 S2 unavailable,no determinate Rung 2 call
+15,CP19939,169.187014997005,-44.8751709982753,TRUE,TRUE,R1: migrant,R2 A: indeterminate,R2 C: indeterminate,R2 S2: indeterminate,no determinate Rung 2 call
+16,CP19940,169.180542994291,-44.8818409815431,TRUE,TRUE,R1: migrant,R2 A: indeterminate,R2 C: indeterminate,R2 S2: indeterminate,no determinate Rung 2 call
+17,CP19941,169.180542994291,-44.8818409815431,TRUE,TRUE,R1: migrant,R2 A: indeterminate,R2 C: indeterminate,R2 S2: indeterminate,no determinate Rung 2 call
+18,CP19984,167.745905,-45.414044,TRUE,TRUE,R1: resident,R2 A: indeterminate,R2 C: resident,R2 S2: resident,informal consensus: resident

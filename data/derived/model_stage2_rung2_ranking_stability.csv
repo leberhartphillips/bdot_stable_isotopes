@@ -1,0 +1,5 @@
+rung,candidate_id,candidate_label,primary_mean_split_log_loss_rank,primary_sd_split_log_loss_rank,primary_mean_split_bal_accuracy_rank,primary_sd_split_bal_accuracy_rank,blocked_mean_split_log_loss_rank,blocked_sd_split_log_loss_rank,blocked_mean_split_bal_accuracy_rank,blocked_sd_split_bal_accuracy_rank,log_loss_rank_shift,bal_accuracy_rank_shift
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,1.17,0.635754412858761,1.15,0.454568645048495,1,0,1.3,0.6708203932499369,-0.16999999999999993,0.15000000000000013
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,2.89,0.4874967294500445,2.89,0.29084675816431893,3.1,0.5477225575051661,2.8,0.2738612787525831,0.20999999999999996,-0.0900000000000003
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,2.91,0.5315552844325447,2.93,0.35007287870979564,3.1,0.5477225575051661,3.1,0.5477225575051661,0.18999999999999995,0.16999999999999993
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,3.03,0.5925558614844612,3.03,0.32592098704428085,2.8,0.2738612787525831,2.8,0.2738612787525831,-0.22999999999999998,-0.22999999999999998

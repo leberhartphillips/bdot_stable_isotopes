@@ -1,0 +1,65 @@
+rung,candidate_id,candidate_label,validation_layer,metric,value,class
+rung1,r1_a_breast_cn,Rung 1 A: Breast-only C/N,blocked_coordinate_cv,brier,0.23999526287405076,migrant
+rung1,r1_a_breast_cn,Rung 1 A: Breast-only C/N,blocked_coordinate_cv,ece,0.060678210678210706,migrant
+rung1,r1_a_breast_cn,Rung 1 A: Breast-only C/N,blocked_coordinate_cv,calibration_intercept,0.001513256794425825,migrant
+rung1,r1_a_breast_cn,Rung 1 A: Breast-only C/N,blocked_coordinate_cv,calibration_slope,-3.945811976644189,migrant
+rung1,r1_b_primary_cn,Rung 1 B: Primary-only C/N,blocked_coordinate_cv,brier,0.22872531006766203,migrant
+rung1,r1_b_primary_cn,Rung 1 B: Primary-only C/N,blocked_coordinate_cv,ece,0.048569234704077355,migrant
+rung1,r1_b_primary_cn,Rung 1 B: Primary-only C/N,blocked_coordinate_cv,calibration_intercept,0.019199145688865132,migrant
+rung1,r1_b_primary_cn,Rung 1 B: Primary-only C/N,blocked_coordinate_cv,calibration_slope,1.4231065931025835,migrant
+rung1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,blocked_coordinate_cv,brier,0.18209409113338518,migrant
+rung1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,blocked_coordinate_cv,ece,0.19457546221722047,migrant
+rung1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,blocked_coordinate_cv,calibration_intercept,0.00649804655015971,migrant
+rung1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,blocked_coordinate_cv,calibration_slope,3.1836148253621612,migrant
+rung1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,blocked_coordinate_cv,brier,0.17525240731896838,migrant
+rung1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,blocked_coordinate_cv,ece,0.18404894929170304,migrant
+rung1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,blocked_coordinate_cv,calibration_intercept,-0.018625734398010536,migrant
+rung1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,blocked_coordinate_cv,calibration_slope,2.6954249882876526,migrant
+rung1,r1_e_breast_cnh,Rung 1 E: Breast-only C/N/H,blocked_coordinate_cv,brier,0.23999526287405076,migrant
+rung1,r1_e_breast_cnh,Rung 1 E: Breast-only C/N/H,blocked_coordinate_cv,ece,0.060678210678210706,migrant
+rung1,r1_e_breast_cnh,Rung 1 E: Breast-only C/N/H,blocked_coordinate_cv,calibration_intercept,0.001513256794425825,migrant
+rung1,r1_e_breast_cnh,Rung 1 E: Breast-only C/N/H,blocked_coordinate_cv,calibration_slope,-3.945811976644189,migrant
+rung1,r1_f_paired_contrast_cnh,Rung 1 F: Paired-contrast C/N/H,blocked_coordinate_cv,brier,0.1964384178459647,migrant
+rung1,r1_f_paired_contrast_cnh,Rung 1 F: Paired-contrast C/N/H,blocked_coordinate_cv,ece,0.1367781553893865,migrant
+rung1,r1_f_paired_contrast_cnh,Rung 1 F: Paired-contrast C/N/H,blocked_coordinate_cv,calibration_intercept,-0.02001584315785259,migrant
+rung1,r1_f_paired_contrast_cnh,Rung 1 F: Paired-contrast C/N/H,blocked_coordinate_cv,calibration_slope,2.8284380948415313,migrant
+rung1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,blocked_coordinate_cv,brier,0.17792563935202474,migrant
+rung1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,blocked_coordinate_cv,ece,0.12359849409298211,migrant
+rung1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,blocked_coordinate_cv,calibration_intercept,-0.05578741082147098,migrant
+rung1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,blocked_coordinate_cv,calibration_slope,2.228477822439151,migrant
+rung1,r1_h_primary_cnh,Rung 1 H: Primary-only C/N/H,blocked_coordinate_cv,brier,0.2301942156153053,migrant
+rung1,r1_h_primary_cnh,Rung 1 H: Primary-only C/N/H,blocked_coordinate_cv,ece,0.06104016530406414,migrant
+rung1,r1_h_primary_cnh,Rung 1 H: Primary-only C/N/H,blocked_coordinate_cv,calibration_intercept,-0.002176413978716938,migrant
+rung1,r1_h_primary_cnh,Rung 1 H: Primary-only C/N/H,blocked_coordinate_cv,calibration_slope,2.280827718022872,migrant
+rung1,r1_a_breast_cn,Rung 1 A: Breast-only C/N,repeated_stratified_cv,brier,0.2388594293659597,migrant
+rung1,r1_a_breast_cn,Rung 1 A: Breast-only C/N,repeated_stratified_cv,ece,0.028825522303783078,migrant
+rung1,r1_a_breast_cn,Rung 1 A: Breast-only C/N,repeated_stratified_cv,calibration_intercept,-0.001065585045667215,migrant
+rung1,r1_a_breast_cn,Rung 1 A: Breast-only C/N,repeated_stratified_cv,calibration_slope,-3.919583112264986,migrant
+rung1,r1_b_primary_cn,Rung 1 B: Primary-only C/N,repeated_stratified_cv,brier,0.2342063014445565,migrant
+rung1,r1_b_primary_cn,Rung 1 B: Primary-only C/N,repeated_stratified_cv,ece,0.02213561881020642,migrant
+rung1,r1_b_primary_cn,Rung 1 B: Primary-only C/N,repeated_stratified_cv,calibration_intercept,0.010771030106803706,migrant
+rung1,r1_b_primary_cn,Rung 1 B: Primary-only C/N,repeated_stratified_cv,calibration_slope,1.7831288284295235,migrant
+rung1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,repeated_stratified_cv,brier,0.17274320236475765,migrant
+rung1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,repeated_stratified_cv,ece,0.13954023048324246,migrant
+rung1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,repeated_stratified_cv,calibration_intercept,0.015606815451418581,migrant
+rung1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,repeated_stratified_cv,calibration_slope,2.4449488093017133,migrant
+rung1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,repeated_stratified_cv,brier,0.1788355822610402,migrant
+rung1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,repeated_stratified_cv,ece,0.1408503789642169,migrant
+rung1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,repeated_stratified_cv,calibration_intercept,0.030612802122244095,migrant
+rung1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,repeated_stratified_cv,calibration_slope,1.987520736454397,migrant
+rung1,r1_e_breast_cnh,Rung 1 E: Breast-only C/N/H,repeated_stratified_cv,brier,0.2388594293659597,migrant
+rung1,r1_e_breast_cnh,Rung 1 E: Breast-only C/N/H,repeated_stratified_cv,ece,0.028825522303783078,migrant
+rung1,r1_e_breast_cnh,Rung 1 E: Breast-only C/N/H,repeated_stratified_cv,calibration_intercept,-0.001065585045667215,migrant
+rung1,r1_e_breast_cnh,Rung 1 E: Breast-only C/N/H,repeated_stratified_cv,calibration_slope,-3.919583112264986,migrant
+rung1,r1_f_paired_contrast_cnh,Rung 1 F: Paired-contrast C/N/H,repeated_stratified_cv,brier,0.18746233146568997,migrant
+rung1,r1_f_paired_contrast_cnh,Rung 1 F: Paired-contrast C/N/H,repeated_stratified_cv,ece,0.1357503781699802,migrant
+rung1,r1_f_paired_contrast_cnh,Rung 1 F: Paired-contrast C/N/H,repeated_stratified_cv,calibration_intercept,0.014891066201648736,migrant
+rung1,r1_f_paired_contrast_cnh,Rung 1 F: Paired-contrast C/N/H,repeated_stratified_cv,calibration_slope,2.190450529437972,migrant
+rung1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,repeated_stratified_cv,brier,0.18447801897932392,migrant
+rung1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,repeated_stratified_cv,ece,0.1103336984973385,migrant
+rung1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,repeated_stratified_cv,calibration_intercept,0.03947136607951291,migrant
+rung1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,repeated_stratified_cv,calibration_slope,1.8153886745402248,migrant
+rung1,r1_h_primary_cnh,Rung 1 H: Primary-only C/N/H,repeated_stratified_cv,brier,0.23525527969841203,migrant
+rung1,r1_h_primary_cnh,Rung 1 H: Primary-only C/N/H,repeated_stratified_cv,ece,0.014550136850471572,migrant
+rung1,r1_h_primary_cnh,Rung 1 H: Primary-only C/N/H,repeated_stratified_cv,calibration_intercept,-0.0032419070906803344,migrant
+rung1,r1_h_primary_cnh,Rung 1 H: Primary-only C/N/H,repeated_stratified_cv,calibration_slope,1.5444871234583433,migrant

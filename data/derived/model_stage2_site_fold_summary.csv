@@ -1,0 +1,16 @@
+validation_layer,split_id,n_assessment,n_sites_assessment,assessment_sites,assessment_specific_locations,rung1_n_resident,rung1_n_migrant,rung1_all_classes_present,rung2_n_resident,rung2_n_nz_migrant,rung2_n_au_migrant,rung2_all_classes_present,fold_design_note
+blocked_site_cv,Fold1,19,2,Motueka Spit|Tasman River,"Motueka Spit, Tasman Bay|Tasman River, Mt. Cook National Park",5,14,TRUE,5,3,11,TRUE,Recommended grouped site-block design. Every assessment fold retains all three Rung 2 classes.
+blocked_site_cv,Fold2,13,2,Kaitorete|Rangipo Desert,"Kaitorete Spit, Canterbury|Rangipo Desert, Tongariro National Park",5,8,TRUE,5,5,3,TRUE,Recommended grouped site-block design. Every assessment fold retains all three Rung 2 classes.
+blocked_site_cv,Fold3,12,4,Cass River|Pisa Range|Tiwai Point|Napier,"Cass River, Canterbury|Pisa Range, Otago|Tiwai Point, Canterbury|Napier, Hawkes Bay",5,7,TRUE,5,5,2,TRUE,Recommended grouped site-block design. Every assessment fold retains all three Rung 2 classes.
+blocked_site_cv,Fold4,12,3,Te Anau|Kaikoura|Porters Beach,"Te Anau, Southland|Kaikoura, Canterbury|Porters Beach, Abel Tasman National Park",7,5,TRUE,7,4,1,TRUE,Recommended grouped site-block design. Every assessment fold retains all three Rung 2 classes.
+leave_one_site_out_cv,Site__Cass.River,1,1,Cass River,"Cass River, Canterbury",0,1,FALSE,0,0,1,FALSE,LOSO split is very small and should be treated as a stress test rather than a stable performance estimate.
+leave_one_site_out_cv,Site__Kaikoura,6,1,Kaikoura,"Kaikoura, Canterbury",4,2,TRUE,4,2,0,FALSE,LOSO split is site-pure or site-imbalanced and does not represent all Rung 2 classes.
+leave_one_site_out_cv,Site__Kaitorete,10,1,Kaitorete,"Kaitorete Spit, Canterbury",5,5,TRUE,5,2,3,TRUE,NA
+leave_one_site_out_cv,Site__Motueka.Spit,6,1,Motueka Spit,"Motueka Spit, Tasman Bay",5,1,TRUE,5,1,0,FALSE,LOSO split is site-pure or site-imbalanced and does not represent all Rung 2 classes.
+leave_one_site_out_cv,Site__Napier,3,1,Napier,"Napier, Hawkes Bay",0,3,FALSE,0,3,0,FALSE,LOSO split is site-pure or site-imbalanced and does not represent all Rung 2 classes.
+leave_one_site_out_cv,Site__Pisa.Range,1,1,Pisa Range,"Pisa Range, Otago",0,1,FALSE,0,0,1,FALSE,LOSO split is very small and should be treated as a stress test rather than a stable performance estimate.
+leave_one_site_out_cv,Site__Porters.Beach,2,1,Porters Beach,"Porters Beach, Abel Tasman National Park",0,2,FALSE,0,2,0,FALSE,LOSO split is very small and should be treated as a stress test rather than a stable performance estimate.
+leave_one_site_out_cv,Site__Rangipo.Desert,3,1,Rangipo Desert,"Rangipo Desert, Tongariro National Park",0,3,FALSE,0,3,0,FALSE,LOSO split is site-pure or site-imbalanced and does not represent all Rung 2 classes.
+leave_one_site_out_cv,Site__Tasman.River,13,1,Tasman River,"Tasman River, Mt. Cook National Park",0,13,FALSE,0,2,11,FALSE,LOSO split is site-pure or site-imbalanced and does not represent all Rung 2 classes.
+leave_one_site_out_cv,Site__Te.Anau,4,1,Te Anau,"Te Anau, Southland",3,1,TRUE,3,0,1,FALSE,LOSO split is site-pure or site-imbalanced and does not represent all Rung 2 classes.
+leave_one_site_out_cv,Site__Tiwai.Point,7,1,Tiwai Point,"Tiwai Point, Canterbury",5,2,TRUE,5,2,0,FALSE,LOSO split is site-pure or site-imbalanced and does not represent all Rung 2 classes.

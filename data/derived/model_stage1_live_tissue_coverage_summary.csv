@@ -1,0 +1,3 @@
+feather_type,n_tissues,n_with_d13c,n_with_d15n,n_with_d2h,n_multi_assay,median_n_assays,max_n_assays,median_n_unique_samples,max_n_unique_samples
+Breast,74,74,74,73,73,2,3,2,2
+Primary,73,73,73,73,73,2,2,2,2

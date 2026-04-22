@@ -1,0 +1,17 @@
+candidate_id,candidate_label,validation_layer,caution_level,metric,value,class
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,staged_r1c_then_breast_cnh_no_primary_h,macro_brier,0.179724915981066,overall
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,staged_r1c_then_breast_cnh_no_primary_h,confidence_ece,0.19724829221858628,overall
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,staged_r1c_then_breast_cnh_no_primary_h,one_vs_rest_brier,0.15935321507317993,resident
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,staged_r1c_then_breast_cnh_no_primary_h,one_vs_rest_ece,0.1392997651464314,resident
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,staged_r1c_then_breast_cnh_no_primary_h,one_vs_rest_brier,0.20069220595445203,NZ migrant
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,staged_r1c_then_breast_cnh_no_primary_h,one_vs_rest_ece,0.06517142772011889,NZ migrant
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,staged_r1c_then_breast_cnh_no_primary_h,one_vs_rest_brier,0.17912932691556602,AU migrant
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,staged_r1c_then_breast_cnh_no_primary_h,one_vs_rest_ece,0.09435852475885326,AU migrant
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,staged_r1c_then_breast_cnh_no_primary_h,macro_brier,0.18517890872915493,overall
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,staged_r1c_then_breast_cnh_no_primary_h,confidence_ece,0.11109945657166091,overall
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,staged_r1c_then_breast_cnh_no_primary_h,one_vs_rest_brier,0.16939564804390178,resident
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,staged_r1c_then_breast_cnh_no_primary_h,one_vs_rest_ece,0.14562282436531615,resident
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,staged_r1c_then_breast_cnh_no_primary_h,one_vs_rest_brier,0.20250234399409958,NZ migrant
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,staged_r1c_then_breast_cnh_no_primary_h,one_vs_rest_ece,0.11998944940840915,NZ migrant
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,staged_r1c_then_breast_cnh_no_primary_h,one_vs_rest_brier,0.18363873414946347,AU migrant
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,staged_r1c_then_breast_cnh_no_primary_h,one_vs_rest_ece,0.08804275200164485,AU migrant

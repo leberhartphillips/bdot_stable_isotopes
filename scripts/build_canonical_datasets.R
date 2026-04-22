@@ -101,6 +101,16 @@ make_harmonization_flag <- function(...) {
   paste(unique(flags), collapse = "|")
 }
 
+derive_live_sampling_site_label <- function(x) {
+  x <- normalize_space(x)
+  out <- str_trim(str_remove(x, ",.*$"))
+  out <- case_when(
+    out == "Kaitorete Spit" ~ "Kaitorete",
+    TRUE ~ out
+  )
+  ifelse(out == "", NA_character_, out)
+}
+
 run_assay_qc_extract <- function() {
   status <- system2(
     "python3",
@@ -1276,6 +1286,9 @@ live_phenotypes_raw <- read_excel(
     sex = normalize_space(Sex),
     tag_id_raw = normalize_space(as.character(TagID)),
     date_sampled = as.character(as.Date(`Date Sampled`)),
+    sampling_location_general = normalize_space(`Sampling Location (General)`),
+    sampling_location_specific = normalize_space(`Sampling Location (Specific)`),
+    sampling_site_label = derive_live_sampling_site_label(`Sampling Location (Specific)`),
     longitude_capture = parse_numeric(`Longitude Sampled`),
     latitude_capture = parse_numeric(`Latitude Sampled`),
     status = normalize_space(`Migratory Status`),
@@ -1307,11 +1320,23 @@ live_phenotype_conflicts <- live_phenotypes_raw %>%
     n_sex = distinct_non_missing_n(sex),
     n_tag = distinct_non_missing_n(tag_id_adjusted),
     n_status = distinct_non_missing_n(status),
+    n_location_general = distinct_non_missing_n(sampling_location_general),
+    n_location_specific = distinct_non_missing_n(sampling_location_specific),
+    n_site_label = distinct_non_missing_n(sampling_site_label),
     n_longitude = distinct_non_missing_n(longitude_capture),
     n_latitude = distinct_non_missing_n(latitude_capture),
     .groups = "drop"
   ) %>%
-  filter(n_sex > 1 | n_tag > 1 | n_status > 1 | n_longitude > 1 | n_latitude > 1)
+  filter(
+    n_sex > 1 |
+      n_tag > 1 |
+      n_status > 1 |
+      n_location_general > 1 |
+      n_location_specific > 1 |
+      n_site_label > 1 |
+      n_longitude > 1 |
+      n_latitude > 1
+  )
 
 if (nrow(live_phenotype_conflicts) > 0) {
   log_issue(
@@ -1335,6 +1360,9 @@ live_phenotypes_canonical <- live_phenotypes_raw %>%
     sex = summarise_character_or_na(sex),
     tag_id_adjusted = summarise_character_or_na(tag_id_adjusted),
     tag_id_raw_examples = collapse_unique(tag_id_raw),
+    sampling_location_general = summarise_character_or_na(sampling_location_general),
+    sampling_location_specific = summarise_character_or_na(sampling_location_specific),
+    sampling_site_label = summarise_character_or_na(sampling_site_label),
     status = summarise_character_or_na(status),
     status_bin = summarise_character_or_na(status_bin),
     migratory_status_comment = summarise_character_or_na(migratory_status_comment),
@@ -1412,9 +1440,9 @@ log_issue(
   )
 )
 
-live_cn_measurements_long_raw <- live_cn_nonblank %>%
+live_cn_measurements_long_input <- live_cn_nonblank %>%
   transmute(
-    assay_row_id = sprintf("live_assay_%04d", row_number()),
+    assay_row_id = sprintf("live_cn_assay_%04d", row_number()),
     source_branch = "live_batch5_cn",
     source_file = "data/Master_EA_C_N_SI_Batch 5 Breast and Primary Feathers_LEH_Repeats added_April25_v1_SB_v2.xls",
     source_sheet = "Sample results_C&N",
@@ -1436,7 +1464,68 @@ live_cn_measurements_long_raw <- live_cn_nonblank %>%
     names_to = "isotope",
     values_to = "raw_value"
   ) %>%
-  filter(!is.na(raw_value)) %>%
+  filter(!is.na(raw_value))
+
+live_h_raw <- read_excel(
+  path = file.path("data", "Master_TCEA_H_SI_Batch 5 breast and primary feathers_LEH_v1_SB.xls"),
+  sheet = "Sample results_H",
+  col_types = "text",
+  skip = 9
+) %>%
+  mutate(
+    read_row = row_number(),
+    source_sheet_row = excel_data_row(read_row, skip = 9)
+  )
+
+log_step(
+  dataset = "live_h_measurements",
+  step = "read_sheet",
+  rows_in = nrow(live_h_raw),
+  rows_out = nrow(live_h_raw),
+  action = "read",
+  detail = "Loaded live bird batch 5 H sheet."
+)
+
+live_h_nonblank <- live_h_raw %>%
+  filter(!is.na(`Corrected Identifier`))
+
+log_step(
+  dataset = "live_h_measurements",
+  step = "drop_blank_rows",
+  rows_in = nrow(live_h_raw),
+  rows_out = nrow(live_h_nonblank),
+  action = "filter",
+  detail = "Dropped blank trailing rows from live bird H sheet."
+)
+
+live_h_measurements_long_input <- live_h_nonblank %>%
+  transmute(
+    assay_row_id = sprintf("live_h_assay_%04d", row_number()),
+    source_branch = "live_batch5_h",
+    source_file = "data/Master_TCEA_H_SI_Batch 5 breast and primary feathers_LEH_v1_SB.xls",
+    source_sheet = "Sample results_H",
+    source_sheet_row,
+    sample_id_raw = normalize_space(`Corrected Identifier`),
+    sample_id_base = strip_live_repeat_suffix(`Corrected Identifier`),
+    ring = standardize_live_ring(`Corrected Identifier`),
+    feather_type_raw = str_extract(`Corrected Identifier`, regex("primary|breast|pimary", ignore_case = TRUE)),
+    feather_type = standardize_feather_type(feather_type_raw),
+    is_repeat_assay = str_detect(normalize_space(`Corrected Identifier`), "_rpt$"),
+    amount_mg = parse_numeric(`Corrected Amount`),
+    cn_mass_ratio = NA_real_,
+    normalised_d2h = parse_numeric(`Normalised d2H`)
+  ) %>%
+  pivot_longer(
+    cols = c(normalised_d2h),
+    names_to = "isotope",
+    values_to = "raw_value"
+  ) %>%
+  filter(!is.na(raw_value))
+
+live_measurements_long_input <- bind_rows(
+  live_cn_measurements_long_input,
+  live_h_measurements_long_input
+) %>%
   mutate(
     measurement_id = sprintf("live_measurement_%04d", row_number())
   ) %>%
@@ -1464,6 +1553,8 @@ live_cn_measurements_long_raw <- live_cn_nonblank %>%
     )
   )
 
+live_cn_measurements_long_raw <- live_measurements_long_input
+
 live_cn_unmatched <- live_cn_measurements_long_raw %>%
   filter(is.na(source_phenotype_row_ids))
 
@@ -1485,7 +1576,7 @@ log_step(
   rows_in = nrow(live_cn_measurements_long_raw),
   rows_out = nrow(live_cn_measurements_long_raw),
   action = "join",
-  detail = "Joined live bird assays to ring-level phenotypes exactly on ring."
+  detail = "Joined live bird C/N/H assays to ring-level phenotypes exactly on ring."
 )
 
 log_step(
@@ -1494,7 +1585,7 @@ log_step(
   rows_in = nrow(live_cn_measurements_long_raw),
   rows_out = sum(live_cn_measurements_long_raw$included_in_canonical, na.rm = TRUE),
   action = "adjudicate",
-  detail = "Applied assay-level QC adjudications to live bird C/N measurements."
+  detail = "Applied assay-level QC adjudications to live bird C/N/H measurements."
 )
 
 log_step(
@@ -1503,7 +1594,7 @@ log_step(
   rows_in = nrow(live_cn_measurements_long_raw),
   rows_out = sum(live_cn_measurements_long_raw$included_in_strict, na.rm = TRUE),
   action = "adjudicate",
-  detail = "Applied the strict assay-QC value view to live bird C/N measurements."
+  detail = "Applied the strict assay-QC value view to live bird C/N/H measurements."
 )
 
 log_step(
@@ -1512,7 +1603,7 @@ log_step(
   rows_in = nrow(live_cn_measurements_long_raw),
   rows_out = sum(live_cn_measurements_long_raw$included_in_sensitivity, na.rm = TRUE),
   action = "adjudicate",
-  detail = "Applied the sensitivity assay-QC value view to live bird C/N measurements."
+  detail = "Applied the sensitivity assay-QC value view to live bird C/N/H measurements."
 )
 
 write_csv_base(
@@ -1538,6 +1629,9 @@ live_cn_measurements <- live_cn_measurements_long_raw %>%
     sex,
     tag_id_adjusted,
     tag_id_raw_examples,
+    sampling_location_general,
+    sampling_location_specific,
+    sampling_site_label,
     status,
     status_bin,
     migratory_status_comment,
@@ -1599,6 +1693,9 @@ live_cn_measurements <- live_cn_measurements_long_raw %>%
       sex,
       tag_id_adjusted,
       tag_id_raw_examples,
+      sampling_location_general,
+      sampling_location_specific,
+      sampling_site_label,
       status,
       status_bin,
       migratory_status_comment,
@@ -1649,14 +1746,19 @@ live_cn_measurements <- live_cn_measurements_long_raw %>%
   rename(
     raw_normalised_d15n = raw_value_normalised_d15n,
     raw_normalised_d13c = raw_value_normalised_d13c,
+    raw_normalised_d2h = raw_value_normalised_d2h,
     audit_normalised_d15n = audit_value_normalised_d15n,
     audit_normalised_d13c = audit_value_normalised_d13c,
+    audit_normalised_d2h = audit_value_normalised_d2h,
     adjudicated_normalised_d15n = value_normalised_d15n,
     adjudicated_normalised_d13c = value_normalised_d13c,
+    adjudicated_normalised_d2h = value_normalised_d2h,
     strict_normalised_d15n = strict_value_normalised_d15n,
     strict_normalised_d13c = strict_value_normalised_d13c,
+    strict_normalised_d2h = strict_value_normalised_d2h,
     sensitivity_normalised_d15n = sensitivity_value_normalised_d15n,
-    sensitivity_normalised_d13c = sensitivity_value_normalised_d13c
+    sensitivity_normalised_d13c = sensitivity_value_normalised_d13c,
+    sensitivity_normalised_d2h = sensitivity_value_normalised_d2h
   )
 
 write_csv_base(
@@ -1702,6 +1804,9 @@ build_live_cn_variant <- function(measurements_long_raw,
       sex,
       tag_id_adjusted,
       tag_id_raw_examples,
+      sampling_location_general,
+      sampling_location_specific,
+      sampling_site_label,
       status,
       status_bin,
       migratory_status_comment,
@@ -1771,6 +1876,9 @@ build_live_cn_variant <- function(measurements_long_raw,
       sex,
       tag_id_adjusted,
       tag_id_raw_examples,
+      sampling_location_general,
+      sampling_location_specific,
+      sampling_site_label,
       status,
       status_bin,
       migratory_status_comment,
@@ -1840,6 +1948,9 @@ build_live_cn_variant <- function(measurements_long_raw,
         sex,
         tag_id_adjusted,
         tag_id_raw_examples,
+        sampling_location_general,
+        sampling_location_specific,
+        sampling_site_label,
         status,
         status_bin,
         migratory_status_comment,
@@ -1881,17 +1992,24 @@ build_live_cn_variant <- function(measurements_long_raw,
     rename(
       raw_normalised_d15n = raw_value_retained_mean_normalised_d15n,
       raw_normalised_d13c = raw_value_retained_mean_normalised_d13c,
+      raw_normalised_d2h = raw_value_retained_mean_normalised_d2h,
       audit_normalised_d15n = audit_value_mean_normalised_d15n,
       audit_normalised_d13c = audit_value_mean_normalised_d13c,
+      audit_normalised_d2h = audit_value_mean_normalised_d2h,
       adjudicated_normalised_d15n = value_normalised_d15n,
-      adjudicated_normalised_d13c = value_normalised_d13c
+      adjudicated_normalised_d13c = value_normalised_d13c,
+      adjudicated_normalised_d2h = value_normalised_d2h
     ) %>%
     mutate(
-      source_measurement_ids = mapply(
-        function(d15n_ids, d13c_ids) collapse_unique(c(d15n_ids, d13c_ids)),
-        source_measurement_ids_normalised_d15n,
-        source_measurement_ids_normalised_d13c,
-        USE.NAMES = FALSE
+      source_measurement_ids = apply(
+        as.data.frame(select(., matches("^source_measurement_ids_normalised_"))),
+        1,
+        collapse_unique
+      ),
+      source_measurement_ids_model = apply(
+        as.data.frame(select(., matches("^source_measurement_ids_model_normalised_"))),
+        1,
+        collapse_unique
       )
     )
 
@@ -1908,6 +2026,9 @@ build_live_cn_variant <- function(measurements_long_raw,
       status,
       status_bin,
       status_known,
+      sampling_location_general,
+      sampling_location_specific,
+      sampling_site_label,
       longitude_capture,
       latitude_capture,
       tag_id_adjusted,
@@ -1922,10 +2043,12 @@ build_live_cn_variant <- function(measurements_long_raw,
       sample_ids_base = collapse_unique(sample_id_base),
       normalised_d13c = safe_mean(adjudicated_normalised_d13c),
       normalised_d15n = safe_mean(adjudicated_normalised_d15n),
+      normalised_d2h = safe_mean(adjudicated_normalised_d2h),
       cn_mass_ratio = safe_mean(cn_mass_ratio),
       amount_mg_mean = safe_mean(amount_mg),
       amount_mg_sd = safe_sd(amount_mg),
       source_measurement_ids = collapse_unique(source_measurement_ids),
+      source_measurement_ids_model = collapse_unique(source_measurement_ids_model),
       source_phenotype_row_ids = summarise_character_or_na(source_phenotype_row_ids),
       adjudication_methods = collapse_unique(adjudication_method),
       has_pending_manual_qc = any(assay_qc_manual_review_pending %in% TRUE),
@@ -1945,6 +2068,9 @@ build_live_cn_variant <- function(measurements_long_raw,
       status,
       status_bin,
       status_known,
+      sampling_location_general,
+      sampling_location_specific,
+      sampling_site_label,
       longitude_capture,
       latitude_capture,
       tag_id_adjusted,
@@ -1965,11 +2091,13 @@ build_live_cn_variant <- function(measurements_long_raw,
       feather_type,
       normalised_d13c,
       normalised_d15n,
+      normalised_d2h,
       cn_mass_ratio,
       amount_mg_mean,
       n_assays,
       n_unique_samples,
       source_measurement_ids,
+      source_measurement_ids_model,
       has_pending_manual_qc,
       pending_manual_qc_reasons
     ) %>%
@@ -1979,11 +2107,13 @@ build_live_cn_variant <- function(measurements_long_raw,
       values_from = c(
         normalised_d13c,
         normalised_d15n,
+        normalised_d2h,
         cn_mass_ratio,
         amount_mg_mean,
         n_assays,
         n_unique_samples,
         source_measurement_ids,
+        source_measurement_ids_model,
         has_pending_manual_qc,
         pending_manual_qc_reasons
       ),
@@ -1995,10 +2125,19 @@ build_live_cn_variant <- function(measurements_long_raw,
     mutate(
       has_breast = !is.na(normalised_d13c_Breast) | !is.na(normalised_d15n_Breast),
       has_primary = !is.na(normalised_d13c_Primary) | !is.na(normalised_d15n_Primary),
+      has_breast_d2h = !is.na(normalised_d2h_Breast),
+      has_primary_d2h = !is.na(normalised_d2h_Primary),
+      has_paired_h = !is.na(normalised_d2h_Breast) & !is.na(normalised_d2h_Primary),
       has_complete_cn_pair = !is.na(normalised_d13c_Breast) &
         !is.na(normalised_d15n_Breast) &
         !is.na(normalised_d13c_Primary) &
         !is.na(normalised_d15n_Primary),
+      has_complete_cnh_pair = !is.na(normalised_d13c_Breast) &
+        !is.na(normalised_d15n_Breast) &
+        !is.na(normalised_d2h_Breast) &
+        !is.na(normalised_d13c_Primary) &
+        !is.na(normalised_d15n_Primary) &
+        !is.na(normalised_d2h_Primary),
       has_pending_manual_qc = has_any_pending_manual_qc |
         (has_pending_manual_qc_Breast %in% TRUE) |
         (has_pending_manual_qc_Primary %in% TRUE),
@@ -2260,9 +2399,28 @@ missingness_summary <- bind_rows(
     )
   ),
   build_missingness_summary(
+    "live_phenotypes_canonical",
+    live_phenotypes_canonical,
+    c(
+      "sampling_location_general",
+      "sampling_location_specific",
+      "sampling_site_label",
+      "status",
+      "sex"
+    )
+  ),
+  build_missingness_summary(
     "live_cn_measurements_by_sample",
     live_cn_measurements,
-    c("adjudicated_normalised_d13c", "adjudicated_normalised_d15n", "status", "sex")
+    c(
+      "adjudicated_normalised_d13c",
+      "adjudicated_normalised_d15n",
+      "adjudicated_normalised_d2h",
+      "sampling_location_specific",
+      "sampling_site_label",
+      "status",
+      "sex"
+    )
   ),
   build_missingness_summary(
     "live_cn_paired_by_ring",
@@ -2272,6 +2430,10 @@ missingness_summary <- bind_rows(
       "normalised_d13c_Primary",
       "normalised_d15n_Breast",
       "normalised_d15n_Primary",
+      "normalised_d2h_Breast",
+      "normalised_d2h_Primary",
+      "sampling_location_specific",
+      "sampling_site_label",
       "status",
       "sex"
     )
@@ -2284,6 +2446,10 @@ missingness_summary <- bind_rows(
       "normalised_d13c_Primary",
       "normalised_d15n_Breast",
       "normalised_d15n_Primary",
+      "normalised_d2h_Breast",
+      "normalised_d2h_Primary",
+      "sampling_location_specific",
+      "sampling_site_label",
       "status",
       "sex"
     )
@@ -2296,6 +2462,10 @@ missingness_summary <- bind_rows(
       "normalised_d13c_Primary",
       "normalised_d15n_Breast",
       "normalised_d15n_Primary",
+      "normalised_d2h_Breast",
+      "normalised_d2h_Primary",
+      "sampling_location_specific",
+      "sampling_site_label",
       "status",
       "sex"
     )
@@ -2340,6 +2510,30 @@ completeness_summary <- bind_rows(
       value = as.character(has_complete_cn_pair)
     ) %>%
     select(dataset, metric, value, n_rows),
+  live_cn_paired_by_ring %>%
+    count(has_paired_h, name = "n_rows") %>%
+    mutate(
+      dataset = "live_cn_paired_by_ring",
+      metric = "has_paired_h",
+      value = as.character(has_paired_h)
+    ) %>%
+    select(dataset, metric, value, n_rows),
+  live_cn_paired_by_ring %>%
+    count(has_complete_cnh_pair, name = "n_rows") %>%
+    mutate(
+      dataset = "live_cn_paired_by_ring",
+      metric = "has_complete_cnh_pair",
+      value = as.character(has_complete_cnh_pair)
+    ) %>%
+    select(dataset, metric, value, n_rows),
+  live_cn_paired_by_ring %>%
+    count(has_breast_d2h, name = "n_rows") %>%
+    mutate(
+      dataset = "live_cn_paired_by_ring",
+      metric = "has_breast_d2h",
+      value = as.character(has_breast_d2h)
+    ) %>%
+    select(dataset, metric, value, n_rows),
   live_cn_paired_by_ring_strict %>%
     count(n_tissues_present, name = "n_rows") %>%
     mutate(
@@ -2356,6 +2550,30 @@ completeness_summary <- bind_rows(
       value = as.character(has_complete_cn_pair)
     ) %>%
     select(dataset, metric, value, n_rows),
+  live_cn_paired_by_ring_strict %>%
+    count(has_paired_h, name = "n_rows") %>%
+    mutate(
+      dataset = "live_cn_paired_by_ring_strict",
+      metric = "has_paired_h",
+      value = as.character(has_paired_h)
+    ) %>%
+    select(dataset, metric, value, n_rows),
+  live_cn_paired_by_ring_strict %>%
+    count(has_complete_cnh_pair, name = "n_rows") %>%
+    mutate(
+      dataset = "live_cn_paired_by_ring_strict",
+      metric = "has_complete_cnh_pair",
+      value = as.character(has_complete_cnh_pair)
+    ) %>%
+    select(dataset, metric, value, n_rows),
+  live_cn_paired_by_ring_strict %>%
+    count(has_breast_d2h, name = "n_rows") %>%
+    mutate(
+      dataset = "live_cn_paired_by_ring_strict",
+      metric = "has_breast_d2h",
+      value = as.character(has_breast_d2h)
+    ) %>%
+    select(dataset, metric, value, n_rows),
   live_cn_paired_by_ring_sensitivity %>%
     count(n_tissues_present, name = "n_rows") %>%
     mutate(
@@ -2370,6 +2588,30 @@ completeness_summary <- bind_rows(
       dataset = "live_cn_paired_by_ring_sensitivity",
       metric = "has_complete_cn_pair",
       value = as.character(has_complete_cn_pair)
+    ) %>%
+    select(dataset, metric, value, n_rows),
+  live_cn_paired_by_ring_sensitivity %>%
+    count(has_paired_h, name = "n_rows") %>%
+    mutate(
+      dataset = "live_cn_paired_by_ring_sensitivity",
+      metric = "has_paired_h",
+      value = as.character(has_paired_h)
+    ) %>%
+    select(dataset, metric, value, n_rows),
+  live_cn_paired_by_ring_sensitivity %>%
+    count(has_complete_cnh_pair, name = "n_rows") %>%
+    mutate(
+      dataset = "live_cn_paired_by_ring_sensitivity",
+      metric = "has_complete_cnh_pair",
+      value = as.character(has_complete_cnh_pair)
+    ) %>%
+    select(dataset, metric, value, n_rows),
+  live_cn_paired_by_ring_sensitivity %>%
+    count(has_breast_d2h, name = "n_rows") %>%
+    mutate(
+      dataset = "live_cn_paired_by_ring_sensitivity",
+      metric = "has_breast_d2h",
+      value = as.character(has_breast_d2h)
     ) %>%
     select(dataset, metric, value, n_rows)
 )

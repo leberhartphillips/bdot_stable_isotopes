@@ -1,0 +1,5 @@
+parameter,value
+n_mc_draws,500
+support_threshold,0.8
+boundary_interval_low,0.1
+boundary_interval_high,0.9

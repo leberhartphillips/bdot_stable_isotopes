@@ -1,0 +1,5 @@
+candidate_id,candidate_label,validation_layer,strategy_family,caution_level,n_assessment,mean_top_prob,weak_support_rate,mean_r1_prob_migrant
+r2s_a_breast_cnh_plus_r1c_prob,Rung 2 S1: Breast C/N/H + out-of-fold R1 migrant probability,blocked_coordinate_cv,probability_augmented_direct,staged_r1c_prob_plus_breast_cnh_no_primary_h,56,0.46622971276120106,0.7321428571428571,0.6069422179358631
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_coordinate_cv,soft_hierarchical_two_step,staged_r1c_then_breast_cnh_no_primary_h,56,0.4961043343155791,0.5714285714285714,0.6069422179358631
+r2s_a_breast_cnh_plus_r1c_prob,Rung 2 S1: Breast C/N/H + out-of-fold R1 migrant probability,repeated_stratified_cv,probability_augmented_direct,staged_r1c_prob_plus_breast_cnh_no_primary_h,560,0.4492937727817994,0.8107142857142857,0.6033508754800596
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,repeated_stratified_cv,soft_hierarchical_two_step,staged_r1c_then_breast_cnh_no_primary_h,560,0.4864929635693634,0.6160714285714286,0.6033508754800596

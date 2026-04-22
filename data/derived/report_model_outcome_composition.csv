@@ -1,0 +1,33 @@
+rung,candidate_id,candidate_label,validation_layer,outcome_bucket,n,prop
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,Blocked coordinate CV,Determinate correct,35,0.625
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,Blocked coordinate CV,Determinate incorrect,5,0.08928571428571429
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,Blocked coordinate CV,Indeterminate,16,0.2857142857142857
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,Repeated stratified CV,Determinate correct,333,0.5946428571428571
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,Repeated stratified CV,Determinate incorrect,69,0.12321428571428572
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,Repeated stratified CV,Indeterminate,158,0.28214285714285714
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,Blocked coordinate CV,Determinate correct,30,0.5357142857142857
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,Blocked coordinate CV,Determinate incorrect,5,0.08928571428571429
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,Blocked coordinate CV,Indeterminate,21,0.375
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,Repeated stratified CV,Determinate correct,321,0.5732142857142857
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,Repeated stratified CV,Determinate incorrect,83,0.14821428571428572
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,Repeated stratified CV,Indeterminate,156,0.2785714285714286
+Rung 1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,Blocked coordinate CV,Determinate correct,33,0.5892857142857143
+Rung 1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,Blocked coordinate CV,Determinate incorrect,11,0.19642857142857142
+Rung 1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,Blocked coordinate CV,Indeterminate,12,0.21428571428571427
+Rung 1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,Repeated stratified CV,Determinate correct,315,0.5625
+Rung 1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,Repeated stratified CV,Determinate incorrect,90,0.16071428571428573
+Rung 1,r1_g_structured_paired_cnh,Rung 1 G: Structured paired C/N/H,Repeated stratified CV,Indeterminate,155,0.2767857142857143
+Rung 2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,Blocked coordinate CV,Indeterminate,56,1
+Rung 2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,Repeated stratified CV,Indeterminate,560,1
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,Blocked coordinate CV,Determinate correct,14,0.25
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,Blocked coordinate CV,Determinate incorrect,3,0.05357142857142857
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,Blocked coordinate CV,Indeterminate,39,0.6964285714285714
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,Repeated stratified CV,Determinate correct,106,0.18928571428571428
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,Repeated stratified CV,Determinate incorrect,59,0.10535714285714286
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,Repeated stratified CV,Indeterminate,395,0.7053571428571429
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,Blocked coordinate CV,Determinate correct,16,0.2857142857142857
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,Blocked coordinate CV,Determinate incorrect,6,0.10714285714285714
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,Blocked coordinate CV,Indeterminate,34,0.6071428571428571
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,Repeated stratified CV,Determinate correct,154,0.275
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,Repeated stratified CV,Determinate incorrect,54,0.09642857142857143
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,Repeated stratified CV,Indeterminate,352,0.6285714285714286

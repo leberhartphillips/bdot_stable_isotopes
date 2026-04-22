@@ -4054,7 +4054,8 @@ bdot_phenotypes <-
              # range = cell_cols("A:Z"),
              col_names = TRUE) %>%
   select(`Sample Identifier`, TagID, Sex, `Individual Leg Markings`, `Migratory Status`, 
-         `Date Sampled`, `Longitude Sampled`, `Latitude Sampled`, `Migratory Status Comment`) %>% 
+         `Date Sampled`, `Longitude Sampled`, `Latitude Sampled`, `Migratory Status Comment`,
+         `Sampling Location (Specific)`) %>% 
   mutate(tag_id = ifelse(
     TagID == "266470" & as.Date(`Date Sampled`) < as.Date("2024-12-09"),
     "266470_A",
@@ -4071,10 +4072,11 @@ bdot_phenotypes <-
          comment = `Migratory Status Comment`,
          sex = Sex,
          mark = `Individual Leg Markings`,
-         ring = `Sample Identifier`) %>% 
+         ring = `Sample Identifier`,
+         site = `Sampling Location (Specific)`) %>% 
   mutate(ring = stringr::str_extract(ring, "^[^_]+")) %>% distinct()
 
-live_bdot_data <-
+live_bdot_CN_data <-
   # read_excel(here("data/RAW DATA_SI_Feathers_LEH_Nov25.xls"), 
   #            sheet = "RAW_sample data",
   #            col_types = "text", skip = 9, col_names = TRUE) %>%
@@ -4094,30 +4096,27 @@ live_bdot_data <-
   rename(d15N = normalised_d15n,
          d13C = normalised_d13c,
          sample = `corrected_identifer_1`,
-         amount = `amount_(mg)`) %>% 
+         amount_CN = `amount_(mg)`) %>% 
   mutate(
     feather_type = str_extract(sample, regex("primary|breast|pimary", ignore_case = TRUE)),
     ring  = str_extract(sample, "^[^_]+")
   ) %>%
     # filter(ring != "CP19311") %>% 
   mutate(feather_type = ifelse(feather_type == "pimary", "primary", feather_type)) %>% 
-  dplyr::select(ring, sample, feather_type, amount, d15N, d13C) %>% 
-  mutate(amount = as.numeric(amount), 
+  dplyr::select(ring, sample, feather_type, amount_CN, d15N, d13C) %>% 
+  mutate(amount_CN = as.numeric(amount_CN), 
          d15N = as.numeric(d15N), 
          d13C = as.numeric(d13C),
          d15N_scaled = as.numeric(scale(d15N)),
          d13C_scaled = as.numeric(scale(d13C))) %>%
-  arrange(ring, feather_type) %>%
+  arrange(ring, feather_type) %>% 
+  mutate(sample = str_remove_all(sample, " feather"))
   # select(ring, feather_type, d15N, d13C) %>%
   # pivot_wider(
   #   names_from  = feather_type,
   #   values_from = c(d15N, d13C),
   #   names_glue  = "{.value}_{feather_type}"
-  # ) %>% 
-  left_join(., bdot_phenotypes, by = "ring") %>%
-  mutate(status_bin = ifelse(str_detect(status, "migrant"), "migrant", status) %>% as.factor()) %>%
-  filter(!is.na(ring)) %>% 
-  filter(status != "unknown")
+  # ) 
   #   na.omit() %>% 
   #   mutate(d15N_diff = abs(d15N_primary - d15N_breast),
   #          d13C_diff = abs(d13C_primary - d13C_breast)) %>% 
@@ -4132,6 +4131,43 @@ live_bdot_data <-
   # left_join(., bdot_phenotypes, by = "ring") %>% 
   # mutate(status_bin = ifelse(str_detect(status, "migrant"), "migrant", status) %>% as.factor()) #%>% 
   # filter(status != "unknown")
+
+live_bdot_CNH_data <- 
+  read_excel(here("data/Master_TCEA_H_SI_Batch 5 breast and primary feathers_LEH_v1_SB.xls"), 
+                     sheet = "Sample results_H", 
+                     col_types = "text", skip = 9, col_names = TRUE) %>%
+    rename_with(~ .x %>%
+                tolower() %>%
+                str_replace_all(" ", "_") %>%
+                str_replace_all("__", "_") %>%
+                str_replace_all("___", "_") %>%
+                str_replace_all("%", "_perc_") %>%
+                str_replace_all(":", "") %>%
+                str_replace_all("#", "")) %>%
+  dplyr::select(corrected_identifier, corrected_amount, normalised_d2h) %>% 
+    filter(!is.na(normalised_d2h)) %>% 
+  rename(d2H = normalised_d2h,
+         sample = corrected_identifier,
+         amount_H = corrected_amount) %>% 
+  mutate(
+    feather_type = str_extract(sample, regex("primary|breast|pimary", ignore_case = TRUE)),
+    ring  = str_extract(sample, "^[^_]+")
+  ) %>%
+    # filter(ring != "CP19311") %>% 
+  mutate(feather_type = ifelse(feather_type == "pimary", "primary", feather_type)) %>% 
+  dplyr::select(ring, sample, feather_type, amount_H, d2H) %>% 
+  mutate(amount_H = as.numeric(amount_H), 
+         d2H = as.numeric(d2H), 
+         d2H_scaled = as.numeric(scale(d2H))) %>%
+  arrange(ring, feather_type) %>% 
+  left_join(., live_bdot_CN_data, by = c("ring", "sample", "feather_type")) %>% 
+  left_join(., bdot_phenotypes, by = "ring") %>%
+  mutate(status_bin = ifelse(str_detect(status, "migrant"), "migrant", status) %>% as.factor()) %>%
+  filter(!is.na(ring)) %>% 
+  filter(status != "unknown")
+
+live_bdot_CNH_data %>% distinct(ring, site, status) %>% group_by(site, status) %>% summarise(n_samples = n()) %>% View()
+
 bdot_argos_proc_2024 <- readRDS(file = "/Users/luketheduke2/ownCloud/kemp_projects/bdot/R_projects/bdot_db/output/bdot_argos_proc_2024_lonE.rds")
 
 # Make midpoint the geometry and set it active

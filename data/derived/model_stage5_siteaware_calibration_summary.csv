@@ -1,0 +1,89 @@
+rung,candidate_id,candidate_label,validation_layer,metric,value,class
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,blocked_site_cv,brier,0.17833733177895048,migrant
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,blocked_site_cv,ece,0.12438751322167922,migrant
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,blocked_site_cv,calibration_intercept,0.09081119798814132,migrant
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,blocked_site_cv,calibration_slope,1.8672282397343516,migrant
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,leave_one_site_out_cv,brier,0.20353689178903359,migrant
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,leave_one_site_out_cv,ece,0.11593365292042783,migrant
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,leave_one_site_out_cv,calibration_intercept,0.20289746289770405,migrant
+Rung 1,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,leave_one_site_out_cv,calibration_slope,1.6014172917483718,migrant
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,blocked_site_cv,brier,0.233002361542076,migrant
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,blocked_site_cv,ece,0.10089492575819005,migrant
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,blocked_site_cv,calibration_intercept,0.13795422160092968,migrant
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,blocked_site_cv,calibration_slope,0.6084728604827561,migrant
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,leave_one_site_out_cv,brier,0.22168826765311114,migrant
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,leave_one_site_out_cv,ece,0.1014157474120564,migrant
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,leave_one_site_out_cv,calibration_intercept,-0.006997990019119142,migrant
+Rung 1,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,leave_one_site_out_cv,calibration_slope,1.235028461985565,migrant
+Rung 1,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,blocked_site_cv,brier,0.2308690270362209,migrant
+Rung 1,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,blocked_site_cv,ece,0.1416401484562658,migrant
+Rung 1,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,blocked_site_cv,calibration_intercept,-0.16074925705134932,migrant
+Rung 1,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,blocked_site_cv,calibration_slope,0.6149300826465166,migrant
+Rung 1,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,leave_one_site_out_cv,brier,0.18663647529502542,migrant
+Rung 1,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,leave_one_site_out_cv,ece,0.13342802139831816,migrant
+Rung 1,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,leave_one_site_out_cv,calibration_intercept,-0.188393727019802,migrant
+Rung 1,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,leave_one_site_out_cv,calibration_slope,1.2685223373538592,migrant
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_site_cv,macro_brier,0.2374349585181463,overall
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_site_cv,confidence_ece,0.16391649550099768,overall
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_site_cv,one_vs_rest_brier,0.2316029719316749,resident
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_site_cv,one_vs_rest_ece,0.09689244333626268,resident
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_site_cv,one_vs_rest_brier,0.21319280126763285,NZ migrant
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_site_cv,one_vs_rest_ece,0.12375020439952981,NZ migrant
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_site_cv,one_vs_rest_brier,0.26750910235513115,AU migrant
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_site_cv,one_vs_rest_ece,0.3118316084581753,AU migrant
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,leave_one_site_out_cv,macro_brier,0.24749270652071764,overall
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,leave_one_site_out_cv,confidence_ece,0.20386917498145352,overall
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,leave_one_site_out_cv,one_vs_rest_brier,0.2562290075451001,resident
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,leave_one_site_out_cv,one_vs_rest_ece,0.22829476074269656,resident
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,leave_one_site_out_cv,one_vs_rest_brier,0.2159749030926115,NZ migrant
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,leave_one_site_out_cv,one_vs_rest_ece,0.06826731749054668,NZ migrant
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,leave_one_site_out_cv,one_vs_rest_brier,0.2702742089244413,AU migrant
+Rung 2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,leave_one_site_out_cv,one_vs_rest_ece,0.3025158397274056,AU migrant
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,blocked_site_cv,macro_brier,0.2436307968022195,overall
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,blocked_site_cv,confidence_ece,0.21019807947108682,overall
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,blocked_site_cv,one_vs_rest_brier,0.24429862886501466,resident
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,blocked_site_cv,one_vs_rest_ece,0.13521251695897693,resident
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,blocked_site_cv,one_vs_rest_brier,0.2095278173153732,NZ migrant
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,blocked_site_cv,one_vs_rest_ece,0.15856271140972317,NZ migrant
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,blocked_site_cv,one_vs_rest_brier,0.27706594422627057,AU migrant
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,blocked_site_cv,one_vs_rest_ece,0.3222106367799276,AU migrant
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,leave_one_site_out_cv,macro_brier,0.2502842928049913,overall
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,leave_one_site_out_cv,confidence_ece,0.22856616748517308,overall
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,leave_one_site_out_cv,one_vs_rest_brier,0.26572612363249853,resident
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,leave_one_site_out_cv,one_vs_rest_ece,0.2580629734729426,resident
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,leave_one_site_out_cv,one_vs_rest_brier,0.21368383199470325,NZ migrant
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,leave_one_site_out_cv,one_vs_rest_ece,0.06840895609612375,NZ migrant
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,leave_one_site_out_cv,one_vs_rest_brier,0.27144292278777205,AU migrant
+Rung 2,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,leave_one_site_out_cv,one_vs_rest_ece,0.26480192243596973,AU migrant
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_site_cv,macro_brier,0.21466856110778942,overall
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_site_cv,confidence_ece,0.20599607374289325,overall
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_site_cv,one_vs_rest_brier,0.18525033750869985,resident
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_site_cv,one_vs_rest_ece,0.1500635922889495,resident
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_site_cv,one_vs_rest_brier,0.21611112888409778,NZ migrant
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_site_cv,one_vs_rest_ece,0.11496179414416427,NZ migrant
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_site_cv,one_vs_rest_brier,0.24264421693057062,AU migrant
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,blocked_site_cv,one_vs_rest_ece,0.18410351005577277,AU migrant
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,macro_brier,0.21930289739794925,overall
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,confidence_ece,0.10954635980436668,overall
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,one_vs_rest_brier,0.18147320609771292,resident
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,one_vs_rest_ece,0.10321346164201135,resident
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,one_vs_rest_brier,0.22383977754997342,NZ migrant
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,one_vs_rest_ece,0.13763438735277186,NZ migrant
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,one_vs_rest_brier,0.25259570854616137,AU migrant
+Rung 2,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,leave_one_site_out_cv,one_vs_rest_ece,0.21966013037121174,AU migrant
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,blocked_site_cv,macro_brier,0.2176693949169401,overall
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,blocked_site_cv,confidence_ece,0.12048293374280906,overall
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,blocked_site_cv,one_vs_rest_brier,0.20512795576433057,resident
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,blocked_site_cv,one_vs_rest_ece,0.15300413847613148,resident
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,blocked_site_cv,one_vs_rest_brier,0.19778736456044613,NZ migrant
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,blocked_site_cv,one_vs_rest_ece,0.08637177770886321,NZ migrant
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,blocked_site_cv,one_vs_rest_brier,0.25009286442604356,AU migrant
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,blocked_site_cv,one_vs_rest_ece,0.2405495883537344,AU migrant
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,leave_one_site_out_cv,macro_brier,0.22267900025947512,overall
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,leave_one_site_out_cv,confidence_ece,0.12743862509016843,overall
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,leave_one_site_out_cv,one_vs_rest_brier,0.18842294299858314,resident
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,leave_one_site_out_cv,one_vs_rest_ece,0.11480117554482713,resident
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,leave_one_site_out_cv,one_vs_rest_brier,0.22331254961666908,NZ migrant
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,leave_one_site_out_cv,one_vs_rest_ece,0.09565683529603028,NZ migrant
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,leave_one_site_out_cv,one_vs_rest_brier,0.2563015081631731,AU migrant
+Rung 2,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,leave_one_site_out_cv,one_vs_rest_ece,0.2436841613600016,AU migrant

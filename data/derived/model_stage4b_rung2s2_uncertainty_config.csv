@@ -1,0 +1,4 @@
+parameter,value
+n_mc_draws,500
+support_threshold,0.8
+top_prob_threshold,0.5

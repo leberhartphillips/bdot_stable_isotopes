@@ -1,0 +1,199 @@
+source_order,ring,model_id,model_label,prediction_available,class,probability,operational_call
+1,CP16670,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.5105719471710201,indeterminate
+1,CP16670,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.48942805282897994,indeterminate
+1,CP16670,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+1,CP16670,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+1,CP16670,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+1,CP16670,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.288324092979378,indeterminate
+1,CP16670,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.25306555229770716,indeterminate
+1,CP16670,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.45861035472291484,indeterminate
+1,CP16670,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.2784754504836468,resident
+1,CP16670,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.19707012026173465,resident
+1,CP16670,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.5244544292546186,resident
+2,CP16671,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.6193573943717087,migrant
+2,CP16671,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.38064260562829133,migrant
+2,CP16671,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+2,CP16671,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+2,CP16671,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+2,CP16671,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.39005009093033105,indeterminate
+2,CP16671,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.2326507478588983,indeterminate
+2,CP16671,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.3772991612107706,indeterminate
+2,CP16671,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.36286066134752865,indeterminate
+2,CP16671,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.2940388019681501,indeterminate
+2,CP16671,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.3431005366843213,indeterminate
+3,CP16677,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.765069180417569,migrant
+3,CP16677,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.234930819582431,migrant
+3,CP16677,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+3,CP16677,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+3,CP16677,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+3,CP16677,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.5929213245400108,AU migrant
+3,CP16677,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.17743837026507484,AU migrant
+3,CP16677,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.2296403051949144,AU migrant
+3,CP16677,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.4931917988536931,indeterminate
+3,CP16677,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.3345129671434649,indeterminate
+3,CP16677,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.17229523400284202,indeterminate
+4,CP16678,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.7263732489515122,migrant
+4,CP16678,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.27362675104848777,migrant
+4,CP16678,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+4,CP16678,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+4,CP16678,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+4,CP16678,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.44541710440422566,indeterminate
+4,CP16678,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.29327461659688187,indeterminate
+4,CP16678,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.2613082789988925,indeterminate
+4,CP16678,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.40326182672949645,indeterminate
+4,CP16678,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.4051977028948211,indeterminate
+4,CP16678,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.19154047037568242,indeterminate
+5,CP16681,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.9242377067431217,migrant
+5,CP16681,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.07576229325687833,migrant
+5,CP16681,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+5,CP16681,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+5,CP16681,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+5,CP16681,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.6205278354339437,AU migrant
+5,CP16681,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.2900678382803261,AU migrant
+5,CP16681,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.08940432628573011,AU migrant
+5,CP16681,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.4988097847600456,indeterminate
+5,CP16681,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.47296576969863735,indeterminate
+5,CP16681,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.028224445541317044,indeterminate
+6,CP16685,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.9098140026765071,migrant
+6,CP16685,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.09018599732349286,migrant
+6,CP16685,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+6,CP16685,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+6,CP16685,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+6,CP16685,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.22761773038611305,NZ migrant
+6,CP16685,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.6789911049226232,NZ migrant
+6,CP16685,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.09339116469126381,NZ migrant
+6,CP16685,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.3509412699266048,NZ migrant
+6,CP16685,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.613428514862987,NZ migrant
+6,CP16685,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.03563021521040827,NZ migrant
+7,CP16686,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.7066897664226386,migrant
+7,CP16686,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.2933102335773614,migrant
+7,CP16686,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+7,CP16686,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+7,CP16686,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+7,CP16686,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.546701068400866,AU migrant
+7,CP16686,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.164300340479435,AU migrant
+7,CP16686,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.288998591119699,AU migrant
+7,CP16686,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.45219342643086524,indeterminate
+7,CP16686,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.3290006512829829,indeterminate
+7,CP16686,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.21880592228615187,indeterminate
+8,CP16961,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.6343272809795211,migrant
+8,CP16961,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.36567271902047893,migrant
+8,CP16961,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+8,CP16961,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+8,CP16961,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+8,CP16961,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.22617296727774355,indeterminate
+8,CP16961,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.42236516840945104,indeterminate
+8,CP16961,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.3514618643128054,indeterminate
+8,CP16961,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.2975878966933478,indeterminate
+8,CP16961,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.37768182945291306,indeterminate
+8,CP16961,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.32473027385373915,indeterminate
+9,CP16962,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.5370259447956447,indeterminate
+9,CP16962,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.4629740552043553,indeterminate
+9,CP16962,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+9,CP16962,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+9,CP16962,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+9,CP16962,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.19577615749054011,indeterminate
+9,CP16962,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.3333214037414519,indeterminate
+9,CP16962,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.47090243876800797,indeterminate
+9,CP16962,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.24669237565903776,resident
+9,CP16962,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.24274793317658042,resident
+9,CP16962,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.5105596911643818,resident
+10,CP19307,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.5488254432028696,indeterminate
+10,CP19307,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.45117455679713037,indeterminate
+10,CP19307,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+10,CP19307,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+10,CP19307,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+10,CP19307,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.32371359731699934,indeterminate
+10,CP19307,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.2049565301433709,indeterminate
+10,CP19307,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.47132987253962977,indeterminate
+10,CP19307,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.30048544943018096,indeterminate
+10,CP19307,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.23710679718329652,indeterminate
+10,CP19307,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.4624077533865225,indeterminate
+11,CP19308,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.7192803740957368,migrant
+11,CP19308,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.28071962590426325,migrant
+11,CP19308,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+11,CP19308,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+11,CP19308,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+11,CP19308,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.2646097232612408,indeterminate
+11,CP19308,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.4652880471809595,indeterminate
+11,CP19308,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.2701022295577996,indeterminate
+11,CP19308,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.30941803569004117,indeterminate
+11,CP19308,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.43512138392853983,indeterminate
+11,CP19308,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.255460580381419,indeterminate
+12,CP19902,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.5100001508945238,indeterminate
+12,CP19902,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.4899998491054762,indeterminate
+12,CP19902,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+12,CP19902,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+12,CP19902,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+12,CP19902,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.39971718211132345,indeterminate
+12,CP19902,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.15391602266827212,indeterminate
+12,CP19902,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.44636679522040446,indeterminate
+12,CP19902,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.26099447798994235,resident
+12,CP19902,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.2264110134472231,resident
+12,CP19902,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.5125945085628346,resident
+13,CP19903,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.5463078573083093,indeterminate
+13,CP19903,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.45369214269169067,indeterminate
+13,CP19903,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+13,CP19903,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+13,CP19903,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+13,CP19903,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.24136144646970437,indeterminate
+13,CP19903,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.30482708554376753,indeterminate
+13,CP19903,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.4538114679865281,indeterminate
+13,CP19903,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.2577351356471623,indeterminate
+13,CP19903,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.28059760920078347,indeterminate
+13,CP19903,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.46166725515205426,indeterminate
+14,CP19938,r1_c,Rung 1: R1 C paired-contrast C/N,FALSE,migrant,NA,NA
+14,CP19938,r1_c,Rung 1: R1 C paired-contrast C/N,FALSE,resident,NA,NA
+14,CP19938,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+14,CP19938,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+14,CP19938,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+14,CP19938,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,FALSE,AU migrant,NA,NA
+14,CP19938,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,FALSE,NZ migrant,NA,NA
+14,CP19938,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,FALSE,resident,NA,NA
+14,CP19938,r2_s2,Rung 2: R2 S2 staged hierarchical approach,FALSE,AU migrant,NA,NA
+14,CP19938,r2_s2,Rung 2: R2 S2 staged hierarchical approach,FALSE,NZ migrant,NA,NA
+14,CP19938,r2_s2,Rung 2: R2 S2 staged hierarchical approach,FALSE,resident,NA,NA
+15,CP19939,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.6143455830438788,migrant
+15,CP19939,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.38565441695612124,migrant
+15,CP19939,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+15,CP19939,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+15,CP19939,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+15,CP19939,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.24252294218417528,indeterminate
+15,CP19939,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.4138255848182643,indeterminate
+15,CP19939,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.3436514729975604,indeterminate
+15,CP19939,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.2885955550057668,indeterminate
+15,CP19939,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.3140011876279599,indeterminate
+15,CP19939,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.3974032573662733,indeterminate
+16,CP19940,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.5975589119734137,migrant
+16,CP19940,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.4024410880265863,migrant
+16,CP19940,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+16,CP19940,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+16,CP19940,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+16,CP19940,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.4616292928084824,indeterminate
+16,CP19940,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.17136806516709838,indeterminate
+16,CP19940,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.36700264202441923,indeterminate
+16,CP19940,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.3558531872220169,indeterminate
+16,CP19940,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.27121909605951766,indeterminate
+16,CP19940,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.3729277167184654,indeterminate
+17,CP19941,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.6052184480771166,migrant
+17,CP19941,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.39478155192288344,migrant
+17,CP19941,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+17,CP19941,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+17,CP19941,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+17,CP19941,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.46055695778059974,indeterminate
+17,CP19941,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.1546500512884227,indeterminate
+17,CP19941,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.3847929909309776,indeterminate
+17,CP19941,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.36632930162834193,indeterminate
+17,CP19941,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.26885814297586375,indeterminate
+17,CP19941,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.3648125553957943,indeterminate
+18,CP19984,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,migrant,0.43164048659421245,resident
+18,CP19984,r1_c,Rung 1: R1 C paired-contrast C/N,TRUE,resident,0.5683595134057875,resident
+18,CP19984,r2_a,Rung 2: R2 A breast-only C/N,TRUE,AU migrant,0.3035714285714286,indeterminate
+18,CP19984,r2_a,Rung 2: R2 A breast-only C/N,TRUE,NZ migrant,0.30357142857142855,indeterminate
+18,CP19984,r2_a,Rung 2: R2 A breast-only C/N,TRUE,resident,0.39285714285714285,indeterminate
+18,CP19984,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,AU migrant,0.2640438818219811,resident
+18,CP19984,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,NZ migrant,0.21318758223148793,resident
+18,CP19984,r2_c,Rung 2: R2 C direct breast C/N/H + paired contrasts,TRUE,resident,0.522768535946531,resident
+18,CP19984,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,AU migrant,0.18696300948946046,resident
+18,CP19984,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,NZ migrant,0.1599077536514296,resident
+18,CP19984,r2_s2,Rung 2: R2 S2 staged hierarchical approach,TRUE,resident,0.65312923685911,resident

@@ -1,0 +1,6 @@
+table_name,n_rows,n_unique_rings,rings_match_frozen_subset,note
+extension_au_non_au_matched_paired_labelled.csv,56,56,TRUE,Frozen binary extension benchmark table.
+extension_au_non_au_breast_features.csv,56,56,TRUE,Breast-only AU-vs-non_AU modelling-ready feature table.
+extension_au_non_au_paired_contrast_features.csv,56,56,TRUE,Paired-contrast AU-vs-non_AU modelling-ready feature table.
+extension_au_non_au_site_block_folds.csv,56,56,TRUE,Reuses accepted grouped site-block definitions with the binary target attached.
+extension_au_non_au_site_loso_folds.csv,56,56,TRUE,Reuses accepted LOSO site definitions with the binary target attached.

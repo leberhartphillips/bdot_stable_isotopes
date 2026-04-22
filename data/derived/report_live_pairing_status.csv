@@ -1,0 +1,4 @@
+status_known,paired_cn,paired_cnh,n_rings
+Known status,Complete C/N pair,Complete C/N/H pair,56
+Unknown status,Complete C/N pair,Complete C/N/H pair,17
+Unknown status,Incomplete C/N pair,Incomplete C/N/H pair,1

@@ -1,0 +1,6 @@
+rank,improvement,why_priority
+1,Collect direct primary-H technical repeatability and repeat-primary biological evidence,This directly targets the main weakness behind the current Rung 2 caution and would make H-based gains much more defensible.
+2,Add a canonical site field to live modelling tables,This would allow stronger blocked validation that better matches intended deployment conditions.
+3,"Increase labelled live sample size for Rung 2 and Rung 3, especially NZ subgroups",This would reduce multinomial instability and is essential before any serious Rung 3 operational attempt.
+4,Assemble an independent external or temporal holdout set,This would test whether current results survive outside the present labelled development set and would support threshold tuning.
+5,Evaluate additional isotopes only after repeatability support is in place,"Additional isotope expansion could help, but only after measurement support is demonstrated; sulfur is the clearest next candidate if validated."

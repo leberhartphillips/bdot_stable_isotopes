@@ -1,0 +1,14 @@
+validation_layer,split_id,n_rows,n_sites,n_AU,n_non_AU,sites
+blocked_site_cv,Fold1,19,2,11,8,Motueka Spit|Tasman River
+blocked_site_cv,Fold2,10,1,3,7,Kaitorete
+blocked_site_cv,Fold3,9,3,2,7,Cass River|Pisa Range|Tiwai Point
+blocked_site_cv,Fold4,12,3,1,11,Te Anau|Kaikoura|Porters Beach
+leave_one_site_out_cv,Site__Cass.River,1,1,1,0,Cass River
+leave_one_site_out_cv,Site__Kaikoura,6,1,0,6,Kaikoura
+leave_one_site_out_cv,Site__Kaitorete,10,1,3,7,Kaitorete
+leave_one_site_out_cv,Site__Motueka.Spit,6,1,0,6,Motueka Spit
+leave_one_site_out_cv,Site__Pisa.Range,1,1,1,0,Pisa Range
+leave_one_site_out_cv,Site__Porters.Beach,2,1,0,2,Porters Beach
+leave_one_site_out_cv,Site__Tasman.River,13,1,11,2,Tasman River
+leave_one_site_out_cv,Site__Te.Anau,4,1,1,3,Te Anau
+leave_one_site_out_cv,Site__Tiwai.Point,7,1,0,7,Tiwai Point

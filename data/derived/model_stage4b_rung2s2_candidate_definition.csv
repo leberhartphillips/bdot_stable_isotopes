@@ -1,0 +1,2 @@
+candidate_id,candidate_label,caution_level,uses_r1_upstream,uses_breast_h,uses_primary_h,uses_hard_or_soft_staging,measurement_cols
+r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,staged_r1c_then_breast_cnh_no_primary_h,TRUE,TRUE,FALSE,soft_hierarchical,normalised_d13c_Breast|normalised_d15n_Breast|normalised_d2h_Breast|normalised_d13c_Primary|normalised_d15n_Primary

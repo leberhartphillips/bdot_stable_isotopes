@@ -1,0 +1,65 @@
+rung,candidate_id,candidate_label,validation_layer,metric,value,class
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,macro_brier,0.2216922374920074,overall
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,confidence_ece,0.08366857053683982,overall
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,one_vs_rest_brier,0.2404973242712246,resident
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,one_vs_rest_ece,0.08366857053683982,resident
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,one_vs_rest_brier,0.21253933935187228,NZ migrant
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,one_vs_rest_ece,0.0326536282916568,NZ migrant
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,one_vs_rest_brier,0.21204004885292532,AU migrant
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,blocked_coordinate_cv,one_vs_rest_ece,0.03511635731927682,AU migrant
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,blocked_coordinate_cv,macro_brier,0.22148499181327463,overall
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,blocked_coordinate_cv,confidence_ece,0.03210678210678211,overall
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,blocked_coordinate_cv,one_vs_rest_brier,0.23999526287405076,resident
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,blocked_coordinate_cv,one_vs_rest_ece,0.03210678210678211,resident
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,blocked_coordinate_cv,one_vs_rest_brier,0.2122298562828866,NZ migrant
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,blocked_coordinate_cv,one_vs_rest_ece,0.045418470418470434,NZ migrant
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,blocked_coordinate_cv,one_vs_rest_brier,0.21222985628288657,AU migrant
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,blocked_coordinate_cv,one_vs_rest_ece,0.045418470418470414,AU migrant
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,macro_brier,0.18755126943153708,overall
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,confidence_ece,0.1860408822543898,overall
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,one_vs_rest_brier,0.19195444966138503,resident
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,one_vs_rest_ece,0.10507647973942469,resident
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,one_vs_rest_brier,0.19684806553131506,NZ migrant
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,one_vs_rest_ece,0.09476199564109476,NZ migrant
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,one_vs_rest_brier,0.1738512931019111,AU migrant
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,blocked_coordinate_cv,one_vs_rest_ece,0.10934402341464415,AU migrant
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,blocked_coordinate_cv,macro_brier,0.22413603146474065,overall
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,blocked_coordinate_cv,confidence_ece,0.09723142258601437,overall
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,blocked_coordinate_cv,one_vs_rest_brier,0.24426750714165926,resident
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,blocked_coordinate_cv,one_vs_rest_ece,0.09264164021790314,resident
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,blocked_coordinate_cv,one_vs_rest_brier,0.2157451584162821,NZ migrant
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,blocked_coordinate_cv,one_vs_rest_ece,0.043495404940822525,NZ migrant
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,blocked_coordinate_cv,one_vs_rest_brier,0.21239542883628057,AU migrant
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,blocked_coordinate_cv,one_vs_rest_ece,0.04851347456858508,AU migrant
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,macro_brier,0.22082301749080013,overall
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,confidence_ece,0.009979874382569113,overall
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,one_vs_rest_brier,0.23893296129588396,resident
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,one_vs_rest_ece,0.01016341945892096,resident
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,one_vs_rest_brier,0.21186285234707988,NZ migrant
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,one_vs_rest_ece,0.015600447255152033,NZ migrant
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,one_vs_rest_brier,0.21167323882943656,AU migrant
+rung2,r2_a_breast_cn,Rung 2 A: Breast-only C/N,repeated_stratified_cv,one_vs_rest_ece,0.004648836970189215,AU migrant
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,repeated_stratified_cv,macro_brier,0.22146380934801888,overall
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,repeated_stratified_cv,confidence_ece,0.025289671037555833,overall
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,repeated_stratified_cv,one_vs_rest_brier,0.23963723739637457,resident
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,repeated_stratified_cv,one_vs_rest_ece,0.01983259344183389,resident
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,repeated_stratified_cv,one_vs_rest_brier,0.21253467310746577,NZ migrant
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,repeated_stratified_cv,one_vs_rest_ece,0.015569376020858743,NZ migrant
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,repeated_stratified_cv,one_vs_rest_brier,0.21221951754021626,AU migrant
+rung2,r2_b_breast_cnh,Rung 2 B: Breast-only C/N/H,repeated_stratified_cv,one_vs_rest_ece,0.005161144047766219,AU migrant
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,macro_brier,0.18889395999359837,overall
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,confidence_ece,0.11256823255317283,overall
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,one_vs_rest_brier,0.1923848817806855,resident
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,one_vs_rest_ece,0.12322841029266159,resident
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,one_vs_rest_brier,0.19602216646531664,NZ migrant
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,one_vs_rest_ece,0.06297229474548866,NZ migrant
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,one_vs_rest_brier,0.17827483173479294,AU migrant
+rung2,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,repeated_stratified_cv,one_vs_rest_ece,0.09270571947529602,AU migrant
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,repeated_stratified_cv,macro_brier,0.22086483332878287,overall
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,repeated_stratified_cv,confidence_ece,0.01632808542249291,overall
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,repeated_stratified_cv,one_vs_rest_brier,0.23941163205518648,resident
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,repeated_stratified_cv,one_vs_rest_ece,0.018597162747579457,resident
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,repeated_stratified_cv,one_vs_rest_brier,0.21213363306854027,NZ migrant
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,repeated_stratified_cv,one_vs_rest_ece,0.008579935454993635,NZ migrant
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,repeated_stratified_cv,one_vs_rest_brier,0.21104923486262187,AU migrant
+rung2,r2_d_breast_cnh_plus_paired_distance,Rung 2 D: Breast C/N/H + paired distance,repeated_stratified_cv,one_vs_rest_ece,0.012397259664291966,AU migrant

@@ -1,0 +1,561 @@
+rung,validation_layer,split_id,repeat_id,fold_id,ring,coord_group,outcome
+rung2,repeated_stratified_cv,Repeat01__Fold1,Repeat01,Fold1,CP16529,"170.48481,-43.880201",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold1,Repeat01,Fold1,CP16642,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold1,Repeat01,Fold1,CP16667,"169.161329995841,-44.8660619650036",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold1,Repeat01,Fold1,CP16693,"172.608074,-43.830353",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold1,Repeat01,Fold1,CP16784,"168.433454,-46.606459",resident
+rung2,repeated_stratified_cv,Repeat01__Fold1,Repeat01,Fold1,CP16958,"176.92653497681,-39.5726949814707",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold1,Repeat01,Fold1,CP19327,"173.011575,-40.993306",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold1,Repeat01,Fold1,CP19365,"170.143352,-43.73679",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold1,Repeat01,Fold1,CP19371,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat01__Fold1,Repeat01,Fold1,CP19907,"167.746751,-45.414278",resident
+rung2,repeated_stratified_cv,Repeat01__Fold1,Repeat01,Fold1,CP19915,"168.430146,-46.605879",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold1,Repeat01,Fold1,CP19983,"167.744617,-45.414383",resident
+rung2,repeated_stratified_cv,Repeat01__Fold1,Repeat01,Fold1,CP9059,"173.662786,-42.413422",resident
+rung2,repeated_stratified_cv,Repeat01__Fold2,Repeat01,Fold2,CP16140,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold2,Repeat01,Fold2,CP16470,"173.663729,-42.413163",resident
+rung2,repeated_stratified_cv,Repeat01__Fold2,Repeat01,Fold2,CP16501,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat01__Fold2,Repeat01,Fold2,CP16543,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat01__Fold2,Repeat01,Fold2,CP16652,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat01__Fold2,Repeat01,Fold2,CP16656,"170.146122,-43.727942",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold2,Repeat01,Fold2,CP16815,"170.143369,-43.736814",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold2,Repeat01,Fold2,CP16945,"175.702629005536,-39.379794029519",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold2,Repeat01,Fold2,CP16953,"175.700161037967,-39.3611319735646",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold2,Repeat01,Fold2,CP19314,"170.144119,-43.736765",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold2,Repeat01,Fold2,CP19340,"170.14463,-43.734073",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold2,Repeat01,Fold2,CP19922,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat01__Fold2,Repeat01,Fold2,CP19931,"176.919071981683,-39.5101300254464",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold3,Repeat01,Fold3,CP16409,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat01__Fold3,Repeat01,Fold3,CP16446,"172.397899,-43.851742",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold3,Repeat01,Fold3,CP16507,"172.601856,-43.830575",resident
+rung2,repeated_stratified_cv,Repeat01__Fold3,Repeat01,Fold3,CP16534,"170.145302,-43.731722",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold3,Repeat01,Fold3,CP16609,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold3,Repeat01,Fold3,CP17011,"168.425144,-46.604315",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold3,Repeat01,Fold3,CP19346,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat01__Fold3,Repeat01,Fold3,CP19360,"173.030661,-41.11765",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold3,Repeat01,Fold3,CP19368,"173.0307,-41.11812",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold3,Repeat01,Fold3,CP19923,"168.433515,-46.606197",resident
+rung2,repeated_stratified_cv,Repeat01__Fold4,Repeat01,Fold4,CP16533,"170.143316,-43.733096",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold4,Repeat01,Fold4,CP16628,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat01__Fold4,Repeat01,Fold4,CP16641,"173.011986,-40.992659",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold4,Repeat01,Fold4,CP16906,"173.681912,-42.392022",resident
+rung2,repeated_stratified_cv,Repeat01__Fold4,Repeat01,Fold4,CP17010,"168.425144,-46.604315",resident
+rung2,repeated_stratified_cv,Repeat01__Fold4,Repeat01,Fold4,CP19311,"170.146284,-43.725414",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold4,Repeat01,Fold4,CP19312,"170.145122,-43.729755",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold4,Repeat01,Fold4,CP19350,"172.591216,-43.832075",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold4,Repeat01,Fold4,CP19366,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold4,Repeat01,Fold4,CP19921,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat01__Fold5,Repeat01,Fold5,04258275,"167.744617,-45.414383",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold5,Repeat01,Fold5,CP16461,"173.681777,-42.390193",resident
+rung2,repeated_stratified_cv,Repeat01__Fold5,Repeat01,Fold5,CP16536,"170.144062,-43.736643",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold5,Repeat01,Fold5,CP16627,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat01__Fold5,Repeat01,Fold5,CP16643,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold5,Repeat01,Fold5,CP16655,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat01__Fold5,Repeat01,Fold5,CP16938,"175.727142,-39.291327",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold5,Repeat01,Fold5,CP16990,"176.930825,-39.575394",NZ migrant
+rung2,repeated_stratified_cv,Repeat01__Fold5,Repeat01,Fold5,CP19361,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat01__Fold5,Repeat01,Fold5,CP19908,"167.745905,-45.414044",resident
+rung2,repeated_stratified_cv,Repeat02__Fold1,Repeat02,Fold1,04258275,"167.744617,-45.414383",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold1,Repeat02,Fold1,CP16409,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat02__Fold1,Repeat02,Fold1,CP16446,"172.397899,-43.851742",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold1,Repeat02,Fold1,CP16507,"172.601856,-43.830575",resident
+rung2,repeated_stratified_cv,Repeat02__Fold1,Repeat02,Fold1,CP16536,"170.144062,-43.736643",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold1,Repeat02,Fold1,CP16609,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold1,Repeat02,Fold1,CP16643,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold1,Repeat02,Fold1,CP16693,"172.608074,-43.830353",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold1,Repeat02,Fold1,CP19360,"173.030661,-41.11765",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold1,Repeat02,Fold1,CP19361,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat02__Fold1,Repeat02,Fold1,CP19368,"173.0307,-41.11812",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold1,Repeat02,Fold1,CP19371,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat02__Fold1,Repeat02,Fold1,CP19922,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat02__Fold2,Repeat02,Fold2,CP16533,"170.143316,-43.733096",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold2,Repeat02,Fold2,CP16534,"170.145302,-43.731722",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold2,Repeat02,Fold2,CP16641,"173.011986,-40.992659",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold2,Repeat02,Fold2,CP16655,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold2,Repeat02,Fold2,CP16667,"169.161329995841,-44.8660619650036",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold2,Repeat02,Fold2,CP16784,"168.433454,-46.606459",resident
+rung2,repeated_stratified_cv,Repeat02__Fold2,Repeat02,Fold2,CP16958,"176.92653497681,-39.5726949814707",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold2,Repeat02,Fold2,CP17011,"168.425144,-46.604315",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold2,Repeat02,Fold2,CP19346,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat02__Fold2,Repeat02,Fold2,CP19908,"167.745905,-45.414044",resident
+rung2,repeated_stratified_cv,Repeat02__Fold2,Repeat02,Fold2,CP19915,"168.430146,-46.605879",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold2,Repeat02,Fold2,CP19921,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat02__Fold2,Repeat02,Fold2,CP9059,"173.662786,-42.413422",resident
+rung2,repeated_stratified_cv,Repeat02__Fold3,Repeat02,Fold3,CP16501,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat02__Fold3,Repeat02,Fold3,CP16628,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat02__Fold3,Repeat02,Fold3,CP16642,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold3,Repeat02,Fold3,CP16906,"173.681912,-42.392022",resident
+rung2,repeated_stratified_cv,Repeat02__Fold3,Repeat02,Fold3,CP16953,"175.700161037967,-39.3611319735646",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold3,Repeat02,Fold3,CP17010,"168.425144,-46.604315",resident
+rung2,repeated_stratified_cv,Repeat02__Fold3,Repeat02,Fold3,CP19311,"170.146284,-43.725414",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold3,Repeat02,Fold3,CP19312,"170.145122,-43.729755",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold3,Repeat02,Fold3,CP19314,"170.144119,-43.736765",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold3,Repeat02,Fold3,CP19350,"172.591216,-43.832075",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold4,Repeat02,Fold4,CP16461,"173.681777,-42.390193",resident
+rung2,repeated_stratified_cv,Repeat02__Fold4,Repeat02,Fold4,CP16529,"170.48481,-43.880201",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold4,Repeat02,Fold4,CP16543,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat02__Fold4,Repeat02,Fold4,CP16656,"170.146122,-43.727942",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold4,Repeat02,Fold4,CP16938,"175.727142,-39.291327",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold4,Repeat02,Fold4,CP16945,"175.702629005536,-39.379794029519",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold4,Repeat02,Fold4,CP16990,"176.930825,-39.575394",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold4,Repeat02,Fold4,CP19365,"170.143352,-43.73679",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold4,Repeat02,Fold4,CP19907,"167.746751,-45.414278",resident
+rung2,repeated_stratified_cv,Repeat02__Fold4,Repeat02,Fold4,CP19983,"167.744617,-45.414383",resident
+rung2,repeated_stratified_cv,Repeat02__Fold5,Repeat02,Fold5,CP16140,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold5,Repeat02,Fold5,CP16470,"173.663729,-42.413163",resident
+rung2,repeated_stratified_cv,Repeat02__Fold5,Repeat02,Fold5,CP16627,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat02__Fold5,Repeat02,Fold5,CP16652,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat02__Fold5,Repeat02,Fold5,CP16815,"170.143369,-43.736814",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold5,Repeat02,Fold5,CP19327,"173.011575,-40.993306",NZ migrant
+rung2,repeated_stratified_cv,Repeat02__Fold5,Repeat02,Fold5,CP19340,"170.14463,-43.734073",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold5,Repeat02,Fold5,CP19366,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat02__Fold5,Repeat02,Fold5,CP19923,"168.433515,-46.606197",resident
+rung2,repeated_stratified_cv,Repeat02__Fold5,Repeat02,Fold5,CP19931,"176.919071981683,-39.5101300254464",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold1,Repeat03,Fold1,CP16140,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold1,Repeat03,Fold1,CP16446,"172.397899,-43.851742",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold1,Repeat03,Fold1,CP16470,"173.663729,-42.413163",resident
+rung2,repeated_stratified_cv,Repeat03__Fold1,Repeat03,Fold1,CP16609,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold1,Repeat03,Fold1,CP16628,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat03__Fold1,Repeat03,Fold1,CP16642,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold1,Repeat03,Fold1,CP16655,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold1,Repeat03,Fold1,CP16693,"172.608074,-43.830353",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold1,Repeat03,Fold1,CP16815,"170.143369,-43.736814",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold1,Repeat03,Fold1,CP17010,"168.425144,-46.604315",resident
+rung2,repeated_stratified_cv,Repeat03__Fold1,Repeat03,Fold1,CP19350,"172.591216,-43.832075",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold1,Repeat03,Fold1,CP19983,"167.744617,-45.414383",resident
+rung2,repeated_stratified_cv,Repeat03__Fold1,Repeat03,Fold1,CP9059,"173.662786,-42.413422",resident
+rung2,repeated_stratified_cv,Repeat03__Fold2,Repeat03,Fold2,04258275,"167.744617,-45.414383",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold2,Repeat03,Fold2,CP16536,"170.144062,-43.736643",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold2,Repeat03,Fold2,CP16652,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat03__Fold2,Repeat03,Fold2,CP16667,"169.161329995841,-44.8660619650036",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold2,Repeat03,Fold2,CP16784,"168.433454,-46.606459",resident
+rung2,repeated_stratified_cv,Repeat03__Fold2,Repeat03,Fold2,CP16990,"176.930825,-39.575394",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold2,Repeat03,Fold2,CP19311,"170.146284,-43.725414",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold2,Repeat03,Fold2,CP19312,"170.145122,-43.729755",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold2,Repeat03,Fold2,CP19327,"173.011575,-40.993306",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold2,Repeat03,Fold2,CP19340,"170.14463,-43.734073",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold2,Repeat03,Fold2,CP19361,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat03__Fold2,Repeat03,Fold2,CP19908,"167.745905,-45.414044",resident
+rung2,repeated_stratified_cv,Repeat03__Fold2,Repeat03,Fold2,CP19922,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat03__Fold3,Repeat03,Fold3,CP16534,"170.145302,-43.731722",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold3,Repeat03,Fold3,CP16641,"173.011986,-40.992659",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold3,Repeat03,Fold3,CP16906,"173.681912,-42.392022",resident
+rung2,repeated_stratified_cv,Repeat03__Fold3,Repeat03,Fold3,CP16938,"175.727142,-39.291327",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold3,Repeat03,Fold3,CP17011,"168.425144,-46.604315",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold3,Repeat03,Fold3,CP19346,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat03__Fold3,Repeat03,Fold3,CP19365,"170.143352,-43.73679",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold3,Repeat03,Fold3,CP19368,"173.0307,-41.11812",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold3,Repeat03,Fold3,CP19907,"167.746751,-45.414278",resident
+rung2,repeated_stratified_cv,Repeat03__Fold3,Repeat03,Fold3,CP19923,"168.433515,-46.606197",resident
+rung2,repeated_stratified_cv,Repeat03__Fold4,Repeat03,Fold4,CP16461,"173.681777,-42.390193",resident
+rung2,repeated_stratified_cv,Repeat03__Fold4,Repeat03,Fold4,CP16507,"172.601856,-43.830575",resident
+rung2,repeated_stratified_cv,Repeat03__Fold4,Repeat03,Fold4,CP16533,"170.143316,-43.733096",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold4,Repeat03,Fold4,CP16945,"175.702629005536,-39.379794029519",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold4,Repeat03,Fold4,CP16953,"175.700161037967,-39.3611319735646",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold4,Repeat03,Fold4,CP19314,"170.144119,-43.736765",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold4,Repeat03,Fold4,CP19360,"173.030661,-41.11765",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold4,Repeat03,Fold4,CP19366,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold4,Repeat03,Fold4,CP19371,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat03__Fold4,Repeat03,Fold4,CP19921,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat03__Fold5,Repeat03,Fold5,CP16409,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat03__Fold5,Repeat03,Fold5,CP16501,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat03__Fold5,Repeat03,Fold5,CP16529,"170.48481,-43.880201",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold5,Repeat03,Fold5,CP16543,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat03__Fold5,Repeat03,Fold5,CP16627,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat03__Fold5,Repeat03,Fold5,CP16643,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold5,Repeat03,Fold5,CP16656,"170.146122,-43.727942",AU migrant
+rung2,repeated_stratified_cv,Repeat03__Fold5,Repeat03,Fold5,CP16958,"176.92653497681,-39.5726949814707",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold5,Repeat03,Fold5,CP19915,"168.430146,-46.605879",NZ migrant
+rung2,repeated_stratified_cv,Repeat03__Fold5,Repeat03,Fold5,CP19931,"176.919071981683,-39.5101300254464",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold1,Repeat04,Fold1,04258275,"167.744617,-45.414383",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold1,Repeat04,Fold1,CP16461,"173.681777,-42.390193",resident
+rung2,repeated_stratified_cv,Repeat04__Fold1,Repeat04,Fold1,CP16470,"173.663729,-42.413163",resident
+rung2,repeated_stratified_cv,Repeat04__Fold1,Repeat04,Fold1,CP16507,"172.601856,-43.830575",resident
+rung2,repeated_stratified_cv,Repeat04__Fold1,Repeat04,Fold1,CP16533,"170.143316,-43.733096",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold1,Repeat04,Fold1,CP16609,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold1,Repeat04,Fold1,CP16641,"173.011986,-40.992659",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold1,Repeat04,Fold1,CP16667,"169.161329995841,-44.8660619650036",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold1,Repeat04,Fold1,CP16815,"170.143369,-43.736814",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold1,Repeat04,Fold1,CP16990,"176.930825,-39.575394",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold1,Repeat04,Fold1,CP19350,"172.591216,-43.832075",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold1,Repeat04,Fold1,CP19921,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat04__Fold1,Repeat04,Fold1,CP19922,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat04__Fold2,Repeat04,Fold2,CP16140,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold2,Repeat04,Fold2,CP16409,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat04__Fold2,Repeat04,Fold2,CP16446,"172.397899,-43.851742",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold2,Repeat04,Fold2,CP16501,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat04__Fold2,Repeat04,Fold2,CP16529,"170.48481,-43.880201",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold2,Repeat04,Fold2,CP16536,"170.144062,-43.736643",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold2,Repeat04,Fold2,CP16627,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat04__Fold2,Repeat04,Fold2,CP16642,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold2,Repeat04,Fold2,CP19314,"170.144119,-43.736765",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold2,Repeat04,Fold2,CP19346,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat04__Fold2,Repeat04,Fold2,CP19360,"173.030661,-41.11765",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold2,Repeat04,Fold2,CP19361,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat04__Fold2,Repeat04,Fold2,CP19931,"176.919071981683,-39.5101300254464",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold3,Repeat04,Fold3,CP16958,"176.92653497681,-39.5726949814707",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold3,Repeat04,Fold3,CP17010,"168.425144,-46.604315",resident
+rung2,repeated_stratified_cv,Repeat04__Fold3,Repeat04,Fold3,CP19311,"170.146284,-43.725414",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold3,Repeat04,Fold3,CP19327,"173.011575,-40.993306",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold3,Repeat04,Fold3,CP19365,"170.143352,-43.73679",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold3,Repeat04,Fold3,CP19366,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold3,Repeat04,Fold3,CP19368,"173.0307,-41.11812",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold3,Repeat04,Fold3,CP19371,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat04__Fold3,Repeat04,Fold3,CP19907,"167.746751,-45.414278",resident
+rung2,repeated_stratified_cv,Repeat04__Fold3,Repeat04,Fold3,CP19923,"168.433515,-46.606197",resident
+rung2,repeated_stratified_cv,Repeat04__Fold4,Repeat04,Fold4,CP16543,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat04__Fold4,Repeat04,Fold4,CP16643,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold4,Repeat04,Fold4,CP16656,"170.146122,-43.727942",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold4,Repeat04,Fold4,CP16693,"172.608074,-43.830353",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold4,Repeat04,Fold4,CP16784,"168.433454,-46.606459",resident
+rung2,repeated_stratified_cv,Repeat04__Fold4,Repeat04,Fold4,CP16945,"175.702629005536,-39.379794029519",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold4,Repeat04,Fold4,CP17011,"168.425144,-46.604315",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold4,Repeat04,Fold4,CP19312,"170.145122,-43.729755",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold4,Repeat04,Fold4,CP19908,"167.745905,-45.414044",resident
+rung2,repeated_stratified_cv,Repeat04__Fold4,Repeat04,Fold4,CP9059,"173.662786,-42.413422",resident
+rung2,repeated_stratified_cv,Repeat04__Fold5,Repeat04,Fold5,CP16534,"170.145302,-43.731722",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold5,Repeat04,Fold5,CP16628,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat04__Fold5,Repeat04,Fold5,CP16652,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat04__Fold5,Repeat04,Fold5,CP16655,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold5,Repeat04,Fold5,CP16906,"173.681912,-42.392022",resident
+rung2,repeated_stratified_cv,Repeat04__Fold5,Repeat04,Fold5,CP16938,"175.727142,-39.291327",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold5,Repeat04,Fold5,CP16953,"175.700161037967,-39.3611319735646",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold5,Repeat04,Fold5,CP19340,"170.14463,-43.734073",AU migrant
+rung2,repeated_stratified_cv,Repeat04__Fold5,Repeat04,Fold5,CP19915,"168.430146,-46.605879",NZ migrant
+rung2,repeated_stratified_cv,Repeat04__Fold5,Repeat04,Fold5,CP19983,"167.744617,-45.414383",resident
+rung2,repeated_stratified_cv,Repeat05__Fold1,Repeat05,Fold1,CP16409,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat05__Fold1,Repeat05,Fold1,CP16609,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold1,Repeat05,Fold1,CP16628,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat05__Fold1,Repeat05,Fold1,CP16643,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold1,Repeat05,Fold1,CP16784,"168.433454,-46.606459",resident
+rung2,repeated_stratified_cv,Repeat05__Fold1,Repeat05,Fold1,CP17011,"168.425144,-46.604315",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold1,Repeat05,Fold1,CP19311,"170.146284,-43.725414",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold1,Repeat05,Fold1,CP19312,"170.145122,-43.729755",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold1,Repeat05,Fold1,CP19340,"170.14463,-43.734073",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold1,Repeat05,Fold1,CP19365,"170.143352,-43.73679",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold1,Repeat05,Fold1,CP19907,"167.746751,-45.414278",resident
+rung2,repeated_stratified_cv,Repeat05__Fold1,Repeat05,Fold1,CP19922,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat05__Fold1,Repeat05,Fold1,CP19931,"176.919071981683,-39.5101300254464",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold2,Repeat05,Fold2,CP16140,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold2,Repeat05,Fold2,CP16461,"173.681777,-42.390193",resident
+rung2,repeated_stratified_cv,Repeat05__Fold2,Repeat05,Fold2,CP16501,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat05__Fold2,Repeat05,Fold2,CP16534,"170.145302,-43.731722",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold2,Repeat05,Fold2,CP16627,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat05__Fold2,Repeat05,Fold2,CP16642,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold2,Repeat05,Fold2,CP16693,"172.608074,-43.830353",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold2,Repeat05,Fold2,CP16815,"170.143369,-43.736814",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold2,Repeat05,Fold2,CP16990,"176.930825,-39.575394",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold2,Repeat05,Fold2,CP19314,"170.144119,-43.736765",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold2,Repeat05,Fold2,CP19350,"172.591216,-43.832075",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold2,Repeat05,Fold2,CP19371,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat05__Fold2,Repeat05,Fold2,CP19983,"167.744617,-45.414383",resident
+rung2,repeated_stratified_cv,Repeat05__Fold3,Repeat05,Fold3,04258275,"167.744617,-45.414383",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold3,Repeat05,Fold3,CP16446,"172.397899,-43.851742",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold3,Repeat05,Fold3,CP16470,"173.663729,-42.413163",resident
+rung2,repeated_stratified_cv,Repeat05__Fold3,Repeat05,Fold3,CP16529,"170.48481,-43.880201",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold3,Repeat05,Fold3,CP16543,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat05__Fold3,Repeat05,Fold3,CP16641,"173.011986,-40.992659",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold3,Repeat05,Fold3,CP16958,"176.92653497681,-39.5726949814707",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold3,Repeat05,Fold3,CP19360,"173.030661,-41.11765",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold3,Repeat05,Fold3,CP19361,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat05__Fold3,Repeat05,Fold3,CP19923,"168.433515,-46.606197",resident
+rung2,repeated_stratified_cv,Repeat05__Fold4,Repeat05,Fold4,CP16533,"170.143316,-43.733096",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold4,Repeat05,Fold4,CP16536,"170.144062,-43.736643",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold4,Repeat05,Fold4,CP16652,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat05__Fold4,Repeat05,Fold4,CP16655,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold4,Repeat05,Fold4,CP16656,"170.146122,-43.727942",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold4,Repeat05,Fold4,CP16906,"173.681912,-42.392022",resident
+rung2,repeated_stratified_cv,Repeat05__Fold4,Repeat05,Fold4,CP16938,"175.727142,-39.291327",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold4,Repeat05,Fold4,CP19908,"167.745905,-45.414044",resident
+rung2,repeated_stratified_cv,Repeat05__Fold4,Repeat05,Fold4,CP19915,"168.430146,-46.605879",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold4,Repeat05,Fold4,CP9059,"173.662786,-42.413422",resident
+rung2,repeated_stratified_cv,Repeat05__Fold5,Repeat05,Fold5,CP16507,"172.601856,-43.830575",resident
+rung2,repeated_stratified_cv,Repeat05__Fold5,Repeat05,Fold5,CP16667,"169.161329995841,-44.8660619650036",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold5,Repeat05,Fold5,CP16945,"175.702629005536,-39.379794029519",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold5,Repeat05,Fold5,CP16953,"175.700161037967,-39.3611319735646",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold5,Repeat05,Fold5,CP17010,"168.425144,-46.604315",resident
+rung2,repeated_stratified_cv,Repeat05__Fold5,Repeat05,Fold5,CP19327,"173.011575,-40.993306",NZ migrant
+rung2,repeated_stratified_cv,Repeat05__Fold5,Repeat05,Fold5,CP19346,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat05__Fold5,Repeat05,Fold5,CP19366,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold5,Repeat05,Fold5,CP19368,"173.0307,-41.11812",AU migrant
+rung2,repeated_stratified_cv,Repeat05__Fold5,Repeat05,Fold5,CP19921,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat06__Fold1,Repeat06,Fold1,CP16446,"172.397899,-43.851742",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold1,Repeat06,Fold1,CP16501,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat06__Fold1,Repeat06,Fold1,CP16507,"172.601856,-43.830575",resident
+rung2,repeated_stratified_cv,Repeat06__Fold1,Repeat06,Fold1,CP16533,"170.143316,-43.733096",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold1,Repeat06,Fold1,CP16627,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat06__Fold1,Repeat06,Fold1,CP16652,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat06__Fold1,Repeat06,Fold1,CP16958,"176.92653497681,-39.5726949814707",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold1,Repeat06,Fold1,CP16990,"176.930825,-39.575394",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold1,Repeat06,Fold1,CP17010,"168.425144,-46.604315",resident
+rung2,repeated_stratified_cv,Repeat06__Fold1,Repeat06,Fold1,CP17011,"168.425144,-46.604315",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold1,Repeat06,Fold1,CP19340,"170.14463,-43.734073",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold1,Repeat06,Fold1,CP19360,"173.030661,-41.11765",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold1,Repeat06,Fold1,CP19365,"170.143352,-43.73679",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold2,Repeat06,Fold2,CP16470,"173.663729,-42.413163",resident
+rung2,repeated_stratified_cv,Repeat06__Fold2,Repeat06,Fold2,CP16529,"170.48481,-43.880201",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold2,Repeat06,Fold2,CP16534,"170.145302,-43.731722",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold2,Repeat06,Fold2,CP16641,"173.011986,-40.992659",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold2,Repeat06,Fold2,CP16667,"169.161329995841,-44.8660619650036",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold2,Repeat06,Fold2,CP16938,"175.727142,-39.291327",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold2,Repeat06,Fold2,CP19311,"170.146284,-43.725414",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold2,Repeat06,Fold2,CP19314,"170.144119,-43.736765",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold2,Repeat06,Fold2,CP19346,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat06__Fold2,Repeat06,Fold2,CP19361,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat06__Fold2,Repeat06,Fold2,CP19908,"167.745905,-45.414044",resident
+rung2,repeated_stratified_cv,Repeat06__Fold2,Repeat06,Fold2,CP19931,"176.919071981683,-39.5101300254464",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold2,Repeat06,Fold2,CP9059,"173.662786,-42.413422",resident
+rung2,repeated_stratified_cv,Repeat06__Fold3,Repeat06,Fold3,04258275,"167.744617,-45.414383",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold3,Repeat06,Fold3,CP16140,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold3,Repeat06,Fold3,CP16409,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat06__Fold3,Repeat06,Fold3,CP16543,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat06__Fold3,Repeat06,Fold3,CP16784,"168.433454,-46.606459",resident
+rung2,repeated_stratified_cv,Repeat06__Fold3,Repeat06,Fold3,CP16815,"170.143369,-43.736814",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold3,Repeat06,Fold3,CP16953,"175.700161037967,-39.3611319735646",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold3,Repeat06,Fold3,CP19327,"173.011575,-40.993306",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold3,Repeat06,Fold3,CP19366,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold3,Repeat06,Fold3,CP19921,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat06__Fold4,Repeat06,Fold4,CP16536,"170.144062,-43.736643",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold4,Repeat06,Fold4,CP16642,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold4,Repeat06,Fold4,CP16693,"172.608074,-43.830353",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold4,Repeat06,Fold4,CP19312,"170.145122,-43.729755",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold4,Repeat06,Fold4,CP19350,"172.591216,-43.832075",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold4,Repeat06,Fold4,CP19368,"173.0307,-41.11812",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold4,Repeat06,Fold4,CP19371,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat06__Fold4,Repeat06,Fold4,CP19907,"167.746751,-45.414278",resident
+rung2,repeated_stratified_cv,Repeat06__Fold4,Repeat06,Fold4,CP19922,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat06__Fold4,Repeat06,Fold4,CP19923,"168.433515,-46.606197",resident
+rung2,repeated_stratified_cv,Repeat06__Fold5,Repeat06,Fold5,CP16461,"173.681777,-42.390193",resident
+rung2,repeated_stratified_cv,Repeat06__Fold5,Repeat06,Fold5,CP16609,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold5,Repeat06,Fold5,CP16628,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat06__Fold5,Repeat06,Fold5,CP16643,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold5,Repeat06,Fold5,CP16655,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold5,Repeat06,Fold5,CP16656,"170.146122,-43.727942",AU migrant
+rung2,repeated_stratified_cv,Repeat06__Fold5,Repeat06,Fold5,CP16906,"173.681912,-42.392022",resident
+rung2,repeated_stratified_cv,Repeat06__Fold5,Repeat06,Fold5,CP16945,"175.702629005536,-39.379794029519",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold5,Repeat06,Fold5,CP19915,"168.430146,-46.605879",NZ migrant
+rung2,repeated_stratified_cv,Repeat06__Fold5,Repeat06,Fold5,CP19983,"167.744617,-45.414383",resident
+rung2,repeated_stratified_cv,Repeat07__Fold1,Repeat07,Fold1,CP16461,"173.681777,-42.390193",resident
+rung2,repeated_stratified_cv,Repeat07__Fold1,Repeat07,Fold1,CP16536,"170.144062,-43.736643",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold1,Repeat07,Fold1,CP16656,"170.146122,-43.727942",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold1,Repeat07,Fold1,CP16815,"170.143369,-43.736814",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold1,Repeat07,Fold1,CP16906,"173.681912,-42.392022",resident
+rung2,repeated_stratified_cv,Repeat07__Fold1,Repeat07,Fold1,CP16945,"175.702629005536,-39.379794029519",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold1,Repeat07,Fold1,CP16953,"175.700161037967,-39.3611319735646",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold1,Repeat07,Fold1,CP16958,"176.92653497681,-39.5726949814707",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold1,Repeat07,Fold1,CP19314,"170.144119,-43.736765",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold1,Repeat07,Fold1,CP19365,"170.143352,-43.73679",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold1,Repeat07,Fold1,CP19907,"167.746751,-45.414278",resident
+rung2,repeated_stratified_cv,Repeat07__Fold1,Repeat07,Fold1,CP19908,"167.745905,-45.414044",resident
+rung2,repeated_stratified_cv,Repeat07__Fold1,Repeat07,Fold1,CP19921,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat07__Fold2,Repeat07,Fold2,04258275,"167.744617,-45.414383",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold2,Repeat07,Fold2,CP16409,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat07__Fold2,Repeat07,Fold2,CP16533,"170.143316,-43.733096",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold2,Repeat07,Fold2,CP16534,"170.145302,-43.731722",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold2,Repeat07,Fold2,CP16642,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold2,Repeat07,Fold2,CP16693,"172.608074,-43.830353",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold2,Repeat07,Fold2,CP19311,"170.146284,-43.725414",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold2,Repeat07,Fold2,CP19350,"172.591216,-43.832075",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold2,Repeat07,Fold2,CP19361,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat07__Fold2,Repeat07,Fold2,CP19371,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat07__Fold2,Repeat07,Fold2,CP19915,"168.430146,-46.605879",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold2,Repeat07,Fold2,CP19923,"168.433515,-46.606197",resident
+rung2,repeated_stratified_cv,Repeat07__Fold2,Repeat07,Fold2,CP9059,"173.662786,-42.413422",resident
+rung2,repeated_stratified_cv,Repeat07__Fold3,Repeat07,Fold3,CP16501,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat07__Fold3,Repeat07,Fold3,CP16529,"170.48481,-43.880201",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold3,Repeat07,Fold3,CP16543,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat07__Fold3,Repeat07,Fold3,CP16609,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold3,Repeat07,Fold3,CP16643,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold3,Repeat07,Fold3,CP16652,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat07__Fold3,Repeat07,Fold3,CP16784,"168.433454,-46.606459",resident
+rung2,repeated_stratified_cv,Repeat07__Fold3,Repeat07,Fold3,CP17011,"168.425144,-46.604315",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold3,Repeat07,Fold3,CP19340,"170.14463,-43.734073",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold3,Repeat07,Fold3,CP19931,"176.919071981683,-39.5101300254464",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold4,Repeat07,Fold4,CP16507,"172.601856,-43.830575",resident
+rung2,repeated_stratified_cv,Repeat07__Fold4,Repeat07,Fold4,CP16627,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat07__Fold4,Repeat07,Fold4,CP16641,"173.011986,-40.992659",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold4,Repeat07,Fold4,CP16667,"169.161329995841,-44.8660619650036",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold4,Repeat07,Fold4,CP16938,"175.727142,-39.291327",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold4,Repeat07,Fold4,CP16990,"176.930825,-39.575394",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold4,Repeat07,Fold4,CP17010,"168.425144,-46.604315",resident
+rung2,repeated_stratified_cv,Repeat07__Fold4,Repeat07,Fold4,CP19312,"170.145122,-43.729755",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold4,Repeat07,Fold4,CP19366,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold4,Repeat07,Fold4,CP19922,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat07__Fold5,Repeat07,Fold5,CP16140,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold5,Repeat07,Fold5,CP16446,"172.397899,-43.851742",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold5,Repeat07,Fold5,CP16470,"173.663729,-42.413163",resident
+rung2,repeated_stratified_cv,Repeat07__Fold5,Repeat07,Fold5,CP16628,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat07__Fold5,Repeat07,Fold5,CP16655,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold5,Repeat07,Fold5,CP19327,"173.011575,-40.993306",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold5,Repeat07,Fold5,CP19346,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat07__Fold5,Repeat07,Fold5,CP19360,"173.030661,-41.11765",NZ migrant
+rung2,repeated_stratified_cv,Repeat07__Fold5,Repeat07,Fold5,CP19368,"173.0307,-41.11812",AU migrant
+rung2,repeated_stratified_cv,Repeat07__Fold5,Repeat07,Fold5,CP19983,"167.744617,-45.414383",resident
+rung2,repeated_stratified_cv,Repeat08__Fold1,Repeat08,Fold1,CP16140,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold1,Repeat08,Fold1,CP16461,"173.681777,-42.390193",resident
+rung2,repeated_stratified_cv,Repeat08__Fold1,Repeat08,Fold1,CP16536,"170.144062,-43.736643",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold1,Repeat08,Fold1,CP16543,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat08__Fold1,Repeat08,Fold1,CP16627,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat08__Fold1,Repeat08,Fold1,CP16642,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold1,Repeat08,Fold1,CP16643,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold1,Repeat08,Fold1,CP16655,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold1,Repeat08,Fold1,CP16693,"172.608074,-43.830353",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold1,Repeat08,Fold1,CP16784,"168.433454,-46.606459",resident
+rung2,repeated_stratified_cv,Repeat08__Fold1,Repeat08,Fold1,CP19311,"170.146284,-43.725414",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold1,Repeat08,Fold1,CP19365,"170.143352,-43.73679",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold1,Repeat08,Fold1,CP19923,"168.433515,-46.606197",resident
+rung2,repeated_stratified_cv,Repeat08__Fold2,Repeat08,Fold2,04258275,"167.744617,-45.414383",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold2,Repeat08,Fold2,CP16501,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat08__Fold2,Repeat08,Fold2,CP16534,"170.145302,-43.731722",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold2,Repeat08,Fold2,CP16656,"170.146122,-43.727942",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold2,Repeat08,Fold2,CP16906,"173.681912,-42.392022",resident
+rung2,repeated_stratified_cv,Repeat08__Fold2,Repeat08,Fold2,CP16938,"175.727142,-39.291327",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold2,Repeat08,Fold2,CP16953,"175.700161037967,-39.3611319735646",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold2,Repeat08,Fold2,CP16990,"176.930825,-39.575394",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold2,Repeat08,Fold2,CP17011,"168.425144,-46.604315",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold2,Repeat08,Fold2,CP19314,"170.144119,-43.736765",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold2,Repeat08,Fold2,CP19346,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat08__Fold2,Repeat08,Fold2,CP19907,"167.746751,-45.414278",resident
+rung2,repeated_stratified_cv,Repeat08__Fold2,Repeat08,Fold2,CP19921,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat08__Fold3,Repeat08,Fold3,CP16409,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat08__Fold3,Repeat08,Fold3,CP16470,"173.663729,-42.413163",resident
+rung2,repeated_stratified_cv,Repeat08__Fold3,Repeat08,Fold3,CP16815,"170.143369,-43.736814",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold3,Repeat08,Fold3,CP16945,"175.702629005536,-39.379794029519",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold3,Repeat08,Fold3,CP16958,"176.92653497681,-39.5726949814707",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold3,Repeat08,Fold3,CP19312,"170.145122,-43.729755",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold3,Repeat08,Fold3,CP19327,"173.011575,-40.993306",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold3,Repeat08,Fold3,CP19366,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold3,Repeat08,Fold3,CP19908,"167.745905,-45.414044",resident
+rung2,repeated_stratified_cv,Repeat08__Fold3,Repeat08,Fold3,CP9059,"173.662786,-42.413422",resident
+rung2,repeated_stratified_cv,Repeat08__Fold4,Repeat08,Fold4,CP16446,"172.397899,-43.851742",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold4,Repeat08,Fold4,CP16507,"172.601856,-43.830575",resident
+rung2,repeated_stratified_cv,Repeat08__Fold4,Repeat08,Fold4,CP16652,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat08__Fold4,Repeat08,Fold4,CP16667,"169.161329995841,-44.8660619650036",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold4,Repeat08,Fold4,CP17010,"168.425144,-46.604315",resident
+rung2,repeated_stratified_cv,Repeat08__Fold4,Repeat08,Fold4,CP19350,"172.591216,-43.832075",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold4,Repeat08,Fold4,CP19360,"173.030661,-41.11765",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold4,Repeat08,Fold4,CP19368,"173.0307,-41.11812",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold4,Repeat08,Fold4,CP19931,"176.919071981683,-39.5101300254464",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold4,Repeat08,Fold4,CP19983,"167.744617,-45.414383",resident
+rung2,repeated_stratified_cv,Repeat08__Fold5,Repeat08,Fold5,CP16529,"170.48481,-43.880201",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold5,Repeat08,Fold5,CP16533,"170.143316,-43.733096",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold5,Repeat08,Fold5,CP16609,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold5,Repeat08,Fold5,CP16628,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat08__Fold5,Repeat08,Fold5,CP16641,"173.011986,-40.992659",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold5,Repeat08,Fold5,CP19340,"170.14463,-43.734073",AU migrant
+rung2,repeated_stratified_cv,Repeat08__Fold5,Repeat08,Fold5,CP19361,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat08__Fold5,Repeat08,Fold5,CP19371,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat08__Fold5,Repeat08,Fold5,CP19915,"168.430146,-46.605879",NZ migrant
+rung2,repeated_stratified_cv,Repeat08__Fold5,Repeat08,Fold5,CP19922,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat09__Fold1,Repeat09,Fold1,CP16461,"173.681777,-42.390193",resident
+rung2,repeated_stratified_cv,Repeat09__Fold1,Repeat09,Fold1,CP16533,"170.143316,-43.733096",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold1,Repeat09,Fold1,CP16534,"170.145302,-43.731722",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold1,Repeat09,Fold1,CP16536,"170.144062,-43.736643",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold1,Repeat09,Fold1,CP16628,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat09__Fold1,Repeat09,Fold1,CP16906,"173.681912,-42.392022",resident
+rung2,repeated_stratified_cv,Repeat09__Fold1,Repeat09,Fold1,CP19327,"173.011575,-40.993306",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold1,Repeat09,Fold1,CP19340,"170.14463,-43.734073",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold1,Repeat09,Fold1,CP19350,"172.591216,-43.832075",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold1,Repeat09,Fold1,CP19360,"173.030661,-41.11765",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold1,Repeat09,Fold1,CP19361,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat09__Fold1,Repeat09,Fold1,CP19368,"173.0307,-41.11812",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold1,Repeat09,Fold1,CP19921,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat09__Fold2,Repeat09,Fold2,CP16409,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat09__Fold2,Repeat09,Fold2,CP16529,"170.48481,-43.880201",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold2,Repeat09,Fold2,CP16609,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold2,Repeat09,Fold2,CP16656,"170.146122,-43.727942",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold2,Repeat09,Fold2,CP16815,"170.143369,-43.736814",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold2,Repeat09,Fold2,CP16938,"175.727142,-39.291327",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold2,Repeat09,Fold2,CP16945,"175.702629005536,-39.379794029519",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold2,Repeat09,Fold2,CP16953,"175.700161037967,-39.3611319735646",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold2,Repeat09,Fold2,CP17010,"168.425144,-46.604315",resident
+rung2,repeated_stratified_cv,Repeat09__Fold2,Repeat09,Fold2,CP19314,"170.144119,-43.736765",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold2,Repeat09,Fold2,CP19346,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat09__Fold2,Repeat09,Fold2,CP19908,"167.745905,-45.414044",resident
+rung2,repeated_stratified_cv,Repeat09__Fold2,Repeat09,Fold2,CP19923,"168.433515,-46.606197",resident
+rung2,repeated_stratified_cv,Repeat09__Fold3,Repeat09,Fold3,CP16470,"173.663729,-42.413163",resident
+rung2,repeated_stratified_cv,Repeat09__Fold3,Repeat09,Fold3,CP16501,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat09__Fold3,Repeat09,Fold3,CP16507,"172.601856,-43.830575",resident
+rung2,repeated_stratified_cv,Repeat09__Fold3,Repeat09,Fold3,CP16641,"173.011986,-40.992659",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold3,Repeat09,Fold3,CP16642,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold3,Repeat09,Fold3,CP16643,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold3,Repeat09,Fold3,CP16652,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat09__Fold3,Repeat09,Fold3,CP16990,"176.930825,-39.575394",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold3,Repeat09,Fold3,CP17011,"168.425144,-46.604315",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold3,Repeat09,Fold3,CP19312,"170.145122,-43.729755",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold4,Repeat09,Fold4,04258275,"167.744617,-45.414383",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold4,Repeat09,Fold4,CP16543,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat09__Fold4,Repeat09,Fold4,CP16667,"169.161329995841,-44.8660619650036",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold4,Repeat09,Fold4,CP16693,"172.608074,-43.830353",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold4,Repeat09,Fold4,CP16784,"168.433454,-46.606459",resident
+rung2,repeated_stratified_cv,Repeat09__Fold4,Repeat09,Fold4,CP19311,"170.146284,-43.725414",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold4,Repeat09,Fold4,CP19366,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold4,Repeat09,Fold4,CP19907,"167.746751,-45.414278",resident
+rung2,repeated_stratified_cv,Repeat09__Fold4,Repeat09,Fold4,CP19915,"168.430146,-46.605879",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold4,Repeat09,Fold4,CP19983,"167.744617,-45.414383",resident
+rung2,repeated_stratified_cv,Repeat09__Fold5,Repeat09,Fold5,CP16140,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold5,Repeat09,Fold5,CP16446,"172.397899,-43.851742",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold5,Repeat09,Fold5,CP16627,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat09__Fold5,Repeat09,Fold5,CP16655,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold5,Repeat09,Fold5,CP16958,"176.92653497681,-39.5726949814707",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold5,Repeat09,Fold5,CP19365,"170.143352,-43.73679",AU migrant
+rung2,repeated_stratified_cv,Repeat09__Fold5,Repeat09,Fold5,CP19371,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat09__Fold5,Repeat09,Fold5,CP19922,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat09__Fold5,Repeat09,Fold5,CP19931,"176.919071981683,-39.5101300254464",NZ migrant
+rung2,repeated_stratified_cv,Repeat09__Fold5,Repeat09,Fold5,CP9059,"173.662786,-42.413422",resident
+rung2,repeated_stratified_cv,Repeat10__Fold1,Repeat10,Fold1,CP16446,"172.397899,-43.851742",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold1,Repeat10,Fold1,CP16507,"172.601856,-43.830575",resident
+rung2,repeated_stratified_cv,Repeat10__Fold1,Repeat10,Fold1,CP16529,"170.48481,-43.880201",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold1,Repeat10,Fold1,CP16534,"170.145302,-43.731722",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold1,Repeat10,Fold1,CP16652,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat10__Fold1,Repeat10,Fold1,CP16906,"173.681912,-42.392022",resident
+rung2,repeated_stratified_cv,Repeat10__Fold1,Repeat10,Fold1,CP16945,"175.702629005536,-39.379794029519",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold1,Repeat10,Fold1,CP16953,"175.700161037967,-39.3611319735646",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold1,Repeat10,Fold1,CP16990,"176.930825,-39.575394",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold1,Repeat10,Fold1,CP17010,"168.425144,-46.604315",resident
+rung2,repeated_stratified_cv,Repeat10__Fold1,Repeat10,Fold1,CP19311,"170.146284,-43.725414",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold1,Repeat10,Fold1,CP19314,"170.144119,-43.736765",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold1,Repeat10,Fold1,CP19922,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat10__Fold2,Repeat10,Fold2,CP16543,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat10__Fold2,Repeat10,Fold2,CP16628,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat10__Fold2,Repeat10,Fold2,CP16938,"175.727142,-39.291327",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold2,Repeat10,Fold2,CP19312,"170.145122,-43.729755",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold2,Repeat10,Fold2,CP19327,"173.011575,-40.993306",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold2,Repeat10,Fold2,CP19340,"170.14463,-43.734073",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold2,Repeat10,Fold2,CP19350,"172.591216,-43.832075",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold2,Repeat10,Fold2,CP19366,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold2,Repeat10,Fold2,CP19368,"173.0307,-41.11812",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold2,Repeat10,Fold2,CP19907,"167.746751,-45.414278",resident
+rung2,repeated_stratified_cv,Repeat10__Fold2,Repeat10,Fold2,CP19915,"168.430146,-46.605879",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold2,Repeat10,Fold2,CP19923,"168.433515,-46.606197",resident
+rung2,repeated_stratified_cv,Repeat10__Fold2,Repeat10,Fold2,CP19983,"167.744617,-45.414383",resident
+rung2,repeated_stratified_cv,Repeat10__Fold3,Repeat10,Fold3,04258275,"167.744617,-45.414383",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold3,Repeat10,Fold3,CP16470,"173.663729,-42.413163",resident
+rung2,repeated_stratified_cv,Repeat10__Fold3,Repeat10,Fold3,CP16501,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat10__Fold3,Repeat10,Fold3,CP16533,"170.143316,-43.733096",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold3,Repeat10,Fold3,CP16536,"170.144062,-43.736643",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold3,Repeat10,Fold3,CP16642,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold3,Repeat10,Fold3,CP16958,"176.92653497681,-39.5726949814707",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold3,Repeat10,Fold3,CP19360,"173.030661,-41.11765",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold3,Repeat10,Fold3,CP19361,"173.033468,-41.123473",resident
+rung2,repeated_stratified_cv,Repeat10__Fold3,Repeat10,Fold3,CP19908,"167.745905,-45.414044",resident
+rung2,repeated_stratified_cv,Repeat10__Fold4,Repeat10,Fold4,CP16609,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold4,Repeat10,Fold4,CP16627,"172.684973,-43.82787",resident
+rung2,repeated_stratified_cv,Repeat10__Fold4,Repeat10,Fold4,CP16641,"173.011986,-40.992659",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold4,Repeat10,Fold4,CP16643,"172.67954,-43.826875",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold4,Repeat10,Fold4,CP16655,"170.144062,-43.736643",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold4,Repeat10,Fold4,CP16815,"170.143369,-43.736814",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold4,Repeat10,Fold4,CP19371,"173.031797,-41.120263",resident
+rung2,repeated_stratified_cv,Repeat10__Fold4,Repeat10,Fold4,CP19921,"168.431945,-46.606263",resident
+rung2,repeated_stratified_cv,Repeat10__Fold4,Repeat10,Fold4,CP19931,"176.919071981683,-39.5101300254464",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold4,Repeat10,Fold4,CP9059,"173.662786,-42.413422",resident
+rung2,repeated_stratified_cv,Repeat10__Fold5,Repeat10,Fold5,CP16140,"173.667221,-42.413402",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold5,Repeat10,Fold5,CP16409,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat10__Fold5,Repeat10,Fold5,CP16461,"173.681777,-42.390193",resident
+rung2,repeated_stratified_cv,Repeat10__Fold5,Repeat10,Fold5,CP16656,"170.146122,-43.727942",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold5,Repeat10,Fold5,CP16667,"169.161329995841,-44.8660619650036",AU migrant
+rung2,repeated_stratified_cv,Repeat10__Fold5,Repeat10,Fold5,CP16693,"172.608074,-43.830353",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold5,Repeat10,Fold5,CP16784,"168.433454,-46.606459",resident
+rung2,repeated_stratified_cv,Repeat10__Fold5,Repeat10,Fold5,CP17011,"168.425144,-46.604315",NZ migrant
+rung2,repeated_stratified_cv,Repeat10__Fold5,Repeat10,Fold5,CP19346,"172.431853,-43.845691",resident
+rung2,repeated_stratified_cv,Repeat10__Fold5,Repeat10,Fold5,CP19365,"170.143352,-43.73679",AU migrant

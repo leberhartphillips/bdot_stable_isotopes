@@ -1,0 +1,91 @@
+rung,validation_layer,candidate_id,candidate_label,truth,predicted,n
+Rung 1,blocked_site_cv,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,migrant,migrant,30
+Rung 1,blocked_site_cv,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,migrant,resident,4
+Rung 1,blocked_site_cv,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,resident,migrant,8
+Rung 1,blocked_site_cv,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,resident,resident,14
+Rung 1,blocked_site_cv,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,migrant,migrant,28
+Rung 1,blocked_site_cv,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,migrant,resident,6
+Rung 1,blocked_site_cv,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,resident,migrant,15
+Rung 1,blocked_site_cv,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,resident,resident,7
+Rung 1,blocked_site_cv,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,migrant,migrant,31
+Rung 1,blocked_site_cv,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,migrant,resident,3
+Rung 1,blocked_site_cv,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,resident,migrant,17
+Rung 1,blocked_site_cv,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,resident,resident,5
+Rung 1,leave_one_site_out_cv,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,migrant,migrant,29
+Rung 1,leave_one_site_out_cv,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,migrant,resident,5
+Rung 1,leave_one_site_out_cv,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,resident,migrant,11
+Rung 1,leave_one_site_out_cv,r1_c_paired_contrast_cn,Rung 1 C: Paired-contrast C/N,resident,resident,11
+Rung 1,leave_one_site_out_cv,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,migrant,migrant,29
+Rung 1,leave_one_site_out_cv,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,migrant,resident,5
+Rung 1,leave_one_site_out_cv,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,resident,migrant,18
+Rung 1,leave_one_site_out_cv,r1_d_structured_paired_cn,Rung 1 D: Structured paired C/N,resident,resident,4
+Rung 1,leave_one_site_out_cv,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,migrant,migrant,29
+Rung 1,leave_one_site_out_cv,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,migrant,resident,5
+Rung 1,leave_one_site_out_cv,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,resident,migrant,13
+Rung 1,leave_one_site_out_cv,r1_x_paired_contrast_cn_plus_primary_site_reference,Rung 1 X: Paired-contrast C/N + primary-site reference distance,resident,resident,9
+Rung 2,blocked_site_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,AU migrant,AU migrant,2
+Rung 2,blocked_site_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,AU migrant,NZ migrant,5
+Rung 2,blocked_site_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,AU migrant,resident,10
+Rung 2,blocked_site_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,NZ migrant,AU migrant,5
+Rung 2,blocked_site_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,NZ migrant,NZ migrant,2
+Rung 2,blocked_site_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,NZ migrant,resident,10
+Rung 2,blocked_site_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,resident,AU migrant,5
+Rung 2,blocked_site_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,resident,NZ migrant,3
+Rung 2,blocked_site_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,resident,resident,14
+Rung 2,blocked_site_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,AU migrant,AU migrant,2
+Rung 2,blocked_site_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,AU migrant,NZ migrant,5
+Rung 2,blocked_site_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,AU migrant,resident,10
+Rung 2,blocked_site_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,NZ migrant,AU migrant,5
+Rung 2,blocked_site_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,NZ migrant,NZ migrant,3
+Rung 2,blocked_site_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,NZ migrant,resident,9
+Rung 2,blocked_site_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,resident,AU migrant,8
+Rung 2,blocked_site_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,resident,NZ migrant,2
+Rung 2,blocked_site_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,resident,resident,12
+Rung 2,blocked_site_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,AU migrant,NZ migrant,10
+Rung 2,blocked_site_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,AU migrant,resident,7
+Rung 2,blocked_site_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,NZ migrant,AU migrant,8
+Rung 2,blocked_site_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,NZ migrant,NZ migrant,1
+Rung 2,blocked_site_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,NZ migrant,resident,8
+Rung 2,blocked_site_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,resident,AU migrant,3
+Rung 2,blocked_site_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,resident,resident,19
+Rung 2,blocked_site_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,AU migrant,AU migrant,1
+Rung 2,blocked_site_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,AU migrant,NZ migrant,3
+Rung 2,blocked_site_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,AU migrant,resident,13
+Rung 2,blocked_site_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,NZ migrant,AU migrant,3
+Rung 2,blocked_site_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,NZ migrant,NZ migrant,5
+Rung 2,blocked_site_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,NZ migrant,resident,9
+Rung 2,blocked_site_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,resident,AU migrant,3
+Rung 2,blocked_site_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,resident,resident,19
+Rung 2,leave_one_site_out_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,AU migrant,NZ migrant,1
+Rung 2,leave_one_site_out_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,AU migrant,resident,16
+Rung 2,leave_one_site_out_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,NZ migrant,AU migrant,5
+Rung 2,leave_one_site_out_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,NZ migrant,NZ migrant,2
+Rung 2,leave_one_site_out_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,NZ migrant,resident,10
+Rung 2,leave_one_site_out_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,resident,AU migrant,4
+Rung 2,leave_one_site_out_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,resident,NZ migrant,6
+Rung 2,leave_one_site_out_cv,r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,resident,resident,12
+Rung 2,leave_one_site_out_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,AU migrant,AU migrant,1
+Rung 2,leave_one_site_out_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,AU migrant,NZ migrant,1
+Rung 2,leave_one_site_out_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,AU migrant,resident,15
+Rung 2,leave_one_site_out_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,NZ migrant,AU migrant,5
+Rung 2,leave_one_site_out_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,NZ migrant,NZ migrant,2
+Rung 2,leave_one_site_out_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,NZ migrant,resident,10
+Rung 2,leave_one_site_out_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,resident,AU migrant,4
+Rung 2,leave_one_site_out_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,resident,NZ migrant,5
+Rung 2,leave_one_site_out_cv,r2_x_direct_cnh_plus_paired_contrast_plus_winter_reference,Rung 2 X: Direct C/N/H + paired contrasts + winter reference distances,resident,resident,13
+Rung 2,leave_one_site_out_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,AU migrant,AU migrant,1
+Rung 2,leave_one_site_out_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,AU migrant,NZ migrant,10
+Rung 2,leave_one_site_out_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,AU migrant,resident,6
+Rung 2,leave_one_site_out_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,NZ migrant,AU migrant,7
+Rung 2,leave_one_site_out_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,NZ migrant,NZ migrant,2
+Rung 2,leave_one_site_out_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,NZ migrant,resident,8
+Rung 2,leave_one_site_out_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,resident,AU migrant,1
+Rung 2,leave_one_site_out_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,resident,NZ migrant,1
+Rung 2,leave_one_site_out_cv,r2s_b_soft_hierarchical_r1c_then_breast_cnh,Rung 2 S2: Soft hierarchical R1 C then breast C/N/H NZ-vs-AU,resident,resident,20
+Rung 2,leave_one_site_out_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,AU migrant,NZ migrant,11
+Rung 2,leave_one_site_out_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,AU migrant,resident,6
+Rung 2,leave_one_site_out_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,NZ migrant,AU migrant,7
+Rung 2,leave_one_site_out_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,NZ migrant,NZ migrant,2
+Rung 2,leave_one_site_out_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,NZ migrant,resident,8
+Rung 2,leave_one_site_out_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,resident,AU migrant,2
+Rung 2,leave_one_site_out_cv,r2x_b_staged_r1c_then_breast_cnh_plus_winter_reference,Rung 2 X2: Soft hierarchical R1 C then breast C/N/H + winter reference distances,resident,resident,20

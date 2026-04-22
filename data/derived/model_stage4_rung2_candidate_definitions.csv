@@ -1,0 +1,3 @@
+candidate_id,candidate_label,caution_level,predictors,distance_vars,distance_name,measurement_cols
+r2_a_breast_cn,Rung 2 A: Breast-only C/N,baseline_cn_benchmark,normalised_d13c_Breast|normalised_d15n_Breast,,,normalised_d13c_Breast|normalised_d15n_Breast
+r2_c_breast_cnh_plus_paired_contrast,Rung 2 C: Breast C/N/H + paired contrasts,primary_h_proxy_variance_high_caution,normalised_d13c_Breast|normalised_d15n_Breast|normalised_d2h_Breast|abs_delta_d13c|abs_delta_d15n|abs_delta_d2h,,,normalised_d13c_Breast|normalised_d13c_Primary|normalised_d15n_Breast|normalised_d15n_Primary|normalised_d2h_Breast|normalised_d2h_Primary

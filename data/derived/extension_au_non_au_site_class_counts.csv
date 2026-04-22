@@ -1,0 +1,12 @@
+sampling_site_label,sampling_location_specific,n_total,n_AU,n_non_AU,n_resident,n_NZ_migrant,n_AU_migrant,source_rings
+Tasman River,"Tasman River, Mt. Cook National Park",13,11,2,0,2,11,CP16533|CP16534|CP16536|CP16655|CP16656|CP16815|CP19311|CP19312|CP19314|CP19340|CP19365|CP19366|CP19368
+Kaitorete,"Kaitorete Spit, Canterbury",10,3,7,5,2,3,CP16409|CP16446|CP16507|CP16627|CP16628|CP16642|CP16643|CP16693|CP19346|CP19350
+Tiwai Point,"Tiwai Point, Canterbury",7,0,7,5,2,0,CP16784|CP17010|CP17011|CP19915|CP19921|CP19922|CP19923
+Kaikoura,"Kaikoura, Canterbury",6,0,6,4,2,0,CP16140|CP16461|CP16470|CP16609|CP16906|CP9059
+Motueka Spit,"Motueka Spit, Tasman Bay",6,0,6,5,1,0,CP16501|CP16543|CP16652|CP19360|CP19361|CP19371
+Te Anau,"Te Anau, Southland",4,1,3,3,0,1,04258275|CP19907|CP19908|CP19983
+Napier,"Napier, Hawkes Bay",3,0,3,0,3,0,CP16958|CP16990|CP19931
+Rangipo Desert,"Rangipo Desert, Tongariro National Park",3,0,3,0,3,0,CP16938|CP16945|CP16953
+Porters Beach,"Porters Beach, Abel Tasman National Park",2,0,2,0,2,0,CP16641|CP19327
+Cass River,"Cass River, Canterbury",1,1,0,0,0,1,CP16529
+Pisa Range,"Pisa Range, Otago",1,1,0,0,0,1,CP16667

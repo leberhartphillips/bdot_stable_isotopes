@@ -887,6 +887,10 @@ def parse_live_batch5_cn():
         )
         repeat_pair_counter += 1
 
+    return decision_rows, affected_samples, manual_rows, repeat_pairs, build_repeat_pair_summary(repeat_pairs)
+
+
+def build_repeat_pair_summary(repeat_pairs):
     repeat_pair_summary = []
     if repeat_pairs:
         repeat_pair_summary.extend(
@@ -927,8 +931,349 @@ def parse_live_batch5_cn():
                     "n_repeat_pairs": count,
                 }
             )
+    return repeat_pair_summary
 
-    return decision_rows, affected_samples, manual_rows, repeat_pairs, repeat_pair_summary
+
+def parse_live_batch5_h():
+    raw_file = "data/Master_TCEA_H_SI_Batch 5 breast and primary feathers_LEH_v1_SB.xls"
+    sheet_name = "Sample results_H"
+    workbook = xlrd.open_workbook(REPO_ROOT / raw_file, formatting_info=True)
+    sheet = workbook.sheet_by_name(sheet_name)
+
+    rows = []
+    for rowx in range(10, sheet.nrows):
+        sample_identifier = normalize_space(sheet.cell_value(rowx, 2))
+        raw_value = numeric_or_none(sheet.cell_value(rowx, 12))
+        if not sample_identifier or raw_value is None:
+            continue
+
+        d2h_style = get_style(workbook, sheet, rowx, 12)
+        avg_d2h_style = get_style(workbook, sheet, rowx, 15)
+        note_text = normalize_space(sheet.cell_value(rowx, 17))
+
+        rows.append(
+            {
+                "source_sheet_row": rowx + 1,
+                "sample_identifier": sample_identifier,
+                "sample_base_identifier": strip_repeat_suffix(sample_identifier),
+                "tissue_feather_type": standardize_tissue(sample_identifier),
+                "is_repeat": sample_identifier.lower().endswith("_rpt"),
+                "d2h": raw_value,
+                "avg_d2h": numeric_or_none(sheet.cell_value(rowx, 15)),
+                "d2h_fill": d2h_style["fill_index"],
+                "d2h_font": d2h_style["font_index"],
+                "avg_d2h_fill": avg_d2h_style["fill_index"],
+                "avg_d2h_font": avg_d2h_style["font_index"],
+                "note_text": note_text,
+            }
+        )
+
+    groups = defaultdict(list)
+    for row in rows:
+        groups[row["sample_base_identifier"]].append(row)
+
+    decision_rows = []
+    affected_samples = []
+    manual_rows = []
+    repeat_pairs = []
+    decision_counter = 1
+    repeat_pair_counter = 1
+
+    for sample_base, group_rows in sorted(groups.items()):
+        group_rows = sorted(group_rows, key=lambda row: row["source_sheet_row"])
+        if len(group_rows) < 2:
+            continue
+
+        pair_has_rpt_suffix = any(row["is_repeat"] for row in group_rows)
+        pair_has_avg = any(row["avg_d2h"] is not None for row in group_rows)
+        pair_has_green = any(
+            row["d2h_fill"] == GREEN_FILL_INDEX
+            or (row["avg_d2h"] is not None and row["avg_d2h_fill"] == GREEN_FILL_INDEX)
+            for row in group_rows
+        )
+        pair_has_comments = False
+        repeat_detection_pattern = (
+            "no_green_rpt_named" if pair_has_rpt_suffix and not pair_has_green else "no_green"
+        )
+        repeat_detection_sources = "|".join(
+            unique_preserving_order(
+                [
+                    "_rpt suffix" if pair_has_rpt_suffix else "",
+                    "avg d2H column" if pair_has_avg else "",
+                ]
+            )
+        )
+
+        explicit_keep_rows = []
+        explicit_exclude_rows = []
+        for row in group_rows:
+            lower_note = row["note_text"].lower()
+            row["explicit_do_not_use"] = (
+                "do not use" in lower_note
+                or "low voltage" in lower_note
+                or row["d2h_font"] == RED_FONT_INDEX
+            )
+            row["explicit_use"] = ("use these" in lower_note) and (
+                "do not use" not in lower_note
+            )
+            if row["explicit_do_not_use"]:
+                explicit_exclude_rows.append(row)
+            if row["explicit_use"]:
+                explicit_keep_rows.append(row)
+            pair_has_comments = pair_has_comments or row["explicit_do_not_use"] or row["explicit_use"]
+
+        usable_rows = [row for row in group_rows if not row["explicit_do_not_use"]]
+        if not pair_has_rpt_suffix and not pair_has_comments:
+            continue
+
+        if len(explicit_keep_rows) > 1:
+            repeat_resolution_status = "conflicting_repeat_instructions"
+            final_value = None
+            final_action = "manual_review"
+            final_reason = (
+                "Multiple explicit row-level keep instructions were found for this H repeat pair."
+            )
+            evidence_source = repeat_detection_sources
+            rule_basis = "conflicting_repeat_instructions"
+            notes_text = (
+                "Retain non-excluded repeat rows for audit, but no modelling value is derived until the workbook instructions are resolved."
+            )
+
+            for row in group_rows:
+                audit_retained = not row["explicit_do_not_use"]
+                action = "exclude" if row["explicit_do_not_use"] else "keep"
+                reason = row["note_text"] or final_reason
+                decision_rows.append(
+                    build_decision_row(
+                        decision_id=f"aqc_h_{decision_counter:04d}",
+                        raw_file=raw_file,
+                        sheet=sheet_name,
+                        source_sheet_row=row["source_sheet_row"],
+                        sample_identifier=row["sample_identifier"],
+                        sample_base_identifier=sample_base,
+                        tissue_feather_type=row["tissue_feather_type"],
+                        isotope="normalised_d2h",
+                        raw_value=row["d2h"],
+                        adjudicated_value="",
+                        action=action,
+                        reason=reason,
+                        evidence_source=evidence_source,
+                        decision_class="manual_review",
+                        rule_basis=rule_basis,
+                        notes=notes_text,
+                        repeat_pair_detected=True,
+                        repeat_detection_sources=repeat_detection_sources,
+                        repeat_detection_pattern=repeat_detection_pattern,
+                        repeat_resolution_status=repeat_resolution_status,
+                        strict_row_action="exclude" if row["explicit_do_not_use"] else "",
+                        sensitivity_row_action="exclude" if row["explicit_do_not_use"] else "",
+                        sensitivity_selected_source_row="",
+                        sensitivity_selected_value="",
+                        audit_retained=audit_retained,
+                        excluded_by_lab_instruction=row["explicit_do_not_use"],
+                        contributes_to_model_value=False,
+                        model_value_method="",
+                        model_source_rows="",
+                    )
+                )
+                decision_counter += 1
+
+            manual_rows.append(
+                {
+                    "raw_file": raw_file,
+                    "sheet": sheet_name,
+                    "sample_identifier": sample_base,
+                    "sample_base_identifier": sample_base,
+                    "tissue_feather_type": group_rows[0]["tissue_feather_type"],
+                    "isotope": "normalised_d2h",
+                    "decision_status": "pending_manual_review",
+                    "current_build_behavior": (
+                        "Retain non-excluded repeat rows in assay-level audit tables, but do not derive a modelling value until conflicting H repeat instructions are resolved."
+                    ),
+                    "reason": final_reason,
+                    "repeat_pair_detected": True,
+                    "repeat_detection_sources": repeat_detection_sources,
+                    "repeat_detection_pattern": repeat_detection_pattern,
+                    "strict_model_action": "manual_review_required",
+                    "sensitivity_model_action": "manual_review_required",
+                    "sensitivity_selected_source_row": "",
+                    "sensitivity_selected_value": "",
+                    "notes": "Raw source rows: "
+                    + "|".join(str(row["source_sheet_row"]) for row in group_rows),
+                }
+            )
+        else:
+            if len(explicit_keep_rows) == 1:
+                selected_row = explicit_keep_rows[0]
+                final_value = selected_row["d2h"]
+                final_action = "keep"
+                final_reason = (
+                    "Repeat-analysis note explicitly instructs use of this H value."
+                )
+                evidence_source = "|".join(
+                    unique_preserving_order(["comment column", repeat_detection_sources])
+                )
+                rule_basis = "comment_use_these"
+                notes_text = (
+                    f"Selected source row {selected_row['source_sheet_row']} for the modelling H value. Other non-excluded repeat rows are retained for diagnostics."
+                )
+                repeat_resolution_status = "resolved_comment_selected_row"
+                model_value_method = "explicit_use_selected_row"
+                model_source_rows = str(selected_row["source_sheet_row"])
+            elif len(usable_rows) >= 1:
+                final_value = sum(row["d2h"] for row in usable_rows) / len(usable_rows)
+                final_action = "keep"
+                avg_matches_mean = any(
+                    row["avg_d2h"] is not None and abs(row["avg_d2h"] - final_value) < 1e-12
+                    for row in usable_rows
+                )
+                final_reason = (
+                    "No explicit workbook instruction selected one H repeat assay, so the modelling value is the mean of all retained valid repeats."
+                )
+                evidence_source = "|".join(
+                    unique_preserving_order(
+                        [
+                            repeat_detection_sources,
+                            "worksheet avg d2H column" if avg_matches_mean else "",
+                        ]
+                    )
+                )
+                rule_basis = "mean_of_valid_repeats"
+                notes_text = (
+                    "Retained all non-excluded H repeat rows for audit. "
+                    + (
+                        "The worksheet Avg d2H value matches the mean of valid repeats."
+                        if avg_matches_mean
+                        else "No explicit worksheet instruction selected one repeat row."
+                    )
+                )
+                repeat_resolution_status = "resolved_mean_of_valid_repeats"
+                model_value_method = "mean_of_valid_repeats"
+                model_source_rows = "|".join(
+                    str(row["source_sheet_row"]) for row in usable_rows
+                )
+            else:
+                final_value = None
+                final_action = "exclude"
+                final_reason = (
+                    "All repeat H rows were explicitly excluded by workbook instructions."
+                )
+                evidence_source = "|".join(
+                    unique_preserving_order(["comment column", repeat_detection_sources])
+                )
+                rule_basis = "all_repeat_rows_explicitly_excluded"
+                notes_text = "No retained H repeat rows remain for audit or modelling."
+                repeat_resolution_status = "all_rows_explicitly_excluded"
+                model_value_method = ""
+                model_source_rows = ""
+
+            for row in group_rows:
+                if row["explicit_do_not_use"]:
+                    action = "exclude"
+                    reason = row["note_text"] or "Explicit do-not-use note for H value."
+                    audit_retained = False
+                    contributes_to_model_value = False
+                else:
+                    action = "keep"
+                    reason = final_reason
+                    audit_retained = True
+                    contributes_to_model_value = final_value is not None
+
+                decision_rows.append(
+                    build_decision_row(
+                        decision_id=f"aqc_h_{decision_counter:04d}",
+                        raw_file=raw_file,
+                        sheet=sheet_name,
+                        source_sheet_row=row["source_sheet_row"],
+                        sample_identifier=row["sample_identifier"],
+                        sample_base_identifier=sample_base,
+                        tissue_feather_type=row["tissue_feather_type"],
+                        isotope="normalised_d2h",
+                        raw_value=row["d2h"],
+                        adjudicated_value=final_value,
+                        action=action,
+                        reason=reason,
+                        evidence_source=evidence_source,
+                        decision_class="rule_based",
+                        rule_basis=rule_basis,
+                        notes=notes_text,
+                        repeat_pair_detected=True,
+                        repeat_detection_sources=repeat_detection_sources,
+                        repeat_detection_pattern=repeat_detection_pattern,
+                        repeat_resolution_status=repeat_resolution_status,
+                        strict_row_action="exclude" if action == "exclude" else "include",
+                        sensitivity_row_action="exclude" if action == "exclude" else "include",
+                        sensitivity_selected_source_row="",
+                        sensitivity_selected_value="",
+                        audit_retained=audit_retained,
+                        excluded_by_lab_instruction=row["explicit_do_not_use"],
+                        contributes_to_model_value=contributes_to_model_value,
+                        model_value_method=model_value_method,
+                        model_source_rows=model_source_rows,
+                    )
+                )
+                decision_counter += 1
+
+            affected_samples.append(
+                {
+                    "raw_file": raw_file,
+                    "sheet": sheet_name,
+                    "sample_identifier": sample_base,
+                    "sample_base_identifier": sample_base,
+                    "tissue_feather_type": group_rows[0]["tissue_feather_type"],
+                    "isotope": "normalised_d2h",
+                    "raw_source_sheet_rows": "|".join(
+                        str(row["source_sheet_row"]) for row in group_rows
+                    ),
+                    "raw_values": "|".join(str(row["d2h"]) for row in group_rows),
+                    "adjudicated_value": final_value if final_value is not None else "",
+                    "final_action": final_action,
+                    "reason": final_reason,
+                    "evidence_source": evidence_source,
+                    "decision_class": "rule_based",
+                    "rule_basis": rule_basis,
+                    "notes": notes_text,
+                    "repeat_pair_detected": True,
+                    "repeat_detection_sources": repeat_detection_sources,
+                    "repeat_detection_pattern": repeat_detection_pattern,
+                    "repeat_resolution_status": repeat_resolution_status,
+                    "strict_model_action": "include_adjudicated" if final_value is not None else "manual_review_required",
+                    "sensitivity_model_action": "include_adjudicated" if final_value is not None else "manual_review_required",
+                    "sensitivity_selected_source_row": "",
+                    "sensitivity_selected_value": "",
+                    "model_value_method": model_value_method,
+                }
+            )
+
+        repeat_pairs.append(
+            {
+                "repeat_pair_id": f"repeat_pair_h_{repeat_pair_counter:03d}",
+                "raw_file": raw_file,
+                "sheet": sheet_name,
+                "sample_identifier": sample_base,
+                "sample_base_identifier": sample_base,
+                "tissue_feather_type": group_rows[0]["tissue_feather_type"],
+                "n_rows_in_pair": len(group_rows),
+                "raw_source_sheet_rows": "|".join(
+                    str(row["source_sheet_row"]) for row in group_rows
+                ),
+                "sample_identifiers_raw": "|".join(
+                    row["sample_identifier"] for row in group_rows
+                ),
+                "repeat_pair_detected": True,
+                "detection_by_green_formatting": pair_has_green,
+                "detection_by_rpt_suffix": pair_has_rpt_suffix,
+                "detection_by_comments": pair_has_comments,
+                "repeat_detection_sources": repeat_detection_sources,
+                "repeat_detection_pattern": repeat_detection_pattern,
+                "isotopes_present": "normalised_d2h",
+                "resolution_statuses": repeat_resolution_status,
+                "notes": notes_text,
+            }
+        )
+        repeat_pair_counter += 1
+
+    return decision_rows, affected_samples, manual_rows, repeat_pairs, build_repeat_pair_summary(repeat_pairs)
 
 
 def parse_red_font_exclusions():
@@ -1119,21 +1464,67 @@ def build_sheet_rules():
             "applied_to_build": "no",
             "notes": "Contextual interpretation only; no explicit per-value keep/exclude instruction was parsed.",
         },
+        {
+            "raw_file": "data/Master_TCEA_H_SI_Batch 5 breast and primary feathers_LEH_v1_SB.xls",
+            "sheet": "Sample results_H",
+            "note_scope": "sheet note",
+            "note_text": "Repeats: 2",
+            "parse_status": "parsed_metadata_only",
+            "applied_to_build": "no",
+            "notes": "Used to corroborate the number of repeat H assay pairs; not an adjudication rule by itself.",
+        },
+        {
+            "raw_file": "data/Master_TCEA_H_SI_Batch 5 breast and primary feathers_LEH_v1_SB.xls",
+            "sheet": "Sample results_H",
+            "note_scope": "sheet note",
+            "note_text": "No feather sample remaining, could not analyse for H: 2",
+            "parse_status": "parsed_metadata_only",
+            "applied_to_build": "no",
+            "notes": "Metadata only; these rows do not appear as valid assay results in the H results table.",
+        },
+        {
+            "raw_file": "data/Master_TCEA_H_SI_Batch 5 breast and primary feathers_LEH_v1_SB.xls",
+            "sheet": "Sample results_H",
+            "note_scope": "sheet note",
+            "note_text": "Breast feathers highlighted in blue",
+            "parse_status": "parsed_metadata_only",
+            "applied_to_build": "no",
+            "notes": "Descriptive tissue formatting only; not used as a keep/exclude rule.",
+        },
+        {
+            "raw_file": "data/Master_TCEA_H_SI_Batch 5 breast and primary feathers_LEH_v1_SB.xls",
+            "sheet": "Sample results_H",
+            "note_scope": "column note",
+            "note_text": "when analyses >1",
+            "parse_status": "parsed_metadata_only",
+            "applied_to_build": "no",
+            "notes": "The H workbook shows Avg d2H columns when repeat analyses exist, but no explicit note instructs the analyst to prefer those averages. The build therefore treats them as corroborating arithmetic and uses the mean of retained valid repeats.",
+        },
     ]
 
 
 def main():
     (
-        live_decisions,
-        live_affected,
-        manual_rows,
-        repeat_pairs,
-        repeat_pair_summary,
+        live_cn_decisions,
+        live_cn_affected,
+        cn_manual_rows,
+        live_cn_repeat_pairs,
+        _,
     ) = parse_live_batch5_cn()
+    (
+        live_h_decisions,
+        live_h_affected,
+        h_manual_rows,
+        live_h_repeat_pairs,
+        _,
+    ) = parse_live_batch5_h()
     red_font_decisions, red_font_affected = parse_red_font_exclusions()
 
-    adjudication_rows = live_decisions + red_font_decisions
-    affected_rows = live_affected + red_font_affected
+    adjudication_rows = live_cn_decisions + live_h_decisions + red_font_decisions
+    affected_rows = live_cn_affected + live_h_affected + red_font_affected
+    manual_rows = cn_manual_rows + h_manual_rows
+    repeat_pairs = live_cn_repeat_pairs + live_h_repeat_pairs
+    repeat_pair_summary = build_repeat_pair_summary(repeat_pairs)
 
     adjudication_fieldnames = [
         "decision_id",

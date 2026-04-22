@@ -1,0 +1,5 @@
+rung,stage,rule_component,threshold,why_it_matters
+Rung 1,Stage 3,winning-class support,< 0.80,Prevents a hard resident/migrant call when Monte Carlo draws do not strongly support one class.
+Rung 1,Stage 3,probability-boundary crossing,central 80% interval crosses 0.5,Flags binary calls that sit too close to the resident/migrant boundary under assay perturbation.
+Rung 2,Stage 4,winning-class support,< 0.80,Prevents a hard 3-class call when the winning class is not stable across uncertainty draws.
+Rung 2,Stage 4,mean top-class probability,< 0.50,Prevents a hard 3-class call when even the average winning class is weakly supported.
